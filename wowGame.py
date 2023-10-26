@@ -8,7 +8,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 
 class Player:
-    def _init_(self, width, height, speed) -> None:
+    def __init__(self, width, height, speed):
         self.width = width
         self.height = height
         self.speed = speed
@@ -16,7 +16,7 @@ class Player:
 
     def updatePositon(self, encoder):
         # Adim degisikligi limiti
-        if abs(encoder - self.pos) > self.speed * 2:
+        if abs(encoder * self.speed - self.pos) > self.speed * 2:
             self.pos = encoder * self.speed
         return self.pos
 
@@ -179,4 +179,4 @@ while True:
     pygame.draw.ellipse(screen, ballcolor, ball)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(60)
