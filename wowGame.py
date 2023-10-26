@@ -72,7 +72,7 @@ def player1Animation(encoder_value):
 def player2Animation(encoder_value):
     newPos = encoder_value * Player2.speed
     player2.y = encoder_value * Player2.speed
-    
+
     if (newPos > height - (Player2.height / 2)):
         player2.y = height - (Player2.height / 2)
     if (newPos < height - (Player2.height / 2)):
@@ -142,15 +142,11 @@ enkoder2_value = 0
 enkoder1_clkLastState = GPIO.input(ENKODER1_CLK)
 enkoder2_clkLastState = GPIO.input(ENKODER2_CLK)
 
-running = True
-while running:
-    event = pygame.event.wait()
-    if event.type == pygame.QUIT:
-         running = False  # Be interpreter friendly
-
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            running = False
+            pygame.quit()
+            sys.exit()
 
     # Read current states
     enkoder1_clk = GPIO.input(ENKODER1_CLK)
