@@ -19,7 +19,7 @@ class Player:
         if abs(encoder - self.encoderLastValue) > 2:
             self.encoderLastValue = encoder
             return encoder * self.speed
-        
+
         return self.encoderLastValue * self.speed
 
 
@@ -61,6 +61,7 @@ def ballRestart():
 
 def player1Animation(encoder_value):
     newPos = Player1.updatePositon(encoder_value)
+    player1.y = newPos
     if (newPos > height - (Player1.height / 2)):
         player1.y = height - (Player1.height / 2)
     if (newPos < height - (Player1.height / 2)):
@@ -69,6 +70,7 @@ def player1Animation(encoder_value):
 
 def player2Animation(encoder_value):
     newPos = Player2.updatePositon(encoder_value)
+    player2.y = newPos
     if (newPos > height - (Player2.height / 2)):
         player2.y = height - (Player2.height / 2)
     if (newPos < height - (Player2.height / 2)):
