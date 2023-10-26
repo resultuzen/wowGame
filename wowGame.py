@@ -12,18 +12,19 @@ class Player:
         self.width = width
         self.height = height
         self.speed = speed
-        self.pos = 0
+        self.encoderLastValue = 0
 
     def updatePositon(self, encoder):
         # Adim degisikligi limiti
-        if abs(encoder * self.speed - self.pos) > self.speed * 2:
-            self.pos = encoder * self.speed
-        return self.pos
+        if abs(encoder - self.encoderLastValue) > 2:
+            return encoder * self.speed
+        
+        return self.encoderLastValue * self.speed
 
 
 # Width - Height - Speed
-Player1 = Player(20, 140, 7)
-Player2 = Player(20, 140, 7)
+Player1 = Player(20, 140, 10)
+Player2 = Player(20, 140, 10)
 
 
 def ballAnimation():
