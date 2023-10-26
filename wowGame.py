@@ -60,8 +60,9 @@ def ballRestart():
 
 
 def player1Animation(encoder_value):
-    newPos = Player1.updatePositon(encoder_value)
-    player1.y = newPos
+    newPos = encoder_value * Player1.speed
+    player1.y = encoder_value * Player1.speed
+
     if (newPos > height - (Player1.height / 2)):
         player1.y = height - (Player1.height / 2)
     if (newPos < height - (Player1.height / 2)):
@@ -69,8 +70,9 @@ def player1Animation(encoder_value):
 
 
 def player2Animation(encoder_value):
-    newPos = Player2.updatePositon(encoder_value)
-    player2.y = newPos
+    newPos = encoder_value * Player2.speed
+    player2.y = encoder_value * Player2.speed
+    
     if (newPos > height - (Player2.height / 2)):
         player2.y = height - (Player2.height / 2)
     if (newPos < height - (Player2.height / 2)):
@@ -142,10 +144,13 @@ enkoder2_clkLastState = GPIO.input(ENKODER2_CLK)
 
 running = True
 while running:
+    event = pygame.event.wait()
+    if event.type == pygame.QUIT:
+         running = False  # Be interpreter friendly
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
+            running = False
 
     # Read current states
     enkoder1_clk = GPIO.input(ENKODER1_CLK)
@@ -185,3 +190,6 @@ while running:
 
     pygame.display.flip()
     clock.tick(60)
+
+pygame.quit()
+sys.exit()
