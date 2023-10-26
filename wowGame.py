@@ -42,7 +42,7 @@ def ballRestart():
 
 
 def player1Animation(encoder_value):
-    player1.y += encoder_value * player1speed
+    player1.y = encoder_value * player1speed
     if player1.top <= 0:
         player1.top = 0
     if player1.bottom >= height:
@@ -50,11 +50,11 @@ def player1Animation(encoder_value):
 
 
 def player2Animation(encoder_value):
-    player2.y += encoder_value * player2speed
+    player2.y = encoder_value * player2speed
     if player2.top <= 0:
         player2.top = 0
     if player2.bottom >= height:
-        player2.bottom = height
+        player2.bottom = height
 
 
 def printScore(surface):
