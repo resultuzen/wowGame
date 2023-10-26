@@ -9,6 +9,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
+
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -40,19 +41,21 @@ def ballRestart():
     ballspeedy = 7 * random.choice((1, -1))
 
 
-def player1Animation(enkoder_value):
-    player1.y += enkoder_value * player1speed
-    if player1.top <= player1_min_y:
-        player1.top = player1_min_y
-    if player1.bottom >= player1_max_y:
-        player1.bottom = player1_max_y
+def player1Animation(encoder_value):
+    player1.y += encoder_value * player1speed
+    if player1.top <= 0:
+        player1.top = 0
+    if player1.bottom >= height:
+        player1.bottom = height
 
-def player2Animation(enkoder_value):
-    player2.y += enkoder_value * player2speed
-    if player2.top <= player2_min_y:
-        player2.top = player2_min_y
-    if player2.bottom >= player2_max_y:
-        player2.bottom = player2_max_y
+
+def player2Animation(encoder_value):
+    player2.y += encoder_value * player2speed
+    if player2.top <= 0:
+        player2.top = 0
+    if player2.bottom >= height:
+        player2.bottom = height
+
 
 def printScore(surface):
     global p1score, p2score
@@ -96,19 +99,13 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-player1_min_y = 0
-player1_max_y = height - 140  # 140, oyuncunun yüksekliği
-
-player2_min_y = 0
-player2_max_y = height - 140
-
 ball = pygame.Rect(width/2-15, height/2-15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(width - 30, height // 2 - 70, 20, 140)
-player2 = pygame.Rect(10, height // 2 - 70, 20, 140)
+player1 = pygame.Rect(width-30, height/2-70, 20, 140)
+player2 = pygame.Rect(10, height/2-70, 20, 140)
 
 p1score = 0
 p2score = 0
@@ -127,42 +124,28 @@ while True:
             pygame.quit()
             sys.exit()
 
-    enkoder1_value = 0
-    enkoder2_value = 0
-    MAX_VALUE = 15
-    
-    # Read current states  
+    # Read current states
     enkoder1_clk = GPIO.input(ENKODER1_CLK)
     enkoder1_dt = GPIO.input(ENKODER1_DT)
     enkoder2_clk = GPIO.input(ENKODER2_CLK)
     enkoder2_dt = GPIO.input(ENKODER2_DT)
 
-    if enkoder1_value < 0:
-        enkoder1_value = 0
-    
-    if enkoder1_value > MAX_VALUE:
-        enkoder1_value = MAX_VALUE
-    
-    if enkoder2_value < 0:
-        enkoder2_value = 0
-        
-    if enkoder2_value > MAX_VALUE:
-        enkoder2_value = MAX_VALUE
-
     # Her iki enkoder için dönüş değerlerini hesapla
     if enkoder1_clk != enkoder1_clkLastState:
         if enkoder1_dt != enkoder1_clk:
             enkoder1_value += 1
+            enkoder1_clkLastState = enkoder1_clk
         else:
             enkoder1_value -= 1
-    enkoder1_clkLastState = enkoder1_clk
+            enkoder1_clkLastState = enkoder1_clk
 
     if enkoder2_clk != enkoder2_clkLastState:
         if enkoder2_dt != enkoder2_clk:
             enkoder2_value += 1
+            enkoder2_clkLastState = enkoder2_clk
         else:
             enkoder2_value -= 1
-    enkoder2_clkLastState = enkoder2_clk
+            enkoder2_clkLastState = enkoder2_clk
 
     # Oyun mantığını işle
     ballAnimation()
@@ -178,4 +161,4 @@ while True:
     pygame.draw.ellipse(screen, ballcolor, ball)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(60)
