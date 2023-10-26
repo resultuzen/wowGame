@@ -138,15 +138,15 @@ while True:
     enkoder2_dt = GPIO.input(ENKODER2_DT)
 
     if enkoder1_value < 0:
-    enkoder1_value = 0
+        enkoder1_value = 0
     
-    if enkoder1_value > MAX_VALUE: 
+    if enkoder1_value > MAX_VALUE:
         enkoder1_value = MAX_VALUE
     
     if enkoder2_value < 0:
         enkoder2_value = 0
         
-    if enkoder2_value > MAX_VALUE: 
+    if enkoder2_value > MAX_VALUE:
         enkoder2_value = MAX_VALUE
 
     # Her iki enkoder için dönüş değerlerini hesapla
