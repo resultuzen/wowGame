@@ -17,6 +17,7 @@ class Player:
     def updatePositon(self, encoder):
         # Adim degisikligi limiti
         if abs(encoder - self.encoderLastValue) > 2:
+            self.encoderLastValue = encoder
             return encoder * self.speed
         
         return self.encoderLastValue * self.speed
