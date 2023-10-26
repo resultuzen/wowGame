@@ -9,12 +9,6 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
-player1_min_y = 0
-player1_max_y = height - 140  # 140, oyuncunun yüksekliği
-
-player2_min_y = 0
-player2_max_y = height - 140
-
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -101,6 +95,12 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
+
+player1_min_y = 0
+player1_max_y = height - 140  # 140, oyuncunun yüksekliği
+
+player2_min_y = 0
+player2_max_y = height - 140
 
 ball = pygame.Rect(width/2-15, height/2-15, 30, 30)
 ballcolor = pygame.Color('white')
