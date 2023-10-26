@@ -9,6 +9,12 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
+player1_min_y = 0
+player1_max_y = height - 140  # 140, oyuncunun yüksekliği
+
+player2_min_y = 0
+player2_max_y = height - 140
+
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -42,19 +48,17 @@ def ballRestart():
 
 def player1Animation(enkoder_value):
     player1.y += enkoder_value * player1speed
-    if player1.top <= 0:
-        player1.top = 0
-    if player1.bottom >= height:
-        player1.bottom = height
-
+    if player1.top <= player1_min_y:
+        player1.top = player1_min_y
+    if player1.bottom >= player1_max_y:
+        player1.bottom = player1_max_y
 
 def player2Animation(enkoder_value):
     player2.y += enkoder_value * player2speed
-    if player2.top <= 0:
-        player2.top = 0
-    if player2.bottom >= height:
-        player2.bottom = height
-
+    if player2.top <= player2_min_y:
+        player2.top = player2_min_y
+    if player2.bottom >= player2_max_y:
+        player2.bottom = player2_max_y
 
 def printScore(surface):
     global p1score, p2score
