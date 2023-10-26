@@ -6,12 +6,28 @@ import sys
 import random
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-player1speed = 2
-player2speed = 2
+
+class Player:
+    def _init_(self, width, height, speed) -> None:
+        self.width = width
+        self.height = height
+        self.speed = speed
+        self.pos = 0
+
+    def updatePositon(self, encoder):
+        # Adim degisikligi limiti
+        if abs(encoder - self.pos) > self.speed * 2:
+            self.pos = encoder * self.speed
+        return self.pos
+
+
+# Width - Height - Speed
+Player1 = Player(20, 140, 7)
+Player2 = Player(20, 140, 7)
 
 
 def ballAnimation():
-    global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
+    global ballspeedx, ballspeedy, p1score, p2score, hit, bounce
     ball.x += ballspeedx
     ball.y += ballspeedy
     if ball.top <= 0 or ball.bottom >= height:
@@ -42,19 +58,19 @@ def ballRestart():
 
 
 def player1Animation(encoder_value):
-    player1.y = encoder_value * player1speed
-    if player1.top <= 0:
-        player1.top = 0
-    if player1.bottom >= height:
-        player1.bottom = height
+    newPos = Player1.updatePositon(encoder_value)
+    if (newPos > height - (Player1.height / 2)):
+        player1.y = height - (Player1.height / 2)
+    if (newPos < height - (Player1.height / 2)):
+        player1.y = (Player1.height / 2)
 
 
 def player2Animation(encoder_value):
-    player2.y = encoder_value * player2speed
-    if player2.top <= 0:
-        player2.top = 0
-    if player2.bottom >= height:
-        player2.bottom = height
+    newPos = Player2.updatePositon(encoder_value)
+    if (newPos > height - (Player2.height / 2)):
+        player2.y = height - (Player2.height / 2)
+    if (newPos < height - (Player2.height / 2)):
+        player2.y = (Player2.height / 2)
 
 
 def printScore(surface):
@@ -104,8 +120,10 @@ ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(width-30, height/2-70, 20, 140)
-player2 = pygame.Rect(10, height/2-70, 20, 140)
+player1 = pygame.Rect(width - Player1.width / 2, height /
+                      2, Player1.width, Player1.height)
+player2 = pygame.Rect(Player2.width / 2, height / 2,
+                      Player2.width, Player2.height)
 
 p1score = 0
 p2score = 0
