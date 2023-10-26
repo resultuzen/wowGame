@@ -127,11 +127,27 @@ while True:
             pygame.quit()
             sys.exit()
 
-    # Read current states
+    enkoder1_value = 0
+    enkoder2_value = 0
+    MAX_VALUE = 15
+    
+    # Read current states  
     enkoder1_clk = GPIO.input(ENKODER1_CLK)
     enkoder1_dt = GPIO.input(ENKODER1_DT)
     enkoder2_clk = GPIO.input(ENKODER2_CLK)
     enkoder2_dt = GPIO.input(ENKODER2_DT)
+
+    if enkoder1_value < 0:
+    enkoder1_value = 0
+    
+    if enkoder1_value > MAX_VALUE: 
+        enkoder1_value = MAX_VALUE
+    
+    if enkoder2_value < 0:
+        enkoder2_value = 0
+        
+    if enkoder2_value > MAX_VALUE: 
+        enkoder2_value = MAX_VALUE
 
     # Her iki enkoder için dönüş değerlerini hesapla
     if enkoder1_clk != enkoder1_clkLastState:
