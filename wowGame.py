@@ -141,18 +141,16 @@ while True:
     if enkoder1_clk != enkoder1_clkLastState:
         if enkoder1_dt != enkoder1_clk:
             enkoder1_value += 1
-            enkoder1_clkLastState = enkoder1_clk
         else:
             enkoder1_value -= 1
-            enkoder1_clkLastState = enkoder1_clk
+    enkoder1_clkLastState = enkoder1_clk
 
     if enkoder2_clk != enkoder2_clkLastState:
         if enkoder2_dt != enkoder2_clk:
             enkoder2_value += 1
-            enkoder2_clkLastState = enkoder2_clk
         else:
             enkoder2_value -= 1
-            enkoder2_clkLastState = enkoder2_clk
+    enkoder2_clkLastState = enkoder2_clk
 
     # Oyun mantığını işle
     ballAnimation()
