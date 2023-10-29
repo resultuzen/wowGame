@@ -39,27 +39,31 @@ def ballRestart():
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
 
-def player1Animation(enkoder_value):
-    player1.y += enkoder_value * player1speed
+def player1Animation(enkoder1_value):
+    if enkoder1_value > 0:
+        player1.y += player1speed
+        enkoder1_value -= 1
+    elif enkoder1_value < 0:
+        player1.y -= player1speed
+        enkoder1_value += 1
+
     if player1.top <= 0:
         player1.top = 0
-        if enkoder_value < 0:
-            enkoder_value = 0
     if player1.bottom >= height:
         player1.bottom = height
-        if enkoder_value > 0:
-            enkoder_value = 0
 
-def player2Animation(enkoder_value):
-    player2.y += enkoder_value * player2speed
+def player2Animation(enkoder2_value):
+    if enkoder2_value > 0:
+        player2.y += player2speed
+        enkoder2_value -= 1
+    elif enkoder2_value < 0:
+        player2.y -= player2speed
+        enkoder2_value += 1
+
     if player2.top <= 0:
         player2.top = 0
-        if enkoder_value < 0:
-            enkoder_value = 0
     if player2.bottom >= height:
         player2.bottom = height
-        if enkoder_value > 0:
-            enkoder_value = 0
             
 def printScore(surface):
     global p1score, p2score
