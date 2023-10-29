@@ -39,38 +39,34 @@ def ballRestart():
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
 
-player1_speed = 0
-player2_speed = 0
+player1_target = player1.y
+player2_target = player2.y
 
 def player1Animation(enkoder1_value):
-    global player1_speed
-    if enkoder1_value > 0:
-        player1_speed = player1speed
-    elif enkoder1_value < 0:
-        player1_speed = -player1speed
-    else:
-        player1_speed = 0
+    global player1_target
+    player1_target += enkoder1_value
+    if player1_target < 0:
+        player1_target = 0
+    if player1_target > height - player1.height:
+        player1_target = height - player1.height
 
-    player1.y += player1_speed
-    if player1.top <= 0:
-        player1.top = 0
-    if player1.bottom >= height:
-        player1.bottom = height
+    if player1.y < player1_target:
+        player1.y += player1speed
+    elif player1.y > player1_target:
+        player1.y -= player1speed
 
 def player2Animation(enkoder2_value):
-    global player2_speed
-    if enkoder2_value > 0:
-        player2_speed = player2speed
-    elif enkoder2_value < 0:
-        player2_speed = -player2speed
-    else:
-        player2_speed = 0
+    global player2_target
+    player2_target += enkoder2_value
+    if player2_target < 0:
+        player2_target = 0
+    if player2_target > height - player2.height:
+        player2_target = height - player2.height
 
-    player2.y += player2_speed
-    if player2.top <= 0:
-        player2.top = 0
-    if player2.bottom >= height:
-        player2.bottom = height
+    if player2.y < player2_target:
+        player2.y += player2speed
+    elif player2.y > player2_target:
+        player2.y -= player2speed
         
 def printScore(surface):
     global p1score, p2score
