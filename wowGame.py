@@ -39,23 +39,28 @@ def ballRestart():
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
 
-
 def player1Animation(enkoder_value):
     player1.y += enkoder_value * player1speed
     if player1.top <= 0:
         player1.top = 0
+        if enkoder_value < 0:
+            enkoder_value = 0
     if player1.bottom >= height:
         player1.bottom = height
-
+        if enkoder_value > 0:
+            enkoder_value = 0
 
 def player2Animation(enkoder_value):
     player2.y += enkoder_value * player2speed
     if player2.top <= 0:
         player2.top = 0
+        if enkoder_value < 0:
+            enkoder_value = 0
     if player2.bottom >= height:
         player2.bottom = height
-
-
+        if enkoder_value > 0:
+            enkoder_value = 0
+            
 def printScore(surface):
     global p1score, p2score
     font = pygame.font.Font(None, 72)
