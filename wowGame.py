@@ -9,6 +9,9 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
+player1 = pygame.Rect(width - 30, height // 2 - 70, 20, 140)
+player2 = pygame.Rect(10, height // 2 - 70, 20, 140)
+
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -114,9 +117,6 @@ ball = pygame.Rect(width/2-15, height/2-15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
-
-player1 = pygame.Rect(width - 30, height // 2 - 70, 20, 140)
-player2 = pygame.Rect(10, height // 2 - 70, 20, 140)
 
 p1score = 0
 p2score = 0
