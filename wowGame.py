@@ -6,6 +6,13 @@ import sys
 import random
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
+def ballRestart():
+    global ballspeedx, ballspeedy, start
+    ball.center = (width/2, height/2)
+    start.play()
+    ballspeedx = 7 * random.choice((1, -1))
+    ballspeedy = 7 * random.choice((1, -1))
+
 player1speed = 2
 player2speed = 2
 
@@ -78,13 +85,6 @@ def ballAnimation():
     if ball.colliderect(player2):
         ballspeedx *= -1
         hit.play()
-
-def ballRestart():
-    global ballspeedx, ballspeedy, start
-    ball.center = (width/2, height/2)
-    start.play()
-    ballspeedx = 7 * random.choice((1, -1))
-    ballspeedy = 7 * random.choice((1, -1))
 
 player1_target = player1.y
 player2_target = player2.y
