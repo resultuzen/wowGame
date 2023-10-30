@@ -1,10 +1,7 @@
 import time
 import RPi.GPIO as GPIO
-import pygame
 import os
 import sys
-import random
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # GPIO pinlerini ayarla
 ENKODER1_DT = 19
@@ -27,10 +24,6 @@ enkoder1_clkLastState = GPIO.input(ENKODER1_CLK)
 enkoder2_clkLastState = GPIO.input(ENKODER2_CLK)
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
 
     # Read current states
     enkoder1_clk = GPIO.input(ENKODER1_CLK)
@@ -67,4 +60,4 @@ while True:
     print("Enkoder 2 Clock Last State:", enkoder2_clkLastState)
     print("Enkoder 2:", enkoder2_value)
 
-    time.sleep(2)
+    time.sleep(0.5)
