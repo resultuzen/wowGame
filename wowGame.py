@@ -173,6 +173,21 @@ while True:
 
     # Oyun mantığını işle
     ballAnimation()
+    
+    print("Enkoder 1 Data:", enkoder1_dt)
+    print("Enkoder 1 Clock:", enkoder1_clk)
+    print("Enkoder 1 Clock Last State:", enkoder1_clkLastState)
+    print("Enkoder 1:", enkoder1_value)
+
+    time.sleep(2)
+
+    print("Enkoder 2 Data:", enkoder2_dt)
+    print("Enkoder 2 Clock:", enkoder2_clk)
+    print("Enkoder 2 Clock Last State:", enkoder2_clkLastState)
+    print("Enkoder 2:", enkoder2_value)
+
+    time.sleep(2)
+    
     player1Animation(enkoder1_value)
     player2Animation(enkoder2_value)
 
