@@ -55,12 +55,12 @@ while True:
             enkoder2_value -= 1
             enkoder2_clkLastState = enkoder2_clk
     
-    print("Enkoder 1 Data:", enkoder1_dt)
-    print("Enkoder 1 Clock:", enkoder1_clk)
-    print("Enkoder 1 Clock Last State:", enkoder1_clkLastState)
-    print("Enkoder 1:", enkoder1_value)
+    #print("Enkoder 1 Data:", enkoder1_dt)
+    #print("Enkoder 1 Clock:", enkoder1_clk)
+    #print("Enkoder 1 Clock Last State:", enkoder1_clkLastState)
+    #print("Enkoder 1:", enkoder1_value)
 
-    time.sleep(2)
+    #time.sleep(2)
 
     print("Enkoder 2 Data:", enkoder2_dt)
     print("Enkoder 2 Clock:", enkoder2_clk)
@@ -68,6 +68,3 @@ while True:
     print("Enkoder 2:", enkoder2_value)
 
     time.sleep(2)
-
-pygame.quit()
-sys.exit()
