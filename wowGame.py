@@ -52,14 +52,22 @@ def ballRestart():
 
 def player1Animation(encoder_value):
     player1.y = encoder_value * Player1.speed
-    if player1.top <= 0: player1.top = 0
-    if player1.bottom >= player1: player1.bottom = screenHeight
+    
+    if player1.top <= 0: 
+        player1.top = 0
+        
+    if player1.bottom >= player1: 
+        player1.bottom = screenHeight
 
 
 def player2Animation(encoder_value):
     player2.y = encoder_value * Player2.speed
-    if player2.top <= 0: player2.top = 0
-    if player2.bottom >= player2: player2.bottom = screenHeight
+    
+    if player2.top <= 0: 
+        player2.top = 0
+        
+    if player2.bottom >= player2: 
+        player2.bottom = screenHeight
 
 
 def printScore(surface):
@@ -109,10 +117,8 @@ ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(screenWidth - Player1.width / 2,
-                      screenHeight / 2, Player1.width, Player1.height)
-player2 = pygame.Rect(Player2.width / 2, screenHeight /
-                      2, Player2.width, Player2.height)
+player1 = pygame.Rect(screenWidth - Player1.width / 2, screenHeight / 2, Player1.width, Player1.height)
+player2 = pygame.Rect(Player2.width / 2, screenHeight / 2, Player2.width, Player2.height)
 
 p1score = 0
 p2score = 0
