@@ -1,4 +1,4 @@
-from time import sleep
+import time
 import RPi.GPIO as GPIO
 import pygame
 import os
