@@ -12,22 +12,31 @@ class Player:
         self.width = width
         self.height = height
         self.speed = speed
+        self.encoderLastValue = 0
+
+    def updatePositon(self, encoder):
+        # Adim degisikligi limiti
+        if abs(encoder - self.encoderLastValue) > 2:
+            self.encoderLastValue = encoder
+            return encoder * self.speed
+
+        return self.encoderLastValue * self.speed
 
 
 # Width - Height - Speed
-Player1 = Player(20, 140, 20)
-Player2 = Player(20, 140, 20)
+Player1 = Player(20, 140, 10)
+Player2 = Player(20, 140, 10)
 
 
 def ballAnimation():
     global ballspeedx, ballspeedy, p1score, p2score, hit, bounce
     ball.x += ballspeedx
     ball.y += ballspeedy
-    if ball.top <= 0 or ball.bottom >= screenHeight:
+    if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
         bounce.play()
-    if ball.centerx <= 15 or ball.centerx >= screenWidth - 15:
-        if ball.centerx < screenWidth / 2:
+    if ball.centerx <= 15 or ball.centerx >= width - 15:
+        if ball.centerx < width/2:
             p1score += 1
         else:
             p2score += 1
@@ -44,30 +53,30 @@ def ballAnimation():
 
 def ballRestart():
     global ballspeedx, ballspeedy, start
-    ball.center = (screenWidth / 2, screenHeight / 2)
+    ball.center = (width/2, height/2)
     start.play()
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
 
 
 def player1Animation(encoder_value):
+    newPos = encoder_value * Player1.speed
     player1.y = encoder_value * Player1.speed
-    
-    if player1.top <= 0: 
-        player1.top = 0
-        
-    if player1.bottom >= player1: 
-        player1.bottom = screenHeight
+
+    if (newPos > height - (Player1.height / 2)):
+        player1.y = height - (Player1.height / 2)
+    if (newPos < height - (Player1.height / 2)):
+        player1.y = (Player1.height / 2)
 
 
 def player2Animation(encoder_value):
+    newPos = encoder_value * Player2.speed
     player2.y = encoder_value * Player2.speed
-    
-    if player2.top <= 0: 
-        player2.top = 0
-        
-    if player2.bottom >= player2: 
-        player2.bottom = screenHeight
+
+    if (newPos > height - (Player2.height / 2)):
+        player2.y = height - (Player2.height / 2)
+    if (newPos < height - (Player2.height / 2)):
+        player2.y = (Player2.height / 2)
 
 
 def printScore(surface):
@@ -75,11 +84,11 @@ def printScore(surface):
     font = pygame.font.Font(None, 72)
     text = font.render(str(p2score), True, gamecolor)
     textRect = text.get_rect()
-    textRect.center = (screenWidth / 2 - 30, 42)
+    textRect.center = (width/2-30, 42)
     surface.blit(text, textRect)
     text = font.render(str(p1score), True, gamecolor)
     textRect = text.get_rect()
-    textRect.center = (screenWidth / 2 + 30, 42)
+    textRect.center = (width/2+30, 42)
     surface.blit(text, textRect)
 
 
@@ -108,17 +117,19 @@ start = pygame.mixer.Sound('start.ogg')
 # Ekranı ayarla
 pygame.display.set_caption("Test")
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-screenWidth, screenHeight = screen.get_size()
+width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-ball = pygame.Rect(screenWidth / 2 - 15, screenHeight / 2 - 15, 30, 30)
+ball = pygame.Rect(width/2-15, height/2-15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(screenWidth - Player1.width / 2, screenHeight / 2, Player1.width, Player1.height)
-player2 = pygame.Rect(Player2.width / 2, screenHeight / 2, Player2.width, Player2.height)
+player1 = pygame.Rect(width - Player1.width / 2, height /
+                      2, Player1.width, Player1.height)
+player2 = pygame.Rect(Player2.width / 2, height / 2,
+                      Player2.width, Player2.height)
 
 p1score = 0
 p2score = 0
@@ -168,11 +179,13 @@ while True:
     # Ekranı temizle ve çizimleri yap
     screen.fill(bgcolor)
     printScore(screen)
-    pygame.draw.aaline(screen, gamecolor, (screenWidth / 2,
-                       0), (screenWidth / 2, screenHeight))
+    pygame.draw.aaline(screen, gamecolor, (width/2, 0), (width/2, height))
     pygame.draw.rect(screen, gamecolor, player1)
     pygame.draw.rect(screen, gamecolor, player2)
     pygame.draw.ellipse(screen, ballcolor, ball)
 
     pygame.display.flip()
     clock.tick(60)
+
+pygame.quit()
+sys.exit()
