@@ -15,11 +15,13 @@ bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
 sagOyuncuHiz = 10
+sagOyuncuSoftHiz = 2
 sagOyuncuYukseklik = 140
 sagOyuncuGenislik = 20
 sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
 solOyuncuHiz = 10
+solOyuncuSoftHiz = 2
 solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
@@ -63,12 +65,12 @@ def ballRestart():
 
 
 def sagOyuncuAnimation(enkoder_value):
-    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value
+    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
     if target_y > sagOyuncu.y:
-        sagOyuncu.y += sagOyuncuHiz 
+        sagOyuncu.y += sagOyuncuSoftHiz 
     elif target_y < sagOyuncu.y:
-        sagOyuncu.y -= sagOyuncuHiz
+        sagOyuncu.y -= sagOyuncuSoftHiz
         
     if sagOyuncu.y < 0:
         sagOyuncu.y = 0
@@ -76,12 +78,12 @@ def sagOyuncuAnimation(enkoder_value):
         sagOyuncu.y = height - sagOyuncuYukseklik
 
 def solOyuncuAnimation(enkoder_value):
-    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value
+    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
     if target_y > solOyuncu.y:
-        solOyuncu.y += solOyuncuHiz
+        solOyuncu.y += solOyuncuSoftHiz
     elif target_y < solOyuncu.y:
-        solOyuncu.y -= solOyuncuHiz
+        solOyuncu.y -= solOyuncuSoftHiz
 
     if solOyuncu.y < 0:
         solOyuncu.y = 0
