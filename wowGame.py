@@ -14,13 +14,12 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-sagOyuncuspeed = 10
+sagOyuncuHiz = 10
 sagOyuncuYukseklik = 140
 sagOyuncuGenislik = 20
 sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
-
-solOyuncuspeed = 10
+solOyuncuHiz = 10
 solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
@@ -64,27 +63,31 @@ def ballRestart():
 
 
 def sagOyuncuAnimation(enkoder_value):
-    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuspeed
+    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value
 
     if target_y > sagOyuncu.y:
-        sagOyuncu.y += 1  # Hız farkını artırabilirsiniz
+        sagOyuncu.y += sagOyuncuHiz 
     elif target_y < sagOyuncu.y:
-        sagOyuncu.y -= 1  # Hız farkını artırabilirsiniz
-
+        sagOyuncu.y -= sagOyuncuHiz
+        
     if sagOyuncu.y < 0:
         sagOyuncu.y = 0
     if sagOyuncu.y > height - sagOyuncuYukseklik:
         sagOyuncu.y = height - sagOyuncuYukseklik
 
-def solOyuncuAnimation(enkoder_value):   
+def solOyuncuAnimation(enkoder_value):
+    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value
 
-    if enkoder_value > solHedefAraligi:
-        enkoder_value = solHedefAraligi
+    if target_y > solOyuncu.y:
+        solOyuncu.y += solOyuncuHiz
+    elif target_y < solOyuncu.y:
+        solOyuncu.y -= solOyuncuHiz
 
-    elif enkoder_value < -solHedefAraligi:
-        enkoder_value = -solHedefAraligi
+    if solOyuncu.y < 0:
+        solOyuncu.y = 0
+    if solOyuncu.y > height - solOyuncuYukseklik:
+        solOyuncu.y = height - solOyuncuYukseklik
 
-    solOyuncu.y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuspeed
 
 def printScore(surface):
     global p1score, p2score
