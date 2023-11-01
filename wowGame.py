@@ -121,10 +121,6 @@ p2score = 0
 enkoder1_value = 0
 enkoder2_value = 0
 
-# Initialize last states for both encoders
-enkoder1_clkLastState = GPIO.input(ENKODER1_CLK)
-enkoder2_clkLastState = GPIO.input(ENKODER2_CLK)
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
