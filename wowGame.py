@@ -71,9 +71,6 @@ def sagOyuncuAnimation(enkoder_value):
     elif enkoder_value < -sagHedefAraligi:
         enkoder_value = -sagHedefAraligi
 
-    else:
-        enkoder_value = 0
-
     sagOyuncu.y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value
 
 
@@ -84,9 +81,6 @@ def solOyuncuAnimation(enkoder_value):
 
     elif enkoder_value < -solHedefAraligi:
         enkoder_value = -solHedefAraligi
-
-    else:
-        enkoder_value = 0
 
     solOyuncu.y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value
 
