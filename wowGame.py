@@ -53,8 +53,8 @@ def player1Animation(enkoder1_value):
     # Çevrilen miktar kadar hareket etme ve durma
     if player1_position < 0:
         player1_position = 0
-    if player1_position > height:  # 360 dereceye göre ayarlayın
-        player1_position = height
+    if player1_position > 360:  # 360 dereceye göre ayarlayın
+        player1_position = 360
 
     # Çevrilen miktarı kullanarak hedef pozisyonu belirle
     player1_target = int((player1_position / 360) * (height - player1.height))
@@ -66,8 +66,8 @@ def player2Animation(enkoder2_value):
     # Çevrilen miktar kadar hareket etme ve durma
     if player2_position < 0:
         player2_position = 0
-    if player2_position > height:  # 360 dereceye göre ayarlayın
-        player2_position = height
+    if player2_position > 360:  # 360 dereceye göre ayarlayın
+        player2_position = 360
 
     # Çevrilen miktarı kullanarak hedef pozisyonu belirle
     player2_target = int((player2_position / 360) * (height - player2.height))
