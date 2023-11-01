@@ -7,28 +7,50 @@ import sys
 import random
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-player1speed = 2
-player2speed = 2
+# Ekranı ayarla
+pygame.display.set_caption("Test")
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+width, height = screen.get_size()
+bgcolor = pygame.Color('grey12')
+gamecolor = pygame.Color('white')
+
+sagOyuncuspeed = 2
+sagOyuncuYukseklik = 140
+sagOyuncuGenislik = 20
+sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
+
+
+solOyuncuspeed = 2
+solOyuncuYukseklik = 140
+solOyuncuGenislik = 20
+solHedefAraligi = (height // 2) - solOyuncuYukseklik
+
 
 def ballAnimation():
-    global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
+    global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
     ball.y += ballspeedy
+
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
         bounce.play()
+
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width/2:
             p1score += 1
+
         else:
             p2score += 1
+
         goal.play()
         ballRestart()
         pygame.time.delay(1000)
-    if ball.colliderect(player1):
+
+    if ball.colliderect(sagOyuncu):
         ballspeedx *= -1
         hit.play()
-    if ball.colliderect(player2):
+
+    if ball.colliderect(solOyuncu):
         ballspeedx *= -1
         hit.play()
 
@@ -41,21 +63,32 @@ def ballRestart():
     ballspeedy = 7 * random.choice((1, -1))
 
 
-def player1Animation(enkoder_value):
-    player1.y += enkoder_value * player1speed
-    if player1.top <= 0:
-        player1.top = 0
-    if player1.bottom >= height:
-        player1.bottom = height
+def sagOyuncuAnimation(enkoder_value):
+
+    if enkoder_value > sagHedefAraligi:
+        enkoder_value = sagHedefAraligi
+
+    elif enkoder_value < -sagHedefAraligi:
+        enkoder_value = -sagHedefAraligi
+
+    else:
+        enkoder_value = 0
+
+    sagOyuncu.y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value
 
 
-def player2Animation(enkoder_value):
-    player2.y += enkoder_value * player2speed
-    if player2.top <= 0:
-        player2.top = 0
-    if player2.bottom >= height:
-        player2.bottom = height
+def solOyuncuAnimation(enkoder_value):   
 
+    if enkoder_value > solHedefAraligi:
+        enkoder_value = solHedefAraligi
+
+    elif enkoder_value < -solHedefAraligi:
+        enkoder_value = -solHedefAraligi
+
+    else:
+        enkoder_value = 0
+
+    solOyuncu.y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value
 
 def printScore(surface):
     global p1score, p2score
@@ -70,15 +103,15 @@ def printScore(surface):
     surface.blit(text, textRect)
 
 # GPIO pinlerini ayarla
-ENKODER1_DT = 19
-ENKODER1_CLK = 13
-ENKODER2_DT = 6
-ENKODER2_CLK = 5
+solEnkoderDataPin = 19
+solEnkoderClockPin = 13
+sagEnkoderDataPin = 6
+sagEnkoderClockPin = 5
 
 GPIO.setmode(GPIO.BCM)
 
-encoder1 = Encoder(ENKODER1_DT, ENKODER1_CLK)
-encoder2 = Encoder(ENKODER2_DT, ENKODER2_CLK)
+solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
+sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -89,27 +122,20 @@ bounce = pygame.mixer.Sound('bounce.ogg')
 goal = pygame.mixer.Sound('goal.ogg')
 start = pygame.mixer.Sound('start.ogg')
 
-# Ekranı ayarla
-pygame.display.set_caption("Test")
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-width, height = screen.get_size()
-bgcolor = pygame.Color('grey12')
-gamecolor = pygame.Color('white')
-
-ball = pygame.Rect(width/2-15, height/2-15, 30, 30)
+ball = pygame.Rect(width / 2 - 15, height / 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(width - 30, height // 2 - 70, 20, 140)
-player2 = pygame.Rect(10, height // 2 - 70, 20, 140)
+sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
+solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
 
 p1score = 0
 p2score = 0
 
 # Enkoderlerin değerlerini tutmak için değişkenler
-enkoder1_value = 0
-enkoder2_value = 0
+solEnkoderDegeri = 0
+sagEnkoderDegeri = 0
 
 while True:
     for event in pygame.event.get():
@@ -117,20 +143,20 @@ while True:
             pygame.quit()
             sys.exit()
 
-    enkoder1_value = encoder1.getValue()
-    enkoder2_value = encoder2.getValue()
+    sagEnkoderDegeri = sagEncoder.getValue()
+    solEnkoderDegeri = solEncoder.getValue()
 
     # Oyun mantığını işle
     ballAnimation()
-    player1Animation(enkoder1_value)
-    player2Animation(enkoder2_value)
+    sagOyuncuAnimation(sagEnkoderDegeri)
+    solOyuncuAnimation(solEnkoderDegeri)
 
     # Ekranı temizle ve çizimleri yap
     screen.fill(bgcolor)
     printScore(screen)
-    pygame.draw.aaline(screen, gamecolor, (width/2, 0), (width/2, height))
-    pygame.draw.rect(screen, gamecolor, player1)
-    pygame.draw.rect(screen, gamecolor, player2)
+    pygame.draw.aaline(screen, gamecolor, (width / 2, 0), (width / 2, height))
+    pygame.draw.rect(screen, gamecolor, sagOyuncu)
+    pygame.draw.rect(screen, gamecolor, solOyuncu)
     pygame.draw.ellipse(screen, ballcolor, ball)
 
     pygame.display.flip()
