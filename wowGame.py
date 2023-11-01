@@ -10,12 +10,6 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
-player1_position = 0
-player1_target = 0
-
-player2_position = 0
-player2_target = 0
-
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -48,6 +42,7 @@ def ballRestart():
 
 
 def player1Animation(enkoder1_value):
+    global player1_position, player1_target
     player1_position += enkoder1_value
 
     # Çevrilen miktar kadar hareket etme ve durma
@@ -60,6 +55,7 @@ def player1Animation(enkoder1_value):
     player1_target = int((player1_position / 360) * (height - player1.height))
 
 def player2Animation(enkoder2_value):
+    global player2_position, player2_target
     player2_position += enkoder2_value
 
     # Çevrilen miktar kadar hareket etme ve durma
