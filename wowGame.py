@@ -41,21 +41,31 @@ def ballRestart():
     ballspeedy = 7 * random.choice((1, -1))
 
 
-def player1Animation(enkoder_value):
-    player1.y += enkoder_value * player1speed
-    if player1.top <= 0:
-        player1.top = 0
-    if player1.bottom >= height:
-        player1.bottom = height
+def player1Animation(enkoder1_value):
+    global player1_position, player1_target
+    player1_position += enkoder1_value
 
+    # Çevrilen miktar kadar hareket etme ve durma
+    if player1_position < 0:
+        player1_position = 0
+    if player1_position > height:  # 360 dereceye göre ayarlayın
+        player1_position = height
 
-def player2Animation(enkoder_value):
-    player2.y += enkoder_value * player2speed
-    if player2.top <= 0:
-        player2.top = 0
-    if player2.bottom >= height:
-        player2.bottom = height
+    # Çevrilen miktarı kullanarak hedef pozisyonu belirle
+    player1_target = int((player1_position / 360) * (height - player1.height))
 
+def player2Animation(enkoder2_value):
+    global player2_position, player2_target
+    player2_position += enkoder2_value
+
+    # Çevrilen miktar kadar hareket etme ve durma
+    if player2_position < 0:
+        player2_position = 0
+    if player2_position > height:  # 360 dereceye göre ayarlayın
+        player2_position = height
+
+    # Çevrilen miktarı kullanarak hedef pozisyonu belirle
+    player2_target = int((player2_position / 360) * (height - player2.height))
 
 def printScore(surface):
     global p1score, p2score
