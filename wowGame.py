@@ -10,6 +10,11 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 player1speed = 2
 player2speed = 2
 
+player1_position = 0
+player1_target = 0
+player2_position = 0
+player2_target = 0
+
 def ballAnimation():
     global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
