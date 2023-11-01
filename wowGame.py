@@ -1,37 +1,17 @@
-from json import encoder
 from time import sleep
+from encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame
 import os
 import sys
 import random
-import gaugette.gpio
-import gaugette.rotary_encoder
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-class Player:
-    def __init__(self, width, height, speed):
-        self.width = width
-        self.height = height
-        self.speed = speed
-        self.encoderLastValue = 0
-
-    def updatePositon(self, encoder):
-        # Adim degisikligi limiti
-        if abs(encoder - self.encoderLastValue) > 2:
-            self.encoderLastValue = encoder
-            return encoder * self.speed
-
-        return self.encoderLastValue * self.speed
-
-
-# Width - Height - Speed
-Player1 = Player(20, 140, 10)
-Player2 = Player(20, 140, 10)
-
+player1speed = 2
+player2speed = 2
 
 def ballAnimation():
-    global ballspeedx, ballspeedy, p1score, p2score, hit, bounce
+    global ballspeedx, ballspeedy, player2speed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
     ball.y += ballspeedy
     if ball.top <= 0 or ball.bottom >= height:
@@ -61,24 +41,20 @@ def ballRestart():
     ballspeedy = 7 * random.choice((1, -1))
 
 
-def player1Animation(encoder_value):
-    newPos = encoder_value * Player1.speed
-    player1.y = encoder_value * Player1.speed
-
-    if (newPos > height - (Player1.height / 2)):
-        player1.y = height - (Player1.height / 2)
-    if (newPos < height - (Player1.height / 2)):
-        player1.y = (Player1.height / 2)
+def player1Animation(enkoder_value):
+    player1.y += enkoder_value * player1speed
+    if player1.top <= 0:
+        player1.top = 0
+    if player1.bottom >= height:
+        player1.bottom = height
 
 
-def player2Animation(encoder_value):
-    newPos = encoder_value * Player2.speed
-    player2.y = encoder_value * Player2.speed
-
-    if (newPos > height - (Player2.height / 2)):
-        player2.y = height - (Player2.height / 2)
-    if (newPos < height - (Player2.height / 2)):
-        player2.y = (Player2.height / 2)
+def player2Animation(enkoder_value):
+    player2.y += enkoder_value * player2speed
+    if player2.top <= 0:
+        player2.top = 0
+    if player2.bottom >= height:
+        player2.bottom = height
 
 
 def printScore(surface):
@@ -93,24 +69,16 @@ def printScore(surface):
     textRect.center = (width/2+30, 42)
     surface.blit(text, textRect)
 
-
 # GPIO pinlerini ayarla
 ENKODER1_DT = 19
 ENKODER1_CLK = 13
 ENKODER2_DT = 6
 ENKODER2_CLK = 5
 
-encoder1_GPIO = gaugette.gpio.GPIO()
-encoder2_GPIO = gaugette.gpio.GPIO()
-
-encoder1 = gaugette.rotary_encoder.RotaryEncoder(encoder1_GPIO, ENKODER1_CLK, ENKODER1_DT)
-encoder2 = gaugette.rotary_encoder.RotaryEncoder(encoder2_GPIO, ENKODER2_CLK, ENKODER2_DT)
-
-encoder1.start()
-encoder2.start()
+encoder1 = Encoder(ENKODER1_DT, ENKODER1_CLK)
+encoder2 = Encoder(ENKODER2_DT, ENKODER2_CLK)
 
 pygame.init()
-
 clock = pygame.time.Clock()
 
 # Ses dosyaları
@@ -131,10 +99,8 @@ ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
 
-player1 = pygame.Rect(width - Player1.width / 2, height /
-                      2, Player1.width, Player1.height)
-player2 = pygame.Rect(Player2.width / 2, height / 2,
-                      Player2.width, Player2.height)
+player1 = pygame.Rect(width - 30, height // 2 - 70, 20, 140)
+player2 = pygame.Rect(10, height // 2 - 70, 20, 140)
 
 p1score = 0
 p2score = 0
@@ -143,16 +109,19 @@ p2score = 0
 enkoder1_value = 0
 enkoder2_value = 0
 
+# Initialize last states for both encoders
+enkoder1_clkLastState = GPIO.input(ENKODER1_CLK)
+enkoder2_clkLastState = GPIO.input(ENKODER2_CLK)
+
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
-    # Read current states
-    enkoder1_value = encoder1.get_cycles()
-    enkoder2_value = encoder2.get_cycles()
-    
+    enkoder1_value = encoder1.getValue()
+    enkoder2_value = encoder2.getValue()
+
     # Oyun mantığını işle
     ballAnimation()
     player1Animation(enkoder1_value)
@@ -168,6 +137,3 @@ while True:
 
     pygame.display.flip()
     clock.tick(60)
-
-pygame.quit()
-sys.exit()
