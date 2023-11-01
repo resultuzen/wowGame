@@ -71,7 +71,7 @@ def sagOyuncuAnimation(enkoder_value):
     elif enkoder_value < -sagHedefAraligi:
         enkoder_value = -sagHedefAraligi
 
-    sagOyuncu.y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value
+    sagOyuncu.y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuspeed
 
 
 def solOyuncuAnimation(enkoder_value):   
@@ -82,7 +82,7 @@ def solOyuncuAnimation(enkoder_value):
     elif enkoder_value < -solHedefAraligi:
         enkoder_value = -solHedefAraligi
 
-    solOyuncu.y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value
+    solOyuncu.y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuspeed
 
 def printScore(surface):
     global p1score, p2score
