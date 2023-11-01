@@ -14,13 +14,13 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-sagOyuncuspeed = 2
+sagOyuncuspeed = 10
 sagOyuncuYukseklik = 140
 sagOyuncuGenislik = 20
 sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
 
-solOyuncuspeed = 2
+solOyuncuspeed = 10
 solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
@@ -64,15 +64,17 @@ def ballRestart():
 
 
 def sagOyuncuAnimation(enkoder_value):
+    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuspeed
 
-    if enkoder_value > sagHedefAraligi:
-        enkoder_value = sagHedefAraligi
+    if target_y > sagOyuncu.y:
+        sagOyuncu.y += 1  # Hız farkını artırabilirsiniz
+    elif target_y < sagOyuncu.y:
+        sagOyuncu.y -= 1  # Hız farkını artırabilirsiniz
 
-    elif enkoder_value < -sagHedefAraligi:
-        enkoder_value = -sagHedefAraligi
-
-    sagOyuncu.y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuspeed
-
+    if sagOyuncu.y < 0:
+        sagOyuncu.y = 0
+    if sagOyuncu.y > height - sagOyuncuYukseklik:
+        sagOyuncu.y = height - sagOyuncuYukseklik
 
 def solOyuncuAnimation(enkoder_value):   
 
