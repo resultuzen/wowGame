@@ -66,33 +66,19 @@ def ballRestart():
 
 def sagOyuncuAnimation(enkoder_value):
 
-    if sagOyuncu.y <= 70:
-        enkoder_value = 70
+    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
-    elif sagOyuncu.y >= height:
-        enkoder_value = height
-
-    elif not (sagOyuncu.y <= 70) or not(sagOyuncu.y >= height):
-        target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
-
-    elif target_y > sagOyuncu.y:
+    if target_y > sagOyuncu.y:
         sagOyuncu.y += sagOyuncuSoftHiz 
 
     elif target_y < sagOyuncu.y:
         sagOyuncu.y -= sagOyuncuSoftHiz
     
 def solOyuncuAnimation(enkoder_value):
-    
-    if solOyuncu.y <= 70:
-        enkoder_value = 70
+            
+    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
-    elif solOyuncu.y >= height:
-        enkoder_value = height
-        
-    elif not (solOyuncu.y <= 70) or not(solOyuncu.y >= height):
-        target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
-
-    elif target_y > solOyuncu.y:
+    if target_y > solOyuncu.y:
         solOyuncu.y += solOyuncuSoftHiz
 
     elif target_y < solOyuncu.y:
