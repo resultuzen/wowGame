@@ -69,11 +69,13 @@ def sagOyuncuAnimation(enkoder_value):
 
     if target_y > sagOyuncu.y:
         sagOyuncu.y += sagOyuncuSoftHiz 
-    elif target_y < sagOyuncu.y:
+
+    if target_y < sagOyuncu.y:
         sagOyuncu.y -= sagOyuncuSoftHiz
         
-    if sagOyuncu.y < 0:
-        sagOyuncu.y = 0
+    if sagOyuncu.y < sagOyuncuYukseklik:
+        sagOyuncu.y = sagOyuncuYukseklik
+
     if sagOyuncu.y > height - sagOyuncuYukseklik:
         sagOyuncu.y = height - sagOyuncuYukseklik
 
@@ -82,11 +84,13 @@ def solOyuncuAnimation(enkoder_value):
 
     if target_y > solOyuncu.y:
         solOyuncu.y += solOyuncuSoftHiz
+
     elif target_y < solOyuncu.y:
         solOyuncu.y -= solOyuncuSoftHiz
 
-    if solOyuncu.y < 0:
-        solOyuncu.y = 0
+    if solOyuncu.y < solOyuncuYukseklik:
+        solOyuncu.y = solOyuncuYukseklik
+
     if solOyuncu.y > height - solOyuncuYukseklik:
         solOyuncu.y = height - solOyuncuYukseklik
 
