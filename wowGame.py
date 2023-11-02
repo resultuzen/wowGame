@@ -65,6 +65,13 @@ def ballRestart():
 
 
 def sagOyuncuAnimation(enkoder_value):
+
+    if sagOyuncu.y <= 70:
+        enkoder_value = 70
+
+    if sagOyuncu.y >= height:
+        enkoder_value = height
+
     target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
     if target_y > sagOyuncu.y:
@@ -74,14 +81,20 @@ def sagOyuncuAnimation(enkoder_value):
         sagOyuncu.y -= sagOyuncuSoftHiz
 
 def solOyuncuAnimation(enkoder_value):
+
+    if solOyuncu.y <= 70:
+        enkoder_value = 70
+
+    if solOyuncu.y >= height:
+        enkoder_value = height
+
     target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
     if target_y > solOyuncu.y:
         solOyuncu.y += solOyuncuSoftHiz
 
-    elif target_y < solOyuncu.y:
+    if target_y < solOyuncu.y:
         solOyuncu.y -= solOyuncuSoftHiz
-
 
 def printScore(surface):
     global p1score, p2score
@@ -138,18 +151,6 @@ while True:
 
     sagEnkoderDegeri = sagEncoder.getValue()
     solEnkoderDegeri = solEncoder.getValue()
-
-    if solOyuncu.y <= 70:
-        solEnkoderDegeri = 0
-
-    elif solOyuncu.y >= 940:
-        solEnkoderDegeri = 940
-
-    elif sagOyuncu.y <= 70:
-        sagEnkoderDegeri = 0
-
-    elif sagOyuncu.y >= 940:
-        sagEnkoderDegeri = height
 
     # Oyun mantığını işle
     ballAnimation()
