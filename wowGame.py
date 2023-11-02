@@ -69,32 +69,34 @@ def sagOyuncuAnimation(enkoder_value):
     if sagOyuncu.y <= 70:
         enkoder_value = 70
 
-    if sagOyuncu.y >= height:
+    elif sagOyuncu.y >= height:
         enkoder_value = height
 
-    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
+    elif not (sagOyuncu.y <= 70 or sagOyuncu.y >= height):
+        target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
-    if target_y > sagOyuncu.y:
+    elif target_y > sagOyuncu.y:
         sagOyuncu.y += sagOyuncuSoftHiz 
 
-    if target_y < sagOyuncu.y:
+    elif target_y < sagOyuncu.y:
         sagOyuncu.y -= sagOyuncuSoftHiz
-
+    
 def solOyuncuAnimation(enkoder_value):
-
+    
     if solOyuncu.y <= 70:
         enkoder_value = 70
 
-    if solOyuncu.y >= height:
+    elif solOyuncu.y >= height:
         enkoder_value = height
+        
+    elif not (solOyuncu.y <= 70 or solOyuncu.y >= height):
+        target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
-    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
-
-    if target_y > solOyuncu.y:
+    elif target_y > solOyuncu.y:
         solOyuncu.y += solOyuncuSoftHiz
 
-    if target_y < solOyuncu.y:
-        solOyuncu.y -= solOyuncuSoftHiz
+    elif target_y < solOyuncu.y:
+        solOyuncu.y -= solOyuncuSoftHiz        
 
 def printScore(surface):
     global p1score, p2score
