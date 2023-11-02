@@ -73,11 +73,11 @@ def sagOyuncuAnimation(enkoder_value):
     if target_y < sagOyuncu.y:
         sagOyuncu.y -= sagOyuncuSoftHiz
         
-    if sagOyuncu.y < sagOyuncuYukseklik:
-        sagOyuncu.y = sagOyuncuYukseklik
+    if sagOyuncu.y < sagOyuncuYukseklik // 2:
+        sagOyuncu.y = sagOyuncuYukseklik // 2
 
-    if sagOyuncu.y > height - sagOyuncuYukseklik:
-        sagOyuncu.y = height - sagOyuncuYukseklik
+    if sagOyuncu.y > height - (sagOyuncuYukseklik // 2):
+        sagOyuncu.y = height - (sagOyuncuYukseklik // 2)
 
 def solOyuncuAnimation(enkoder_value):
     target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
@@ -88,11 +88,11 @@ def solOyuncuAnimation(enkoder_value):
     elif target_y < solOyuncu.y:
         solOyuncu.y -= solOyuncuSoftHiz
 
-    if solOyuncu.y < solOyuncuYukseklik:
-        solOyuncu.y = solOyuncuYukseklik
+    if solOyuncu.y < solOyuncuYukseklik // 2:
+        solOyuncu.y = solOyuncuYukseklik // 2
 
-    if solOyuncu.y > height - solOyuncuYukseklik:
-        solOyuncu.y = height - solOyuncuYukseklik
+    if solOyuncu.y > height - (solOyuncuYukseklik // 2):
+        solOyuncu.y = height - (solOyuncuYukseklik // 2)
 
 
 def printScore(surface):
@@ -150,6 +150,8 @@ while True:
 
     sagEnkoderDegeri = sagEncoder.getValue()
     solEnkoderDegeri = solEncoder.getValue()
+
+    if sagEnkoderDegeri >
 
     # Oyun mantığını işle
     ballAnimation()
