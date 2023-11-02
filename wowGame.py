@@ -72,7 +72,7 @@ def sagOyuncuAnimation(enkoder_value):
     elif sagOyuncu.y >= height:
         enkoder_value = height
 
-    elif not (sagOyuncu.y <= 70 or sagOyuncu.y >= height):
+    elif not (sagOyuncu.y <= 70) or not(sagOyuncu.y >= height):
         target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
     elif target_y > sagOyuncu.y:
@@ -89,7 +89,7 @@ def solOyuncuAnimation(enkoder_value):
     elif solOyuncu.y >= height:
         enkoder_value = height
         
-    elif not (solOyuncu.y <= 70 or solOyuncu.y >= height):
+    elif not (solOyuncu.y <= 70) or not(solOyuncu.y >= height):
         target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
     elif target_y > solOyuncu.y:
