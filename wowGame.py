@@ -139,17 +139,17 @@ while True:
     sagEnkoderDegeri = sagEncoder.getValue()
     solEnkoderDegeri = solEncoder.getValue()
 
-    if solOyuncu.y < solOyuncuYukseklik // 2:
-        solEnkoderDegeri = solOyuncuYukseklik // 2
+    if solOyuncu.y < 0:
+        solEnkoderDegeri = 0
 
-    elif solOyuncu.y > height - (solOyuncuYukseklik // 2):
-        solEnkoderDegeri = height - (solOyuncuYukseklik // 2)
+    elif solOyuncu.y > height:
+        solEnkoderDegeri = height
 
-    elif sagOyuncu.y < sagOyuncuYukseklik // 2:
-        sagEnkoderDegeri = sagOyuncuYukseklik // 2
+    elif sagOyuncu.y < 0:
+        sagEnkoderDegeri = 0
 
-    elif sagOyuncu.y > height - (sagOyuncuYukseklik // 2):
-        sagEnkoderDegeri = height - (sagOyuncuYukseklik // 2)
+    elif sagOyuncu.y > height:
+        sagEnkoderDegeri = height
 
     # Oyun mantığını işle
     ballAnimation()
