@@ -58,7 +58,7 @@ def ballAnimation():
 
 def ballRestart():
     global ballspeedx, ballspeedy, start
-    ball.center = (width/2, height/2)
+    ball.center = (width // 2, height // 2)
     start.play()
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
@@ -89,11 +89,11 @@ def printScore(surface):
     font = pygame.font.Font(None, 72)
     text = font.render(str(p2score), True, gamecolor)
     textRect = text.get_rect()
-    textRect.center = (width/2-30, 42)
+    textRect.center = (width // 2-30, 42)
     surface.blit(text, textRect)
     text = font.render(str(p1score), True, gamecolor)
     textRect = text.get_rect()
-    textRect.center = (width/2+30, 42)
+    textRect.center = (width // 2+30, 42)
     surface.blit(text, textRect)
 
 # GPIO pinlerini ayarla
@@ -116,7 +116,7 @@ bounce = pygame.mixer.Sound('bounce.ogg')
 goal = pygame.mixer.Sound('goal.ogg')
 start = pygame.mixer.Sound('start.ogg')
 
-ball = pygame.Rect(width / 2 - 15, height / 2 - 15, 30, 30)
+ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
 ballRestart()
@@ -148,7 +148,7 @@ while True:
     # Ekranı temizle ve çizimleri yap
     screen.fill(bgcolor)
     printScore(screen)
-    pygame.draw.aaline(screen, gamecolor, (width / 2, 0), (width / 2, height))
+    pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
     pygame.draw.rect(screen, gamecolor, sagOyuncu)
     pygame.draw.rect(screen, gamecolor, solOyuncu)
     pygame.draw.ellipse(screen, ballcolor, ball)
