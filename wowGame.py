@@ -97,33 +97,6 @@ def printScore(surface):
     textRect.center = (width // 2+30, 42)
     surface.blit(text, textRect)
 
-kartOkuyucuPin = 21
-GPIO.setup(kartOkuyucuPin, GPIO.IN)
-
-def wowGameYanipSon():
-    for _ in range(5):  # 5 kez yanıp sönsün
-        pygame.draw.rect(screen, gamecolor, (width // 2 - 100, height // 2 - 50, 200, 100))
-        pygame.display.flip()
-        pygame.time.delay(500)
-        screen.fill(bgcolor)
-        pygame.display.flip()
-        pygame.time.delay(500)
-
-def bekleme_thread():
-    while True:
-        # Kart okuyucu sinyali alınıncaya kadar bekleyin
-        while GPIO.input(kartOkuyucuPin) == GPIO.LOW:
-            wowGameYanipSon()
-
-        # Kart okuyucu sinyali alındığında oyunu başlat
-        ballRestart()
-
-# Bekleme thread'ini başlat
-wait_thread = threading.Thread(target=bekleme_thread)
-wait_thread.start()
-
-oyunBasladi = False  # Oyun başladı mı?
-
 # GPIO pinlerini ayarla
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
@@ -158,6 +131,33 @@ p2score = 0
 # Enkoderlerin değerlerini tutmak için değişkenler
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
+
+kartOkuyucuPin = 21
+GPIO.setup(kartOkuyucuPin, GPIO.IN)
+
+def wowGameYanipSon():
+    for _ in range(5):  # 5 kez yanıp sönsün
+        pygame.draw.rect(screen, gamecolor, (width // 2 - 100, height // 2 - 50, 200, 100))
+        pygame.display.flip()
+        pygame.time.delay(500)
+        screen.fill(bgcolor)
+        pygame.display.flip()
+        pygame.time.delay(500)
+
+def bekleme_thread():
+    while True:
+        # Kart okuyucu sinyali alınıncaya kadar bekleyin
+        while GPIO.input(kartOkuyucuPin) == GPIO.LOW:
+            wowGameYanipSon()
+
+        # Kart okuyucu sinyali alındığında oyunu başlat
+        ballRestart()
+
+# Bekleme thread'ini başlat
+wait_thread = threading.Thread(target=bekleme_thread)
+wait_thread.start()
+
+oyunBasladi = False  # Oyun başladı mı?
 
 while True:
     for event in pygame.event.get():
