@@ -1,4 +1,4 @@
-from time import sleep
+import time
 from encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame
