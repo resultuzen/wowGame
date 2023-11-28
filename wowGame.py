@@ -135,6 +135,8 @@ sagEnkoderDegeri = 0
 
 GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+calismaDurumu = False
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
