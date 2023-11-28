@@ -5,6 +5,7 @@ import pygame
 import os
 import sys
 import random
+import threading
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekranı ayarla
@@ -96,6 +97,33 @@ def printScore(surface):
     textRect.center = (width // 2+30, 42)
     surface.blit(text, textRect)
 
+kartOkuyucuPin = 21
+GPIO.setup(kartOkuyucuPin, GPIO.IN)
+
+def wowGameYanipSon():
+    for _ in range(5):  # 5 kez yanıp sönsün
+        pygame.draw.rect(screen, gamecolor, (width // 2 - 100, height // 2 - 50, 200, 100))
+        pygame.display.flip()
+        pygame.time.delay(500)
+        screen.fill(bgcolor)
+        pygame.display.flip()
+        pygame.time.delay(500)
+
+def bekleme_thread():
+    while True:
+        # Kart okuyucu sinyali alınıncaya kadar bekleyin
+        while GPIO.input(kartOkuyucuPin) == GPIO.LOW:
+            wowGameYanipSon()
+
+        # Kart okuyucu sinyali alındığında oyunu başlat
+        ballRestart()
+
+# Bekleme thread'ini başlat
+wait_thread = threading.Thread(target=bekleme_thread)
+wait_thread.start()
+
+oyunBasladi = False  # Oyun başladı mı?
+
 # GPIO pinlerini ayarla
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
@@ -134,16 +162,24 @@ sagEnkoderDegeri = 0
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            wait_thread.join()
             pygame.quit()
             sys.exit()
 
     sagEnkoderDegeri = sagEncoder.getValue()
     solEnkoderDegeri = solEncoder.getValue()
 
-    # Oyun mantığını işle
-    ballAnimation()
-    sagOyuncuAnimation(sagEnkoderDegeri)
-    solOyuncuAnimation(solEnkoderDegeri)
+    if not oyunBasladi:
+        # Oyun henüz başlamadıysa, kart okuyucu sinyali bekleyin
+        # ve sinyal alındığında oyunu başlatın
+        if GPIO.input(kartOkuyucuPin) == GPIO.HIGH:
+            ballRestart()
+            oyunBasladi = True
+    else:
+        # Oyun başladıysa, oyun mantığını işleyin
+        ballAnimation()
+        sagOyuncuAnimation(sagEnkoderDegeri)
+        solOyuncuAnimation(solEnkoderDegeri)
 
     # Ekranı temizle ve çizimleri yap
     screen.fill(bgcolor)
