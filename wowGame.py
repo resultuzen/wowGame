@@ -96,6 +96,14 @@ def printScore(surface):
     textRect.center = (width // 2+30, 42)
     surface.blit(text, textRect)
 
+def cardReading(surface):
+    font = pygame.font.Font(None, 72)
+
+    text = font.render("wowGame", True, gamecolor)
+    textRect = text.get_rect()
+    textRect.center = (width // 2, height // 2)
+    surface.blit(text, textRect)
+
 # GPIO pinlerini ayarla
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
@@ -138,17 +146,21 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 calismaDurumu = False
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
-
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
         
+    if calismaDurumu == False:
+        cardReading(screen)
+        
+        
     while calismaDurumu == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
     
