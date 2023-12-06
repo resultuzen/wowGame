@@ -27,9 +27,8 @@ pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORD
 frame_state = {}
 
 # Çerçeve matrisi
-frame_matrix = [[(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT) for j in range(width // LED_WIDTH)]
-                for i in range(height // LED_HEIGHT)]
-
+frame_matrix = [[pygame.Rect(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT)
+                 for j in range(width // LED_WIDTH)] for i in range(height // LED_HEIGHT)]
 
 def initialize_frame_state():
     for i in range(len(frame_matrix)):
