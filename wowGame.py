@@ -28,6 +28,31 @@ solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
+LED_COUNT = 546
+LED_PIN = board.D18
+LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
+ORDER = neopixel.GRB
+pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
+
+# Çerçeve matrisi
+frame_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
+
+def update_frame_matrix():
+    for i in range(len(frame_matrix)):
+        for j in range(len(frame_matrix[0])):
+            frame_matrix[i][j] = 1
+
+
+def light_nearest_led(x, y):
+    led_x = int(x // LED_WIDTH)
+    led_y = int(y // LED_HEIGHT)
+
+    # En yakın LED'in yanmasını sağla
+    pixels.fill((0, 0, 0))  # Tüm LED'leri kapat
+    pixels[led_y * (width // LED_WIDTH) + led_x] = (255, 255, 255)  # Belirtilen LED'i aç
+    pixels.show()
+
+
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -37,7 +62,6 @@ def ballAnimation():
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
         bounce.play()
-        light_nearest_led(ball.centerx, ball.centery)
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width/2:
@@ -148,30 +172,6 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
 
-LED_COUNT = 546
-LED_PIN = board.D18  
-LED_WIDTH = 5
-LED_HEIGHT = 5  # mm cinsinden LED boyutları
-ORDER = neopixel.GRB
-pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
-
-led_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
-
-
-def update_led_matrix(x, y):
-    led_x = int(x // LED_WIDTH)
-    led_y = int(y // LED_HEIGHT)
-    led_matrix[led_y][led_x] = 1
-
-def light_nearest_led(x, y):
-    led_x = int(x / LED_WIDTH)
-    led_y = int(y / LED_HEIGHT)
-
-    # En yakın LED'in yanmasını sağla
-    pixels.fill((0, 0, 0))  # Tüm LED'leri kapat
-    pixels[led_y * (width // LED_WIDTH) + led_x] = (255, 255, 255)  # Belirtilen LED'i aç
-    pixels.show()
-
 while True:
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
@@ -200,6 +200,12 @@ while True:
     
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
+
+        for i in range(len(frame_matrix)):
+            for j in range(len(frame_matrix[0])):
+                if frame_matrix[i][j] == 1:
+                    pygame.draw.rect(screen, gamecolor, (j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT))
+                    
         printScore(screen)
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
