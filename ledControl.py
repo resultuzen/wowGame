@@ -6,10 +6,10 @@ pixels = neopixel.NeoPixel(board.D18, 546)
 ORDER = neopixel.GRB
 
 group1_start = 0
-group1_end = 171
-group2_start = 172
-group2_end = 271
-group3_start = 272
+group1_end = 174
+group2_start = 175
+group2_end = 272
+group3_start = 273
 group3_end = 371
 group4_start = 372
 group4_end = 545
