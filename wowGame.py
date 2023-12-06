@@ -38,13 +38,17 @@ def initialize_frame_state():
 def light_nearest_led(x, y):
     led_x = int(x / LED_WIDTH)
     led_y = int(y / LED_HEIGHT)
+    
+    print("LED X:", led_x, "LED Y:", led_y)
 
     # En yakın LED'in yanmasını sağla
     if 0 <= led_x < width // LED_WIDTH and 0 <= led_y < height // LED_HEIGHT:
         # Belirtilen LED'i aç
         pixel_index = led_y * (width // LED_WIDTH) + led_x
+        print("Pixel Index:", pixel_index)
         pixels[pixel_index] = (255, 255, 255)
         pixels.show()
+
 
 sagOyuncuHiz = 10
 sagOyuncuSoftHiz = 2
