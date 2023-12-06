@@ -5,6 +5,8 @@ import pygame
 import os
 import sys
 import random
+import board
+import neopixel
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekranı ayarla
@@ -35,6 +37,7 @@ def ballAnimation():
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
         bounce.play()
+        light_nearest_led(ball.centerx, ball.centery)
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width/2:
@@ -99,7 +102,7 @@ def printScore(surface):
 def cardReading(surface):
     font = pygame.font.Font(None, 72)
 
-    text = font.render("wowGame", True, gamecolor)
+    text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
     textRect = text.get_rect()
     textRect.center = (width // 2, height // 2)
     surface.blit(text, textRect)
@@ -145,6 +148,28 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
 
+LED_COUNT = 600
+LED_PIN = board.D18  
+ORDER = neopixel.GRB
+pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
+
+led_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
+
+
+def update_led_matrix(x, y):
+    led_x = x // LED_WIDTH
+    led_y = y // LED_HEIGHT
+    led_matrix[led_y][led_x] = 1
+
+def light_nearest_led(x, y):
+    led_x = int(x / LED_WIDTH)
+    led_y = int(y / LED_HEIGHT)
+
+    # En yakın LED'in yanmasını sağla
+    pixels.fill((0, 0, 0))  # Tüm LED'leri kapat
+    pixels[led_y * (width // LED_WIDTH) + led_x] = (255, 255, 255)  # Belirtilen LED'i aç
+    pixels.show()
+
 while True:
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
@@ -152,8 +177,10 @@ while True:
         calismaDurumu = True
         
     if calismaDurumu == False:
+        screen.fill(bgcolor)
         cardReading(screen)
-        
+        pygame.display.flip()
+        clock.tick(60)        
         
     while calismaDurumu == True:
         for event in pygame.event.get():
