@@ -5,9 +5,6 @@ import pygame
 import os
 import sys
 import random
-import board
-import neopixel
-
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekranı ayarla
@@ -29,6 +26,7 @@ solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
+
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -41,8 +39,10 @@ def ballAnimation():
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width/2:
             p1score += 1
+
         else:
             p2score += 1
+
         goal.play()
         ballRestart()
         pygame.time.delay(1000)
@@ -55,6 +55,7 @@ def ballAnimation():
         ballspeedx *= -1
         hit.play()
 
+
 def ballRestart():
     global ballspeedx, ballspeedy, start
     ball.center = (width // 2, height // 2)
@@ -62,21 +63,26 @@ def ballRestart():
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
 
+
 def sagOyuncuAnimation(enkoder_value):
+
     target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
 
     if target_y > sagOyuncu.y:
         sagOyuncu.y += sagOyuncuSoftHiz 
+
     elif target_y < sagOyuncu.y:
         sagOyuncu.y -= sagOyuncuSoftHiz
-
+    
 def solOyuncuAnimation(enkoder_value):
+            
     target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
 
     if target_y > solOyuncu.y:
         solOyuncu.y += solOyuncuSoftHiz
+
     elif target_y < solOyuncu.y:
-        solOyuncu.y -= solOyuncuSoftHiz
+        solOyuncu.y -= solOyuncuSoftHiz        
 
 def printScore(surface):
     global p1score, p2score
@@ -92,6 +98,7 @@ def printScore(surface):
 
 def cardReading(surface):
     font = pygame.font.Font(None, 72)
+
     text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
     textRect = text.get_rect()
     textRect.center = (width // 2, height // 2)
@@ -136,31 +143,6 @@ sagEnkoderDegeri = 0
 
 GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-# WS2812 LED konfigürasyonu
-LED_COUNT = 546
-LED_PIN = board.D18  
-LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
-ORDER = neopixel.GRB
-pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, pixel_order=ORDER)
-
-# LED matrisi
-frame_matrix = [[pygame.Rect(x * LED_WIDTH, y * LED_HEIGHT, LED_WIDTH, LED_HEIGHT) for x in range(width // LED_WIDTH)] for y in range(height // LED_HEIGHT)]
-
-def light_nearest_led(x, y):
-    led_x = int(x // LED_WIDTH)
-    led_y = int(y // LED_HEIGHT)
-
-    if 0 <= led_x < (width // LED_WIDTH) and 0 <= led_y < (height // LED_HEIGHT):
-        pixel_index = led_y * (width // LED_WIDTH) + led_x
-        if 0 <= pixel_index < LED_COUNT:
-            pixels[pixel_index] = (255, 255, 255)
-            pixels.show()
-        else:
-            print("Geçersiz LED indeksi:", pixel_index)
-    else:
-        print("Geçersiz LED koordinatları:", led_x, led_y)
-
-
 calismaDurumu = False
 
 while True:
@@ -168,29 +150,27 @@ while True:
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
-
+        
     if calismaDurumu == False:
         screen.fill(bgcolor)
         cardReading(screen)
         pygame.display.flip()
-        clock.tick(60)
-
+        clock.tick(60)        
+        
     while calismaDurumu == True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                pixels.fill((0, 0, 0))  # Tüm LED'leri kapat
-                pixels.show()
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
-
+    
         # Oyun mantığını işle
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
         solOyuncuAnimation(solEnkoderDegeri)
-
+    
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
         printScore(screen)
@@ -198,14 +178,8 @@ while True:
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
         pygame.draw.ellipse(screen, ballcolor, ball)
-
-        # Topun çerçeveyle etkileşimi
-        for i in range(len(frame_matrix)):
-            for j in range(len(frame_matrix[i])):
-                if frame_matrix[i][j].colliderect(ball):
-                    light_nearest_led(frame_matrix[i][j].centerx, frame_matrix[i][j].centery)
-
+    
         pygame.display.flip()
         clock.tick(60)
-
+        
     time.sleep(0.1)
