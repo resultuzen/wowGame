@@ -150,6 +150,7 @@ calismaDurumu = False
 
 LED_COUNT = 600
 LED_PIN = board.D18  
+LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
 ORDER = neopixel.GRB
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
 
@@ -157,8 +158,8 @@ led_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
 
 
 def update_led_matrix(x, y):
-    led_x = x // LED_WIDTH
-    led_y = y // LED_HEIGHT
+    led_x = int(x // LED_WIDTH)
+    led_y = int(y // LED_HEIGHT)
     led_matrix[led_y][led_x] = 1
 
 def light_nearest_led(x, y):
