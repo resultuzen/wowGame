@@ -52,7 +52,15 @@ def dance_effect(duration, steps):
 def cardReading(surface):
     font = pygame.font.Font(None, 72)
 
-    text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
+    text = font.render("Doğum günü kutlamasına hazır mıyız?!", True, gamecolor)
+    textRect = text.get_rect()
+    textRect.center = (width // 2, height // 2)
+    surface.blit(text, textRect)
+
+def cardReading2(surface):
+    font = pygame.font.Font(None, 72)
+
+    text = font.render("Alles zum Geburstag meine Schkolade!", True, gamecolor)
     textRect = text.get_rect()
     textRect.center = (width // 2, height // 2)
     surface.blit(text, textRect)
@@ -70,4 +78,8 @@ while True:
         clock.tick(60)        
         
     while calismaDurumu == True:
-        dance_effect(60, 5)  # 60 saniye boyunca, her 5 adımda bir renk geçişi
+        screen.fill(bgcolor)
+        cardReading2(screen)
+        pygame.display.flip()
+        clock.tick(60)    
+        dance_effect(60, 1)  # 60 saniye boyunca, her 5 adımda bir renk geçişi
