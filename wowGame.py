@@ -7,6 +7,7 @@ import sys
 import random
 import board
 import neopixel
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekranı ayarla
@@ -32,7 +33,7 @@ LED_COUNT = 546
 LED_PIN = board.D18
 LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
 ORDER = neopixel.GRB
-pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
+pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness=0.5, auto_write=False, pixel_order=ORDER)
 
 # Çerçeve matrisi
 frame_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
@@ -197,6 +198,8 @@ while True:
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
         solOyuncuAnimation(solEnkoderDegeri)
+
+        update_frame_matrix()
     
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
@@ -205,7 +208,7 @@ while True:
             for j in range(len(frame_matrix[0])):
                 if frame_matrix[i][j] == 1:
                     pygame.draw.rect(screen, gamecolor, (j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT))
-                    
+
         printScore(screen)
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
