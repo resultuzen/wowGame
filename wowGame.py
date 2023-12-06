@@ -34,8 +34,8 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
-        print("X: ", ball.x)
-        print("Y: ", ball.y)
+        print("X: ", ball.centerx)
+        print("Y: ", ball.centery)
         time.sleep(1)
         bounce.play()
 
