@@ -178,6 +178,8 @@ while True:
     while calismaDurumu == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                pixels.fill((0, 0, 0))  # Tüm LED'leri kapat
+                pixels.show()
                 pygame.quit()
                 sys.exit()
 
