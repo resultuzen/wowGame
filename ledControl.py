@@ -31,8 +31,4 @@ def dance_effect(duration, steps):
             time.sleep(0.05)
 
 while True:
-    screen.fill(bgcolor)
-    cardReading2(screen)
-    pygame.display.flip()
-    clock.tick(60)    
-    dance_effect(60, 1)  # 60 saniye boyunca, her 5 adımda bir renk geçişi
+    dance_effect(60, 1)  # 60 saniye boyunca, her 5 adımda bir renk geçiş
