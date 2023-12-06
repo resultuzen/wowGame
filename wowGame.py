@@ -147,18 +147,19 @@ pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, pixel_order=ORDER)
 frame_matrix = [[pygame.Rect(x * LED_WIDTH, y * LED_HEIGHT, LED_WIDTH, LED_HEIGHT) for x in range(width // LED_WIDTH)] for y in range(height // LED_HEIGHT)]
 
 def light_nearest_led(x, y):
-    led_x = int(x / LED_WIDTH)
-    led_y = int(y / LED_HEIGHT)
+    led_x = int(x // LED_WIDTH)
+    led_y = int(y // LED_HEIGHT)
 
-    print("LED X:", led_x, "LED Y:", led_y)
-
-    # En yakın LED'in yanmasını sağla
-    if 0 <= led_x < width // LED_WIDTH and 0 <= led_y < height // LED_HEIGHT:
-        # Belirtilen LED'i aç
+    if 0 <= led_x < (width // LED_WIDTH) and 0 <= led_y < (height // LED_HEIGHT):
         pixel_index = led_y * (width // LED_WIDTH) + led_x
-        print("Pixel Index:", pixel_index)
-        pixels[pixel_index] = (255, 255, 255)
-        pixels.show()
+        if 0 <= pixel_index < LED_COUNT:
+            pixels[pixel_index] = (255, 255, 255)
+            pixels.show()
+        else:
+            print("Geçersiz LED indeksi:", pixel_index)
+    else:
+        print("Geçersiz LED koordinatları:", led_x, led_y)
+
 
 calismaDurumu = False
 
