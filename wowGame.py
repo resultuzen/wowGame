@@ -27,8 +27,8 @@ pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORD
 frame_state = {}
 
 # Çerçeve matrisi
-frame_matrix = [[pygame.Rect(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT)
-                 for j in range(width // LED_WIDTH)] for i in range(height // LED_HEIGHT)]
+LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
+frame_matrix = [[pygame.Rect(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT) for j in range(width // LED_WIDTH)] for i in range(height // LED_HEIGHT)]
 
 def initialize_frame_state():
     global frame_state
@@ -41,7 +41,9 @@ def light_nearest_led(x, y):
 
     # En yakın LED'in yanmasını sağla
     if 0 <= led_x < width // LED_WIDTH and 0 <= led_y < height // LED_HEIGHT:
-        pixels[led_y * (width // LED_WIDTH) + led_x] = (255, 255, 255)  # Belirtilen LED'i aç
+        # Belirtilen LED'i aç
+        pixel_index = led_y * (width // LED_WIDTH) + led_x
+        pixels[pixel_index] = (255, 255, 255)
         pixels.show()
 
 sagOyuncuHiz = 10
