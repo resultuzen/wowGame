@@ -1,7 +1,31 @@
 import time
+import RPi.GPIO as GPIO
+import pygame
+import os
+import sys
+import random
 import board
 import neopixel
-import random
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
+# Ekranı ayarla
+pygame.display.set_caption("Test")
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+width, height = screen.get_size()
+bgcolor = pygame.Color('grey12')
+gamecolor = pygame.Color('white')
+
+kartKontrolPin = 21
+
+GPIO.setmode(GPIO.BCM)
+
+pygame.init()
+clock = pygame.time.Clock()
+
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+calismaDurumu = False
+
 
 pixel_pin = board.D18
 num_pixels = 542
@@ -25,4 +49,25 @@ def dance_effect(duration, steps):
             pixels.show()
             time.sleep(0.05)
 
-dance_effect(60, 5)  # 60 saniye boyunca, her 5 adımda bir renk geçişi
+def cardReading(surface):
+    font = pygame.font.Font(None, 72)
+
+    text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
+    textRect = text.get_rect()
+    textRect.center = (width // 2, height // 2)
+    surface.blit(text, textRect)
+
+while True:
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
+
+    if kartKontrolDurumu == GPIO.LOW:
+        calismaDurumu = True
+        
+    if calismaDurumu == False:
+        screen.fill(bgcolor)
+        cardReading(screen)
+        pygame.display.flip()
+        clock.tick(60)        
+        
+    while calismaDurumu == True:
+        dance_effect(60, 5)  # 60 saniye boyunca, her 5 adımda bir renk geçişi
