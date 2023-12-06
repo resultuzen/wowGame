@@ -148,7 +148,7 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
 
-LED_COUNT = 542
+LED_COUNT = 546
 LED_PIN = board.D18  
 LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
 ORDER = neopixel.GRB
