@@ -31,9 +31,8 @@ frame_matrix = [[pygame.Rect(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGH
                  for j in range(width // LED_WIDTH)] for i in range(height // LED_HEIGHT)]
 
 def initialize_frame_state():
-    for i in range(len(frame_matrix)):
-        for j in range(len(frame_matrix[0])):
-            frame_state[(i, j)] = False
+    global frame_state
+    frame_state = {(i, j): False for i in range(len(frame_matrix)) for j in range(len(frame_matrix[0]))}
 
 
 def light_nearest_led(x, y):
@@ -208,15 +207,15 @@ while True:
                 if frame_matrix[i][j].colliderect(ball):
                     frame_state[(i, j)] = True
 
-    
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
 
+        # Çerçeve çizimi ve LED kontrolü
         for i in range(len(frame_matrix)):
             for j in range(len(frame_matrix[0])):
                 if frame_state[(i, j)]:
                     pygame.draw.rect(screen, gamecolor, frame_matrix[i][j])
-
+                    light_nearest_led(frame_matrix[i][j].centerx, frame_matrix[i][j].centery)
 
         printScore(screen)
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
