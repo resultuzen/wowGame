@@ -24,6 +24,6 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.5, auto_write=Fal
 
 while True:
     for _ in range(steps):
-            pixels.fill(pixels[0], (0, 0 , 255), steps)
+            pixels.fill(pixels[0], (0, 0 , 255))
             pixels.show()
             time.sleep(0.05)
