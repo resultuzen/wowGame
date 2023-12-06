@@ -34,6 +34,9 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
+        print("X: ", ball.x)
+        print("Y: ", ball.y)
+        time.sleep(1)
         bounce.play()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
