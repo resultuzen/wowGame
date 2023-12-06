@@ -17,31 +17,24 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-sagOyuncuHiz = 10
-sagOyuncuSoftHiz = 2
-sagOyuncuYukseklik = 140
-sagOyuncuGenislik = 20
-sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
-
-solOyuncuHiz = 10
-solOyuncuSoftHiz = 2
-solOyuncuYukseklik = 140
-solOyuncuGenislik = 20
-solHedefAraligi = (height // 2) - solOyuncuYukseklik
-
 LED_COUNT = 546
 LED_PIN = board.D18
 LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
 ORDER = neopixel.GRB
-pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness=0.5, auto_write=False, pixel_order=ORDER)
+pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
+
+# Çerçeve durumunu tutacak sözlük
+frame_state = {}
 
 # Çerçeve matrisi
-frame_matrix = [[0] * (width // LED_WIDTH) for _ in range(height // LED_HEIGHT)]
+frame_matrix = [[(j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT) for j in range(width // LED_WIDTH)]
+                for i in range(height // LED_HEIGHT)]
 
-def update_frame_matrix():
+
+def initialize_frame_state():
     for i in range(len(frame_matrix)):
         for j in range(len(frame_matrix[0])):
-            frame_matrix[i][j] = 1
+            frame_state[(i, j)] = False
 
 
 def light_nearest_led(x, y):
@@ -53,6 +46,17 @@ def light_nearest_led(x, y):
     pixels[led_y * (width // LED_WIDTH) + led_x] = (255, 255, 255)  # Belirtilen LED'i aç
     pixels.show()
 
+sagOyuncuHiz = 10
+sagOyuncuSoftHiz = 2
+sagOyuncuYukseklik = 140
+sagOyuncuGenislik = 20
+sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
+
+solOyuncuHiz = 10
+solOyuncuSoftHiz = 2
+solOyuncuYukseklik = 140
+solOyuncuGenislik = 20
+solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
 
 def ballAnimation():
@@ -199,15 +203,21 @@ while True:
         sagOyuncuAnimation(sagEnkoderDegeri)
         solOyuncuAnimation(solEnkoderDegeri)
 
-        update_frame_matrix()
+        initialize_frame_state()
+        for i in range(len(frame_matrix)):
+            for j in range(len(frame_matrix[0])):
+                if frame_matrix[i][j].colliderect(ball):
+                    frame_state[(i, j)] = True
+
     
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
 
         for i in range(len(frame_matrix)):
             for j in range(len(frame_matrix[0])):
-                if frame_matrix[i][j] == 1:
-                    pygame.draw.rect(screen, gamecolor, (j * LED_WIDTH, i * LED_HEIGHT, LED_WIDTH, LED_HEIGHT))
+                if frame_state[(i, j)]:
+                    pygame.draw.rect(screen, gamecolor, frame_matrix[i][j])
+
 
         printScore(screen)
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
