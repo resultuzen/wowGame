@@ -150,7 +150,8 @@ calismaDurumu = False
 
 LED_COUNT = 546
 LED_PIN = board.D18  
-LED_WIDTH, LED_HEIGHT = 5, 5  # mm cinsinden LED boyutları
+LED_WIDTH = 5
+LED_HEIGHT = 5  # mm cinsinden LED boyutları
 ORDER = neopixel.GRB
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False, pixel_order=ORDER)
 
