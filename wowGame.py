@@ -20,7 +20,7 @@ pixels.show()
 
 # Ekranı ayarla
 pygame.display.set_caption("Test")
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
@@ -41,7 +41,7 @@ ustLEDSayisi = 174 #Adet
 ustLEDBaslangic = 0 #.indis
 
 altLEDSayisi = 174 #Adet
-altLEDBaslangic = 273 #.indis
+altLEDBaslangic = 447 #.indis
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -50,7 +50,7 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
-        time.sleep(1)
+        time.sleep(0.5)
         bounce.play()
 
         if ball.bottom >= height: #Üst LED'lerin Kontrolleri
@@ -59,7 +59,7 @@ def ballAnimation():
             pixels[ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
@@ -67,12 +67,12 @@ def ballAnimation():
         if ball.top <= 0: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            pixels[447 - (ledNo + altLEDBaslangic)] = (0, 255, 0)
+            pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
-            pixels[447 - (ledNo + altLEDBaslangic)] = (0, 0, 0)
+            pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
             pixels.show()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
