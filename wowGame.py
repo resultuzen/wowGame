@@ -56,10 +56,10 @@ def ballAnimation():
         if ball.bottom >= height: #Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
-            pixels[ledNo] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            pixels[ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(1)
+            time.sleep(0.1)
 
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
@@ -67,12 +67,12 @@ def ballAnimation():
         if ball.top <= 0: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            pixels[ledNo] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            pixels[ledNo + altLEDBaslangic] = (0, 0, 255)
             pixels.show()
 
-            time.sleep(1)
+            time.sleep(0.1)
 
-            pixels[ledNo] = (0, 0, 0)
+            pixels[ledNo+ altLEDBaslangic] = (0, 0, 0)
             pixels.show()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
