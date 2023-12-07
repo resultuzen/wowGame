@@ -53,7 +53,7 @@ def ballAnimation():
         time.sleep(0.5)
         bounce.play()
 
-        if ball.bottom >= height: #Üst LED'lerin Kontrolleri
+        if ball.top <= 0: #Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
             pixels[ledNo] = (0, 255, 0)
@@ -64,7 +64,7 @@ def ballAnimation():
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
 
-        if ball.top <= 0: #Alt LED'lerin Kontrolleri
+        if ball.bottom >= height: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
             pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
