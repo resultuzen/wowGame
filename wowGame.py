@@ -67,12 +67,12 @@ def ballAnimation():
         if ball.top <= 0: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            pixels[ledNo + altLEDBaslangic] = (0, 0, 255)
+            pixels[447 - (ledNo + altLEDBaslangic)] = (0, 255, 0)
             pixels.show()
 
             time.sleep(0.1)
 
-            pixels[ledNo+ altLEDBaslangic] = (0, 0, 0)
+            pixels[447 - (ledNo + altLEDBaslangic)] = (0, 0, 0)
             pixels.show()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
