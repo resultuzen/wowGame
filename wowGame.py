@@ -5,7 +5,18 @@ import pygame
 import os
 import sys
 import random
+import board
+import neopixel
+import time
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
+ledPin = board.D18
+ledCount = 447
+pixels = neopixel.NeoPixel(ledPin, ledCount, brightness=1, auto_write=False)
+ORDER = neopixel.GRB
+
+pixels.fill((0, 0, 0))
+pixels.show()
 
 # Ekranı ayarla
 pygame.display.set_caption("Test")
@@ -26,6 +37,11 @@ solOyuncuYukseklik = 140
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
+ustLEDSayisi = 174 #Adet
+ustLEDBaslangic = 0 #.indis
+
+altLEDSayisi = 174 #Adet
+altLEDBaslangic = 273 #.indis
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -34,10 +50,30 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
-        print("X: ", ball.centerx)
-        print("Y: ", ball.centery)
         time.sleep(1)
         bounce.play()
+
+        if ball.bottom >= height: #Üst LED'lerin Kontrolleri
+            ledNo = round(ball.centerx / (width / ustLEDSayisi))
+
+            pixels[ledNo] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            pixels.show()
+
+            time.sleep(1)
+
+            pixels[ledNo] = (0, 0, 0)
+            pixels.show()
+
+        if ball.top <= 0: #Alt LED'lerin Kontrolleri
+            ledNo = round(ball.centerx / (width / altLEDSayisi))
+
+            pixels[ledNo] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            pixels.show()
+
+            time.sleep(1)
+
+            pixels[ledNo] = (0, 0, 0)
+            pixels.show()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width/2:
