@@ -22,12 +22,8 @@ sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-while True:     
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
-
+while True:    
+    
     if not(sagOyuncu.top <= 0) or not(sagOyuncu.bottom >= height):
         sagEnkoderDegeri = sagEncoder.getValue()
 
