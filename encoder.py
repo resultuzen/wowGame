@@ -1,241 +1,67 @@
-import time
-from encoder import Encoder
+# Class to monitor a rotary encoder and update a value.  You can either read the value when you need it, by calling getValue(), or
+# you can configure a callback which will be called whenever the value changes.
+
 import RPi.GPIO as GPIO
-import pygame
-import os
-import sys
-import random
-import board
-import neopixel
-import time
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-ledPin = board.D18
-ledCount = 447
-pixels = neopixel.NeoPixel(ledPin, ledCount, brightness=1, auto_write=False)
-ORDER = neopixel.GRB
+class Encoder:
 
-pixels.fill((0, 0, 0))
-pixels.show()
+    def __init__(self, leftPin, rightPin, callback=None):
+        self.leftPin = leftPin
+        self.rightPin = rightPin
+        self.value = 0
+        self.state = '00'
+        self.direction = None
+        self.callback = callback
+        GPIO.setup(self.leftPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)  
+        GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)  
 
-# Ekranı ayarla
-pygame.display.set_caption("Test")
-screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
-width, height = screen.get_size()
-bgcolor = pygame.Color('grey12')
-gamecolor = pygame.Color('white')
+    def transitionOccurred(self, channel):
+        p1 = GPIO.input(self.leftPin)
+        p2 = GPIO.input(self.rightPin)
+        newState = "{}{}".format(p1, p2)
 
-sagOyuncuHiz = 10
-sagOyuncuSoftHiz = 2
-sagOyuncuYukseklik = 140
-sagOyuncuGenislik = 20
-sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
+        if self.state == "00": # Resting position
+            if newState == "01": # Turned right 1
+                self.direction = "R"
+            elif newState == "10": # Turned left 1
+                self.direction = "L"
 
-solOyuncuHiz = 10
-solOyuncuSoftHiz = 2
-solOyuncuYukseklik = 140
-solOyuncuGenislik = 20
-solHedefAraligi = (height // 2) - solOyuncuYukseklik
+        elif self.state == "01": # R1 or L3 position
+            if newState == "11": # Turned right 1
+                self.direction = "R"
+            elif newState == "00": # Turned left 1
+                if self.direction == "L":
+                    self.value = self.value - 1
+                    if self.callback is not None:
+                        self.callback(self.value, self.direction)
 
-ustLEDSayisi = 174 #Adet
-ustLEDBaslangic = 0 #.indis
+        elif self.state == "10": # R3 or L1
+            if newState == "11": # Turned left 1
+                self.direction = "L"
+            elif newState == "00": # Turned right 1
+                if self.direction == "R":
+                    self.value = self.value + 1
+                    if self.callback is not None:
+                        self.callback(self.value, self.direction)
 
-altLEDSayisi = 174 #Adet
-altLEDBaslangic = 447 #.indis
+        else: # self.state == "11"
+            if newState == "01": # Turned left 1
+                self.direction = "L"
+            elif newState == "10": # Turned right 1
+                self.direction = "R"
+            elif newState == "00": # Skipped an intermediate 01 or 10 state, but if we know direction then a turn is complete
+                if self.direction == "L":
+                    self.value = self.value - 1
+                    if self.callback is not None:
+                        self.callback(self.value, self.direction)
+                elif self.direction == "R":
+                    self.value = self.value + 1
+                    if self.callback is not None:
+                        self.callback(self.value, self.direction)
 
-def ballAnimation():
-    global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
-    ball.x += ballspeedx
-    ball.y += ballspeedy
+        self.state = newState
 
-    if ball.top <= 0 or ball.bottom >= height:
-        ballspeedy *= -1
-        bounce.play()
-
-        if ball.top <= 0: #Üst LED'lerin Kontrolleri
-            ledNo = round(ball.centerx / (width / ustLEDSayisi))
-
-            pixels[ledNo] = (0, 255, 0)
-            pixels.show()
-
-            time.sleep(0.025)
-
-            pixels[ledNo] = (0, 0, 0)
-            pixels.show()
-
-        if ball.bottom >= height: #Alt LED'lerin Kontrolleri
-            ledNo = round(ball.centerx / (width / altLEDSayisi))
-
-            pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
-            pixels.show()
-
-            time.sleep(0.025)
-
-            pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
-            pixels.show()
-
-    if ball.centerx <= 15 or ball.centerx >= width - 15:
-        if ball.centerx < width/2:
-            p1score += 1
-
-        else:
-            p2score += 1
-
-        goal.play()
-        ballRestart()
-        pygame.time.delay(500)
-
-    if ball.colliderect(sagOyuncu):
-        ballspeedx *= -1
-        hit.play()
-
-    if ball.colliderect(solOyuncu):
-        ballspeedx *= -1
-        hit.play()
-
-
-def ballRestart():
-    global ballspeedx, ballspeedy, start
-    ball.center = (width // 2, height // 2)
-    start.play()
-    ballspeedx = 7 * random.choice((1, -1))
-    ballspeedy = 7 * random.choice((1, -1))
-
-
-def sagOyuncuAnimation(enkoder_value):
-
-    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
-
-    if target_y > sagOyuncu.y:
-        sagOyuncu.y += sagOyuncuSoftHiz 
-
-    elif target_y < sagOyuncu.y:
-        sagOyuncu.y -= sagOyuncuSoftHiz
-    
-def solOyuncuAnimation(enkoder_value):
-            
-    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
-
-    if target_y > solOyuncu.y:
-        solOyuncu.y += solOyuncuSoftHiz
-
-    elif target_y < solOyuncu.y:
-        solOyuncu.y -= solOyuncuSoftHiz        
-
-def printScore(surface):
-    global p1score, p2score
-    font = pygame.font.Font(None, 72)
-    text = font.render(str(p2score), True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2-30, 42)
-    surface.blit(text, textRect)
-    text = font.render(str(p1score), True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2+30, 42)
-    surface.blit(text, textRect)
-
-def cardReading(surface):
-    font = pygame.font.Font(None, 72)
-
-    text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2, height // 2)
-    surface.blit(text, textRect)
-
-# GPIO pinlerini ayarla
-solEnkoderDataPin = 19
-solEnkoderClockPin = 13
-sagEnkoderDataPin = 6
-sagEnkoderClockPin = 5
-
-kartKontrolPin = 21
-
-GPIO.setmode(GPIO.BCM)
-
-solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
-sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
-
-pygame.init()
-clock = pygame.time.Clock()
-
-# Ses dosyaları
-hit = pygame.mixer.Sound('hit.ogg')
-bounce = pygame.mixer.Sound('bounce.ogg')
-goal = pygame.mixer.Sound('goal.ogg')
-start = pygame.mixer.Sound('start.ogg')
-
-ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
-ballcolor = pygame.Color('white')
-ballspeedx = ballspeedy = 0
-ballRestart()
-
-sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
-solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
-
-p1score = 0
-p2score = 0
-
-# Enkoderlerin değerlerini tutmak için değişkenler
-solEnkoderDegeri = 0
-sagEnkoderDegeri = 0
-
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-calismaDurumu = False
-
-while True:
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
-
-    if kartKontrolDurumu == GPIO.LOW:
-        calismaDurumu = True
-        
-    if calismaDurumu == False:
-        screen.fill(bgcolor)
-        cardReading(screen)
-        pygame.display.flip()
-        clock.tick(60)        
-        
-    while calismaDurumu == True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
-
-        if (sagOyuncu.bottom >= 935):
-            sagEnkoderDegeri = -45
-
-        if (sagOyuncu.top <= 5):
-            sagEnkoderDegeri = 45
-
-        if not(sagOyuncu.bottom >= 935) and not(sagOyuncu.top <= 0):
-            sagEnkoderDegeri = sagEncoder.getValue()
-
-        if (solOyuncu.bottom >= 935):
-            solEnkoderDegeri = -45
-
-        if (solOyuncu.top <= 5):
-            solEnkoderDegeri = 45
-
-        if not(solOyuncu.bottom >= 935) and not(solOyuncu.top <= 5):
-            solEnkoderDegeri = solEncoder.getValue()
-
-        #print("Sag oyuncu bottom:", sagOyuncu.bottom, " Sag oyuncu top: ", sagOyuncu.top)
-        #print("Sol oyuncu bottom:", solOyuncu.bottom, " Sol oyuncu top:", solOyuncu.top)
-
-        print("Sol Encoder:", solEnkoderDegeri)
-        print("Sağ Encoder:", sagEnkoderDegeri)
-        # Oyun mantığını işle
-        ballAnimation()
-        sagOyuncuAnimation(sagEnkoderDegeri)
-        solOyuncuAnimation(solEnkoderDegeri)
-    
-        # Ekranı temizle ve çizimleri yap
-        screen.fill(bgcolor)
-        printScore(screen)
-        pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
-        pygame.draw.rect(screen, gamecolor, sagOyuncu)
-        pygame.draw.rect(screen, gamecolor, solOyuncu)
-        pygame.draw.ellipse(screen, ballcolor, ball)
-    
-        pygame.display.flip()
-        clock.tick(60)
+    def getValue(self):
+        return self.value
