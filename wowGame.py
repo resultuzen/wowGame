@@ -201,28 +201,23 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-        if not(sagOyuncu.top <= 0) or not(sagOyuncu.bottom >= height):
+        if (sagOyuncu.bottom <= 0):
+            sagEnkoderDegeri = -45
+
+        if (sagOyuncu.top >= height):
+            sagEnkoderDegeri = 45
+
+        if (sagOyuncu.bottom <= 0 and sagOyuncu.top >= height):
             sagEnkoderDegeri = sagEncoder.getValue()
-            print("Sag:", sagEnkoderDegeri)
-            
-        if sagOyuncu.top <= 0:
-            sagEnkoderDegeri = 45 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
-        if sagOyuncu.bottom >= height:
-            sagEnkoderDegeri = -45 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+        if (solOyuncu.bottom <= 0):
+            solEnkoderDegeri = -45
 
-        if not(solOyuncu.top <= 0) or not(solOyuncu.bottom >= height):
+        if (solOyuncu.top >= height):
+            solEnkoderDegeri = 45
+
+        if (solOyuncu.bottom <= 0 and solOyuncu.top >= height):
             solEnkoderDegeri = solEncoder.getValue()
-            print("Sol:", solEnkoderDegeri)
-
-        if solOyuncu.top <= 0:
-            solEnkoderDegeri = 45 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
-
-        if solOyuncu.bottom >= height:
-            solEnkoderDegeri = -45 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
-
-        #sagEnkoderDegeri = sagEncoder.getValue()
-        #solEnkoderDegeri = solEncoder.getValue()
     
         # Oyun mantığını işle
         ballAnimation()
