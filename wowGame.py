@@ -50,7 +50,6 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
-        time.sleep(0.5)
         bounce.play()
 
         if ball.top <= 0: #Üst LED'lerin Kontrolleri
