@@ -1,81 +1,54 @@
-# Class to monitor a rotary encoder and update a value.  You can either read the value when you need it, by calling getValue(), or
-# you can configure a callback which will be called whenever the value changes.
-
 import RPi.GPIO as GPIO
+from time import sleep
 
-class Encoder:
+counter = 10
 
-    def __init__(self, leftPin, rightPin, callback=None):
-        self.leftPin = leftPin
-        self.rightPin = rightPin
-        self.value = 0
-        self.state = '00'
-        self.direction = None
-        self.callback = callback
-        GPIO.setup(self.leftPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)  
-        GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)  
+Enc_A = 17  
+Enc_B = 27  
 
-    def transitionOccurred(self, channel):
-        p1 = GPIO.input(self.leftPin)
-        p2 = GPIO.input(self.rightPin)
-        newState = "{}{}".format(p1, p2)
 
-        if self.state == "00": # Resting position
-            if newState == "01": # Turned right 1
-                self.direction = "R"
-            elif newState == "10": # Turned left 1
-                self.direction = "L"
+def init():
+    print "Rotary Encoder Test Program"
+    GPIO.setwarnings(True)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(Enc_A, GPIO.IN)
+    GPIO.setup(Enc_B, GPIO.IN)
+    GPIO.add_event_detect(Enc_A, GPIO.RISING, callback=rotation_decode, bouncetime=10)
+    return
 
-        elif self.state == "01": # R1 or L3 position
-            if newState == "11": # Turned right 1
-                self.direction = "R"
-            elif newState == "00": # Turned left 1
-                if self.direction == "L":
-                    self.value = self.value - 1
-                    if self.callback is not None:
-                        self.callback(self.value, self.direction)
 
-        elif self.state == "10": # R3 or L1
-            if newState == "11": # Turned left 1
-                self.direction = "L"
-            elif newState == "00": # Turned right 1
-                if self.direction == "R":
-                    self.value = self.value + 1
-                    if self.callback is not None:
-                        self.callback(self.value, self.direction)
+def rotation_decode(Enc_A):
+    global counter
+    sleep(0.002)
+    Switch_A = GPIO.input(Enc_A)
+    Switch_B = GPIO.input(Enc_B)
 
-        else: # self.state == "11"
-            if newState == "01": # Turned left 1
-                self.direction = "L"
-            elif newState == "10": # Turned right 1
-                self.direction = "R"
-            elif newState == "00": # Skipped an intermediate 01 or 10 state, but if we know direction then a turn is complete
-                if self.direction == "L":
-                    self.value = self.value - 1
-                    if self.callback is not None:
-                        self.callback(self.value, self.direction)
-                elif self.direction == "R":
-                    self.value = self.value + 1
-                    if self.callback is not None:
-                        self.callback(self.value, self.direction)
-                
-        self.state = newState
+    if (Switch_A == 1) and (Switch_B == 0):
+        counter += 1
+        print "direction -> ", counter
+        while Switch_B == 0:
+            Switch_B = GPIO.input(Enc_B)
+        while Switch_B == 1:
+            Switch_B = GPIO.input(Enc_B)
+        return
 
-    def getValue(self):
-        return self.value
+    elif (Switch_A == 1) and (Switch_B == 1):
+        counter -= 1
+        print "direction <- ", counter
+        while Switch_A == 1:
+            Switch_A = GPIO.input(Enc_A)
+        return
+    else:
+        return
 
-GPIO.setmode(GPIO.BCM)
+def main():
+    try:
+        init()
+        while True :
+            sleep(1)
 
-solEnkoderDataPin = 19
-solEnkoderClockPin = 13
-sagEnkoderDataPin = 6
-sagEnkoderClockPin = 5
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
-solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
-sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
-
-while True:
-    print("Sağ:",sagEncoder.getValue())
-    print("Sol:",solEncoder.getValue())
+if __name__ == '__main__':
+    main()
