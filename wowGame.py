@@ -222,8 +222,6 @@ while True:
         print("Sag oyuncu bottom:", sagOyuncu.bottom, " Sag oyuncu top: ", sagOyuncu.top)
         print("Sol oyuncu bottom:", solOyuncu.bottom, " Sol oyuncu top:", solOyuncu.top)
 
-        time.sleep(0.5)
-
         # Oyun mantığını işle
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
