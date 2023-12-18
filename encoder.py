@@ -1,6 +1,3 @@
-# Class to monitor a rotary encoder and update a value.  You can either read the value when you need it, by calling getValue(), or
-# you can configure a callback which will be called whenever the value changes.
-
 import RPi.GPIO as GPIO
 
 class Encoder:
@@ -16,6 +13,8 @@ class Encoder:
         GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)  
         GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)  
+        self.min_value = -45
+        self.max_value = 45
 
     def transitionOccurred(self, channel):
         p1 = GPIO.input(self.leftPin)
@@ -60,6 +59,18 @@ class Encoder:
                     self.value = self.value + 1
                     if self.callback is not None:
                         self.callback(self.value, self.direction)
+
+        # En düşük değeri kontrol et
+        if self.value < self.min_value and self.direction == "L":
+            self.value = self.min_value
+            if self.callback is not None:
+                self.callback(self.value, self.direction)
+
+        # En yüksek değeri kontrol et
+        elif self.value > self.max_value and self.direction == "R":
+            self.value = self.max_value
+            if self.callback is not None:
+                self.callback(self.value, self.direction)
 
         self.state = newState
 
