@@ -206,19 +206,19 @@ while True:
             sagEnkoderDegeri = sagEncoder.getValue()
 
         if sagOyuncu.top <= 0:
-            sagEnkoderDegeri = -25 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            sagEnkoderDegeri = -15 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if sagOyuncu.bottom >= height:
-            sagEnkoderDegeri = 25 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            sagEnkoderDegeri = 15 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if not(solOyuncu.top <= 0) or not(solOyuncu.bottom >= height):
             solEnkoderDegeri = solEncoder.getValue()
 
         if solOyuncu.top <= 0:
-            solEnkoderDegeri = -25 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            solEnkoderDegeri = -15 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if solOyuncu.bottom >= height:
-            solEnkoderDegeri = 25 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            solEnkoderDegeri = 15 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         #sagEnkoderDegeri = sagEncoder.getValue()
         #solEnkoderDegeri = solEncoder.getValue()
