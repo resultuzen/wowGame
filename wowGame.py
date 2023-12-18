@@ -58,7 +58,7 @@ def ballAnimation():
             pixels[ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.05)
+            time.sleep(0.5)
 
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
@@ -69,7 +69,7 @@ def ballAnimation():
             pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.05)
+            time.sleep(0.5)
 
             pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
             pixels.show()
@@ -83,7 +83,7 @@ def ballAnimation():
 
         goal.play()
         ballRestart()
-        pygame.time.delay(100)
+        pygame.time.delay(500)
 
     if ball.colliderect(sagOyuncu):
         ballspeedx *= -1
@@ -203,18 +203,20 @@ while True:
 
         if not(sagOyuncu.top <= 0) or not(sagOyuncu.bottom >= height):
             sagEnkoderDegeri = sagEncoder.getValue()
+            print("Sag:", sagEnkoderDegeri)
 
         if sagOyuncu.top <= 0:
-            sagEnkoderDegeri = -25 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            sagEnkoderDegeri = -40 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if sagOyuncu.bottom >= height:
             sagEnkoderDegeri = 40 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if not(solOyuncu.top <= 0) or not(solOyuncu.bottom >= height):
             solEnkoderDegeri = solEncoder.getValue()
+            print("Sol:", solEnkoderDegeri)
 
         if solOyuncu.top <= 0:
-            solEnkoderDegeri = -25 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            solEnkoderDegeri = -40 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if solOyuncu.bottom >= height:
             solEnkoderDegeri = 40 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
