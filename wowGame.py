@@ -219,12 +219,9 @@ while True:
         if (solOyuncu.bottom <= 0 and solOyuncu.top >= height):
             solEnkoderDegeri = solEncoder.getValue()
 
-        print("Sag oyuncu bottom:", sagOyuncu.bottom)
-        print("Sag oyuncu top:", sagOyuncu.top)
-
-        print("Sol oyuncu bottom:", solOyuncu.bottom)
-        print("Sol oyuncu top:", solOyuncu.top)
-    
+        print("Sag oyuncu bottom: ", sagOyuncu.bottom, " Sol oyuncu top: ", sagOyuncu.top)
+        print("Sol oyuncu bottom:", solOyuncu.bottom, " Sol oyuncu top:", solOyuncu.top)
+        
         # Oyun mantığını işle
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
