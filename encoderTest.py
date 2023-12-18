@@ -66,6 +66,8 @@ class Encoder:
     def getValue(self):
         return self.value
 
+GPIO.setmode(GPIO.BCM)
+
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
 sagEnkoderDataPin = 6
