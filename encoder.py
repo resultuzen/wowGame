@@ -13,8 +13,8 @@ class Encoder:
         GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)  
         GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)  
-        self.min_value = -47
-        self.max_value = 47
+        self.min_value = -45
+        self.max_value = 45
 
     def transitionOccurred(self, channel):
         p1 = GPIO.input(self.leftPin)
