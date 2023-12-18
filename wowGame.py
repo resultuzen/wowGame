@@ -58,7 +58,7 @@ def ballAnimation():
             pixels[ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
@@ -69,7 +69,7 @@ def ballAnimation():
             pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
             pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
             pixels.show()
