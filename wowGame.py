@@ -58,7 +58,7 @@ def ballAnimation():
             pixels[ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.05)
+            time.sleep(0.025)
 
             pixels[ledNo] = (0, 0, 0)
             pixels.show()
@@ -69,7 +69,7 @@ def ballAnimation():
             pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
             pixels.show()
 
-            time.sleep(0.05)
+            time.sleep(0.025)
 
             pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
             pixels.show()
@@ -218,6 +218,12 @@ while True:
 
         if (solOyuncu.bottom <= 0 and solOyuncu.top >= height):
             solEnkoderDegeri = solEncoder.getValue()
+
+        print("Sag oyuncu bottom:", sagOyuncu.bottom)
+        print("Sag oyuncu top:", sagOyuncu.top)
+
+        print("Sol oyuncu bottom:", solOyuncu.bottom)
+        print("Sol oyuncu top:", solOyuncu.top)
     
         # Oyun mantığını işle
         ballAnimation()
