@@ -208,7 +208,7 @@ while True:
         if sagOyuncu.top <= 0:
             sagEnkoderDegeri = -15 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
-        if sagOyuncu.bottom >= height:
+        if sagOyuncu.bottom >= 850:
             sagEnkoderDegeri = 15 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if not(solOyuncu.top <= 0) or not(solOyuncu.bottom >= height):
@@ -217,7 +217,7 @@ while True:
         if solOyuncu.top <= 0:
             solEnkoderDegeri = -15 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
-        if solOyuncu.bottom >= height:
+        if solOyuncu.bottom >= 850:
             solEnkoderDegeri = 15 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         #sagEnkoderDegeri = sagEncoder.getValue()
