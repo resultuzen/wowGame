@@ -50,6 +50,7 @@ def ballAnimation():
 
     if ball.top <= 0 or ball.bottom >= height:
         ballspeedy *= -1
+        time.sleep(0.5)
         bounce.play()
 
         if ball.top <= 0: #Üst LED'lerin Kontrolleri
@@ -203,23 +204,20 @@ while True:
 
         if not(sagOyuncu.top <= 0) or not(sagOyuncu.bottom >= height):
             sagEnkoderDegeri = sagEncoder.getValue()
-            print("Sag:", sagEnkoderDegeri)
-
         if sagOyuncu.top <= 0:
-            sagEnkoderDegeri = -40 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            sagEnkoderDegeri = 47 #Sağ enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if sagOyuncu.bottom >= height:
-            sagEnkoderDegeri = 40 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            sagEnkoderDegeri = -47 #Sağ enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if not(solOyuncu.top <= 0) or not(solOyuncu.bottom >= height):
             solEnkoderDegeri = solEncoder.getValue()
-            print("Sol:", solEnkoderDegeri)
 
         if solOyuncu.top <= 0:
-            solEnkoderDegeri = -40 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            solEnkoderDegeri = 47 #Sol enkoderin minumum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         if solOyuncu.bottom >= height:
-            solEnkoderDegeri = 40 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
+            solEnkoderDegeri = -47 #Sol enkoderin maksimum değeri öğrenilecek, hatta hesaplama yaptırılırsa daha iyi olur!
 
         #sagEnkoderDegeri = sagEncoder.getValue()
         #solEnkoderDegeri = solEncoder.getValue()
