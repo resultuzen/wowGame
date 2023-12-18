@@ -222,8 +222,8 @@ while True:
         #print("Sag oyuncu bottom:", sagOyuncu.bottom, " Sag oyuncu top: ", sagOyuncu.top)
         #print("Sol oyuncu bottom:", solOyuncu.bottom, " Sol oyuncu top:", solOyuncu.top)
 
-        print("Sol Encoder:", solEncoderDegeri)
-        print("Sağ Encoder:", sagEncoderDegeri)
+        print("Sol Encoder:", solEnkoderDegeri)
+        print("Sağ Encoder:", sagEnkoderDegeri)
         # Oyun mantığını işle
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
