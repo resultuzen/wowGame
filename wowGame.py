@@ -201,14 +201,9 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
 
-        #print("Sag oyuncu bottom:", sagOyuncu.bottom, " Sag oyuncu top: ", sagOyuncu.top)
-        #print("Sol oyuncu bottom:", solOyuncu.bottom, " Sol oyuncu top:", solOyuncu.top)
-
-        print("Sol Encoder:", solEnkoderDegeri, " Sağ Encoder:", sagEnkoderDegeri)
         # Oyun mantığını işle
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
