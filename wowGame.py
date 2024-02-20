@@ -8,15 +8,26 @@ import random
 import board
 import neopixel
 import time
+from pyvidplayer import Video
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 ledPin = board.D18
-ledCount = 447
+ledCount = 546 #Önceki sayı 447 idi.
 pixels = neopixel.NeoPixel(ledPin, ledCount, brightness=1, auto_write=False)
 ORDER = neopixel.GRB
 
 pixels.fill((0, 0, 0))
 pixels.show()
+
+group1_start = 0
+group1_end = 174
+group2_start = 175
+group2_end = 272
+group3_start = 273
+group3_end = 447
+group4_start = 448
+group4_end = 545
 
 # Ekranı ayarla
 pygame.display.set_caption("Test")
@@ -25,15 +36,15 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-sagOyuncuHiz = 10
-sagOyuncuSoftHiz = 2
-sagOyuncuYukseklik = 140
+sagOyuncuHiz = 49
+sagOyuncuSoftHiz = 7
+sagOyuncuYukseklik = 90
 sagOyuncuGenislik = 20
 sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
-solOyuncuHiz = 10
-solOyuncuSoftHiz = 2
-solOyuncuYukseklik = 140
+solOyuncuHiz = 49
+solOyuncuSoftHiz = 7
+solOyuncuYukseklik = 90
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
@@ -42,6 +53,9 @@ ustLEDBaslangic = 0 #.indis
 
 altLEDSayisi = 174 #Adet
 altLEDBaslangic = 447 #.indis
+
+vid = Video("intro.mp4") #intro.mp4 diye bir video yok, bunu eklemek gerekiyor.
+vid.set_size((1920, 1080)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -55,31 +69,41 @@ def ballAnimation():
         if ball.top <= 0: #Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
-            pixels[ledNo] = (0, 255, 0)
-            pixels.show()
+            for i range (5):
+                pixels[ledNo + i] = (255, 255, 255)
+                pixels[ledNo - i] = (255, 255, 255)
+                pixels.show()
 
             time.sleep(0.025)
 
-            pixels[ledNo] = (0, 0, 0)
-            pixels.show()
+            for i range reversed((5)):
+                pixels[ledNo + i] = (0, 0, 0)
+                pixels[ledNo - i] = (0, 0, 0)
+                pixels.show()
 
         if ball.bottom >= height: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            pixels[altLEDBaslangic - ledNo] = (0, 255, 0)
-            pixels.show()
+            for i range (5):
+                pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
+                pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
+                pixels.show()
 
             time.sleep(0.025)
 
-            pixels[altLEDBaslangic - ledNo] = (0, 0, 0)
-            pixels.show()
+            for i range reversed((5)):
+                pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
+                pixels[altLEDBaslangic - ledNo - i] = (0, 0, 0)
+                pixels.show()
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
-        if ball.centerx < width/2:
+        if ball.centerx < width / 2:
             p1score += 1
+            goalAnimation(1)
 
         else:
             p2score += 1
+            goalAnimation(2)
 
         goal.play()
         ballRestart()
@@ -134,14 +158,90 @@ def printScore(surface):
     textRect.center = (width // 2+30, 42)
     surface.blit(text, textRect)
 
-def cardReading(surface):
-    font = pygame.font.Font(None, 72)
+def introLedAnimation():
 
-    text = font.render("Kartı okutun ve bi' oyun görün!", True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2, height // 2)
-    surface.blit(text, textRect)
+    pixels.fill((255, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
 
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 255, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 255))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((255, 255, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 255, 255))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((255, 0, 255))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+def goalAnimation(teamSelect):
+
+    if teamSelect == 1: #Sol Taraf
+
+        for dongu in range (1, 4):
+
+            for i in range(group1_start, group1_start + 1):
+                pixels[i] = (255, 255, 255)
+
+            pixels.show()
+            time.sleep(0.1)
+
+            for i in range(group1_start, group1_start + 1):
+                pixels[i] = (0, 0, 0)
+
+            pixels.show()
+            time.sleep(0.1)
+
+    if teamSelect == 2: #Sağ Taraf
+
+        for dongu in range (1, 4):
+
+            for i in range(group3_start, group3_end + 1):
+                pixels[i] = (255, 255, 255)
+
+            pixels.show()
+            time.sleep(0.1)
+
+            for i in range(group3_start, group3_end + 1):
+                pixels[i] = (0, 0, 0)
+
+            pixels.show()
+            time.sleep(0.1)
+        
 # GPIO pinlerini ayarla
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
@@ -188,12 +288,13 @@ while True:
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
+        vid.close()
         
     if calismaDurumu == False:
-        screen.fill(bgcolor)
-        cardReading(screen)
-        pygame.display.flip()
-        clock.tick(60)        
+        vid.draw(screen, (0, 0)) #Bunun yerine vid.restart() fonksiyonu da kullanılabilir.
+        pygame.display.update()
+        introLedAnimation()
+        #clock.tick(60)
         
     while calismaDurumu == True:
         for event in pygame.event.get():
