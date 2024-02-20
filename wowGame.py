@@ -99,11 +99,11 @@ def ballAnimation():
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width / 2:
             p1score += 1
-            goalAnimation(1)
+            goalAnimation(1) #Eğer karşı bölgedeki LED'ler yanıyorsa buradaki rakam 2 olmalı.
 
         else:
             p2score += 1
-            goalAnimation(2)
+            goalAnimation(2) #Eğer karşı bölgedeki LED'ler yanıyorsa buradaki rakam 1 olmalı.
 
         goal.play()
         ballRestart()
