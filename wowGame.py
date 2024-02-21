@@ -221,8 +221,8 @@ def goalAnimation(teamSelect):
             for i in range(group4_start, group4_end + 1):
                 pixels[i] = (255, 255, 255)
 
-            for i in range(group5_start, group5_end + 1):
-                pixels[i] = (255, 255, 255)
+            for y in range(group5_start, group5_end + 1):
+                pixels[y] = (255, 255, 255)
 
             pixels.show()
             time.sleep(0.1)
@@ -230,8 +230,8 @@ def goalAnimation(teamSelect):
             for i in range(group4_start, group4_end + 1):
                 pixels[i] = (0, 0, 0)
 
-            for i in range(group5_start, group5_end + 1):
-                pixels[i] = (0, 0, 0)
+            for y in range(group5_start, group5_end + 1):
+                pixels[y] = (0, 0, 0)
 
             pixels.show()
             time.sleep(0.1)
@@ -243,8 +243,8 @@ def goalAnimation(teamSelect):
             for i in range(group2_start, group2_end + 1):
                 pixels[i] = (255, 255, 255)
 
-            for i in range(group6_start, group6_end + 1):
-                pixels[i] = (255, 255, 255)
+            for y in range(group6_start, group6_end + 1):
+                pixels[y] = (255, 255, 255)
 
             pixels.show()
             time.sleep(0.1)
@@ -252,8 +252,8 @@ def goalAnimation(teamSelect):
             for i in range(group2_start, group2_end + 1):
                 pixels[i] = (0, 0, 0)
 
-            for i in range(group6_start, group6_end + 1):
-                pixels[i] = (0, 0, 0)
+            for y in range(group6_start, group6_end + 1):
+                pixels[y] = (0, 0, 0)
 
             pixels.show()
             time.sleep(0.1)
