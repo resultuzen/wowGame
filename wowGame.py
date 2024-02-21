@@ -55,7 +55,7 @@ altLEDSayisi = 174 #Adet
 altLEDBaslangic = 447 #.indis
 
 vid = Video("intro.mp4") #intro.mp4 diye bir video yok, bunu eklemek gerekiyor.
-vid.set_size((1920, 1080)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
+vid.set_size((1280, 720)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
