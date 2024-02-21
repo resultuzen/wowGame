@@ -12,7 +12,8 @@ import time
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 ledPin = board.D18
-ledCount = 546 #Önceki sayı 447 idi.
+ledCount = 672
+
 pixels = neopixel.NeoPixel(ledPin, ledCount, brightness=1, auto_write=False)
 ORDER = neopixel.GRB
 
@@ -27,6 +28,10 @@ group3_start = 273
 group3_end = 447
 group4_start = 448
 group4_end = 545
+group5_start = 546
+group5_end = 609
+group6_start = 610
+group6_end = 672
 
 # Ekranı ayarla
 pygame.display.set_caption("Test")
@@ -216,10 +221,16 @@ def goalAnimation(teamSelect):
             for i in range(group4_start, group4_end + 1):
                 pixels[i] = (255, 255, 255)
 
+            for i in range(group5_start, group5_end + 1):
+                pixels[i] = (255, 255, 255)
+
             pixels.show()
             time.sleep(0.1)
 
             for i in range(group4_start, group4_end + 1):
+                pixels[i] = (0, 0, 0)
+
+            for i in range(group5_start, group5_end + 1):
                 pixels[i] = (0, 0, 0)
 
             pixels.show()
@@ -232,10 +243,16 @@ def goalAnimation(teamSelect):
             for i in range(group2_start, group2_end + 1):
                 pixels[i] = (255, 255, 255)
 
+            for i in range(group6_start, group6_end + 1):
+                pixels[i] = (255, 255, 255)
+
             pixels.show()
             time.sleep(0.1)
 
             for i in range(group2_start, group2_end + 1):
+                pixels[i] = (0, 0, 0)
+
+            for i in range(group6_start, group6_end + 1):
                 pixels[i] = (0, 0, 0)
 
             pixels.show()
