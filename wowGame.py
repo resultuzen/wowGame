@@ -69,7 +69,7 @@ def ballAnimation():
         if ball.top <= 0: #Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
-            for i range (0, 5):
+            for i range((0, 5)):
                 pixels[ledNo + i] = (255, 255, 255)
                 pixels[ledNo - i] = (255, 255, 255)
                 pixels.show()
@@ -84,7 +84,7 @@ def ballAnimation():
         if ball.bottom >= height: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            for i range ((0, 5)):
+            for i range((0, 5)):
                 pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
                 pixels.show()
