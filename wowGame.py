@@ -12,7 +12,7 @@ import time
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 ledPin = board.D18
-ledCount = 672
+ledCount = 673
 
 pixels = neopixel.NeoPixel(ledPin, ledCount, brightness=1, auto_write=False)
 ORDER = neopixel.GRB
