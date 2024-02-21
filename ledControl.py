@@ -3,6 +3,7 @@ import neopixel
 import time
 
 pixels = neopixel.NeoPixel(board.D18, 546)
+pixels2 = neopixel.NeoPixel(board.D23, 124)
 ORDER = neopixel.GRB
 
 group1_start = 0
@@ -14,39 +15,54 @@ group3_end = 447
 group4_start = 448
 group4_end = 545
 
+group5_start = 0
+group5_end = 125
+
 while True:
-    # Group 1: 0-171
-    for i in range(group1_start, group1_end + 1):
-        pixels[i] = (255, 0, 0)
-    pixels.show()
-    time.sleep(1)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(1)
+    pixels2.fill((255, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
 
-    # Group 2: 172-271
-    for i in range(group2_start, group2_end + 1):
-        pixels[i] = (0, 255, 0)
-    pixels.show()
-    time.sleep(1)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(1)
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
 
-    # Group 3: 272-371
-    for i in range(group3_start, group3_end + 1):
-        pixels[i] = (0, 0, 255)
-    pixels.show()
-    time.sleep(1)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(1)
+    pixels2.fill((0, 255, 0))
+    pixels2.show()
+    time.sleep(0.1)
 
-    # Group 4: 372-545
-    for i in range(group4_start, group4_end + 1):
-        pixels[i] = (255, 255, 0)
-    pixels.show()
-    time.sleep(1)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(1)
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 0, 255))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((255, 255, 0))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 255, 255))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((255, 0, 255))
+    pixels2.show()
+    time.sleep(0.1)
+
+    pixels2.fill((0, 0, 0))
+    pixels2.show()
+    time.sleep(0.1)
