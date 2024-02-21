@@ -69,14 +69,14 @@ def ballAnimation():
         if ball.top <= 0: #Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
-            for i range((0, 5)):
+            for i in range(5):
                 pixels[ledNo + i] = (255, 255, 255)
                 pixels[ledNo - i] = (255, 255, 255)
                 pixels.show()
 
             time.sleep(0.025)
 
-            for i reversed(range((0, 5))):
+            for i in reversed(range(5)):
                 pixels[ledNo + i] = (0, 0, 0)
                 pixels[ledNo - i] = (0, 0, 0)
                 pixels.show()
@@ -84,14 +84,14 @@ def ballAnimation():
         if ball.bottom >= height: #Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            for i range((0, 5)):
+            for i in range(5):
                 pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
                 pixels.show()
 
             time.sleep(0.025)
 
-            for i reversed(range((0, 5))):
+            for i in reversed(range(5)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
                 pixels[altLEDBaslangic - ledNo - i] = (0, 0, 0)
                 pixels.show()
@@ -212,7 +212,7 @@ def goalAnimation(teamSelect):
 
     if teamSelect == 1: #Sol Taraf
 
-        for dongu in range (1, 4):
+        for dongu in range (4):
 
             for i in range(group1_start, group1_start + 1):
                 pixels[i] = (255, 255, 255)
@@ -228,7 +228,7 @@ def goalAnimation(teamSelect):
 
     if teamSelect == 2: #Sağ Taraf
 
-        for dongu in range (1, 4):
+        for dongu in range (4):
 
             for i in range(group3_start, group3_end + 1):
                 pixels[i] = (255, 255, 255)
