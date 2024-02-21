@@ -2,8 +2,7 @@ import board
 import neopixel
 import time
 
-pixels = neopixel.NeoPixel(board.D20, 124) #board.D18, 546
-#pixels = neopixel.NeoPixel(board.D23, 124)
+pixels = neopixel.NeoPixel(board.D18, 672)
 ORDER = neopixel.GRB
 
 group1_start = 0
@@ -15,8 +14,11 @@ group3_end = 447
 group4_start = 448
 group4_end = 545
 
-group5_start = 0
-group5_end = 125
+group5_start = 546
+group5_end = 609
+
+group6_start = 610
+group6_end = 672
 
 while True:
     pixels.fill((255, 0, 0))
