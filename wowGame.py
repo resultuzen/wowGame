@@ -213,13 +213,13 @@ def goalAnimation(teamSelect):
 
         for dongu in range (4):
 
-            for i in range(group1_start, group1_start + 1):
+            for i in range(group4_start, group4_start + 1):
                 pixels[i] = (255, 255, 255)
 
             pixels.show()
             time.sleep(0.1)
 
-            for i in range(group1_start, group1_start + 1):
+            for i in range(group4_start, group4_start + 1):
                 pixels[i] = (0, 0, 0)
 
             pixels.show()
@@ -229,13 +229,13 @@ def goalAnimation(teamSelect):
 
         for dongu in range (4):
 
-            for i in range(group3_start, group3_end + 1):
+            for i in range(group2_start, group2_end + 1):
                 pixels[i] = (255, 255, 255)
 
             pixels.show()
             time.sleep(0.1)
 
-            for i in range(group3_start, group3_end + 1):
+            for i in range(group2_start, group2_end + 1):
                 pixels[i] = (0, 0, 0)
 
             pixels.show()
