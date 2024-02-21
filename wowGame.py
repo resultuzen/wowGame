@@ -7,7 +7,7 @@ import random
 import board
 import neopixel
 import time
-from pyvidplayer import Video
+#from pyvidplayer import Video
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -53,8 +53,8 @@ ustLEDBaslangic = 0 #.indis
 altLEDSayisi = 174 #Adet
 altLEDBaslangic = 447 #.indis
 
-vid = Video("intro.mp4") #intro.mp4 diye bir video yok, bunu eklemek gerekiyor.
-vid.set_size((1280, 720)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
+#vid = Video("intro.mp4") #intro.mp4 diye bir video yok, bunu eklemek gerekiyor.
+#vid.set_size((1280, 720)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -287,10 +287,10 @@ while True:
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
-        vid.close()
+         #vid.close()
         
     if calismaDurumu == False:
-        vid.draw(screen, (0, 0)) #Bunun yerine vid.restart() fonksiyonu da kullanılabilir.
+        #vid.draw(screen, (0, 0)) #Bunun yerine vid.restart() fonksiyonu da kullanılabilir.
         pygame.display.update()
         introLedAnimation()
         #clock.tick(60)
