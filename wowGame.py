@@ -1,9 +1,8 @@
 import time
 from encoder import Encoder
 import RPi.GPIO as GPIO
-import pygame
+import pygame, sys
 import os
-import sys
 import random
 import board
 import neopixel
