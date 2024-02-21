@@ -2,7 +2,7 @@ import board
 import neopixel
 import time
 
-pixels2 = neopixel.NeoPixel(board.D23, 124) #board.D18, 546
+pixels2 = neopixel.NeoPixel(board.D24, 124) #board.D18, 546
 #pixels2 = neopixel.NeoPixel(board.D23, 124)
 ORDER = neopixel.GRB
 
