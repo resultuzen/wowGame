@@ -2,8 +2,8 @@ import board
 import neopixel
 import time
 
-pixels2 = neopixel.NeoPixel(board.D24, 124) #board.D18, 546
-#pixels2 = neopixel.NeoPixel(board.D23, 124)
+pixels = neopixel.NeoPixel(board.D20, 124) #board.D18, 546
+#pixels = neopixel.NeoPixel(board.D23, 124)
 ORDER = neopixel.GRB
 
 group1_start = 0
@@ -19,50 +19,50 @@ group5_start = 0
 group5_end = 125
 
 while True:
-    pixels2.fill((255, 0, 0))
-    pixels2.show()
+    pixels.fill((255, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 255, 0))
-    pixels2.show()
+    pixels.fill((0, 255, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 255))
-    pixels2.show()
+    pixels.fill((0, 0, 255))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((255, 255, 0))
-    pixels2.show()
+    pixels.fill((255, 255, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 255, 255))
-    pixels2.show()
+    pixels.fill((0, 255, 255))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((255, 0, 255))
-    pixels2.show()
+    pixels.fill((255, 0, 255))
+    pixels.show()
     time.sleep(0.1)
 
-    pixels2.fill((0, 0, 0))
-    pixels2.show()
+    pixels.fill((0, 0, 0))
+    pixels.show()
     time.sleep(0.1)
