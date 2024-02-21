@@ -3,8 +3,8 @@ import neopixel
 import time
 
 pixels = neopixel.NeoPixel(board.D18, 546)
-pixels2 = neopixel2.NeoPixel(board.D23, 124)
-ORDER = neopixel2.GRB
+pixels2 = neopixel.NeoPixel(board.D23, 124)
+#ORDER = neopixel.GRB
 
 group1_start = 0
 group1_end = 174
