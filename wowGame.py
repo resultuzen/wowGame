@@ -1,12 +1,11 @@
 import time
-from libraries/encoder import Encoder
+from ../libraries/encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame, sys
 import os
 import random
 import board
 import neopixel
-import time
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -33,11 +32,19 @@ group6_start = 610
 group6_end = 672
 
 # Ekranı ayarla
-pygame.display.set_caption("Test")
+pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
+
+background = pygame.image.load("../photo/scoreBoard.png") 
+scoreBoardFont = pygame.font.Font(None, 100)
+
+score = 0
+hedefZaman = 3
+
+clock = pygame.time.Clock()
 
 sagOyuncuHiz = 49
 sagOyuncuSoftHiz = 7
@@ -311,6 +318,14 @@ while True:
                 pygame.quit()
                 sys.exit()
 
+        baslangicZamani = pygame.time.get_ticks()
+        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+        kalanSure = hedefZaman - gecenSure
+
+        if gecenSure >= hedefZaman:
+            calismaDurumu = False
+
+
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
 
@@ -320,8 +335,18 @@ while True:
         solOyuncuAnimation(solEnkoderDegeri)
     
         # Ekranı temizle ve çizimleri yap
-        screen.fill(bgcolor)
-        printScore(screen)
+        #screen.fill(bgcolor)
+        screen.blit(background.(960, 0))
+
+        leftScoreText = font.render("{}".format(p1score), True, (255, 255, 255))
+        timeScore = font.render("{}".format(kalanSure), True, (255, 255, 255))
+        rightScoreText = font.render("{}".format(p2score), True, (255, 255, 255))
+
+        screen.blit(leftScoreText, (140, 44))
+        screen.blit(time_text, (375, 44))
+        screen.blit(rightScoreText, (665, 44))
+
+        #printScore(screen)
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
