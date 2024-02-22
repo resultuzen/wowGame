@@ -328,7 +328,7 @@ while True:
 
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
-    if kartKontrolDurumu == GPIO.LOW:
+    if (kartKontrolDurumu == GPIO.LOW):
         calismaDurumu = True
         game()
         
