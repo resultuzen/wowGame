@@ -289,42 +289,44 @@ baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 
 def game():
 
-    baslangicZamani = pygame.time.get_ticks()
+    while calismaDurumu == True:
 
-    sagEnkoderDegeri = sagEncoder.getValue()
-    solEnkoderDegeri = solEncoder.getValue()
+        baslangicZamani = pygame.time.get_ticks()
 
-    # Oyun mantığını işle
-    ballAnimation()
-    sagOyuncuAnimation(sagEnkoderDegeri)
-    solOyuncuAnimation(solEnkoderDegeri)
+        sagEnkoderDegeri = sagEncoder.getValue()
+        solEnkoderDegeri = solEncoder.getValue()
 
-    # Ekranı temizle ve çizimleri yap
-    screen.fill(bgcolor)
-    screen.blit(background,(560, 0))
+        # Oyun mantığını işle
+        ballAnimation()
+        sagOyuncuAnimation(sagEnkoderDegeri)
+        solOyuncuAnimation(solEnkoderDegeri)
 
-    gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
-    kalanSure = hedefZaman - gecenSure
+        # Ekranı temizle ve çizimleri yap
+        screen.fill(bgcolor)
+        screen.blit(background,(560, 0))
 
-    if gecenSure >= hedefZaman:
-        calismaDurumu = False
-	break
-    
-    scoreBoardFont = pygame.font.Font(None, 100)
-    leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-    timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-    rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+        kalanSure = hedefZaman - gecenSure
 
-    screen.blit(leftScoreText, (700, 44))
-    screen.blit(timeScoreText, (935, 44))
-    screen.blit(rightScoreText, (1225, 44))
-    
-    pygame.draw.rect(screen, gamecolor, sagOyuncu)
-    pygame.draw.rect(screen, gamecolor, solOyuncu)
-    pygame.draw.ellipse(screen, ballcolor, ball)
+        if gecenSure >= hedefZaman:
+            calismaDurumu = False
+            break
+        
+        scoreBoardFont = pygame.font.Font(None, 100)
+        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-    pygame.display.flip()
-    clock.tick(60)
+        screen.blit(leftScoreText, (700, 44))
+        screen.blit(timeScoreText, (935, 44))
+        screen.blit(rightScoreText, (1225, 44))
+        
+        pygame.draw.rect(screen, gamecolor, sagOyuncu)
+        pygame.draw.rect(screen, gamecolor, solOyuncu)
+        pygame.draw.ellipse(screen, ballcolor, ball)
+
+        pygame.display.flip()
+        clock.tick(60)
 
 while True:
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
