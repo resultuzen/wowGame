@@ -293,7 +293,7 @@ while True:
 		calismaDurumu = True
 
 	if calismaDurumu == True:
-		baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
+		baslangicZamani = pygame.time.get_ticks()  #Oyunun başladığı zamanı kaydet
 		sagEnkoderDegeri = sagEncoder.getValue()
 	        solEnkoderDegeri = solEncoder.getValue()
 	
