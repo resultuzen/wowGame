@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Skor Tablosu")
 
 # Arkaplan resmi yükle
-background = pygame.image.load("photo/scoreBoard.png")  # Arkaplan resminin adını uygun bir şekilde değiştirin
+background = pygame.image.load("scoreBoard.png") 
 
 # Font tanımla
 font = pygame.font.Font(None, 100)
