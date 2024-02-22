@@ -42,8 +42,6 @@ background = pygame.image.load("photo/scoreBoard.png")
 
 hedefZaman = 180 #sn
 
-clock = pygame.time.Clock()
-
 sagOyuncuHiz = 49
 sagOyuncuSoftHiz = 7
 sagOyuncuYukseklik = 90
@@ -288,54 +286,57 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
 
+def game():
+
+    baslangicZamani = pygame.time.get_ticks()
+
+    sagEnkoderDegeri = sagEncoder.getValue()
+    solEnkoderDegeri = solEncoder.getValue()
+
+    # Oyun mantığını işle
+    ballAnimation()
+    sagOyuncuAnimation(sagEnkoderDegeri)
+    solOyuncuAnimation(solEnkoderDegeri)
+
+    # Ekranı temizle ve çizimleri yap
+    screen.fill(bgcolor)
+    screen.blit(background,(560, 0))
+
+    gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+    kalanSure = hedefZaman - gecenSure
+
+    if gecenSure >= hedefZaman:
+        calismaDurumu = False
+    
+    scoreBoardFont = pygame.font.Font(None, 100)
+    leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+    timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+    rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+
+    screen.blit(leftScoreText, (700, 44))
+    screen.blit(timeScoreText, (935, 44))
+    screen.blit(rightScoreText, (1225, 44))
+    
+    pygame.draw.rect(screen, gamecolor, sagOyuncu)
+    pygame.draw.rect(screen, gamecolor, solOyuncu)
+    pygame.draw.ellipse(screen, ballcolor, ball)
+
+    pygame.display.flip()
+    clock.tick(60)
+
 while True:
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
+
+	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
+        game()
         
     if calismaDurumu == False:
-        pygame.display.update()
+        #pygame.display.update()
         introLedAnimation()
-        
-    while calismaDurumu == True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
 
-        baslangicZamani = pygame.time.get_ticks()
-        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
-        kalanSure = hedefZaman - gecenSure
-
-        if gecenSure >= hedefZaman:
-            calismaDurumu = False
-
-        sagEnkoderDegeri = sagEncoder.getValue()
-        solEnkoderDegeri = solEncoder.getValue()
-
-        # Oyun mantığını işle
-        ballAnimation()
-        sagOyuncuAnimation(sagEnkoderDegeri)
-        solOyuncuAnimation(solEnkoderDegeri)
-    
-        # Ekranı temizle ve çizimleri yap
-        screen.fill(bgcolor)
-        screen.blit(background,(560, 0))
-        
-        scoreBoardFont = pygame.font.Font(None, 100)
-        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
-
-        screen.blit(leftScoreText, (700, 44))
-        screen.blit(timeScoreText, (935, 44))
-        screen.blit(rightScoreText, (1225, 44))
-        
-        #pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
-        pygame.draw.rect(screen, gamecolor, sagOyuncu)
-        pygame.draw.rect(screen, gamecolor, solOyuncu)
-        pygame.draw.ellipse(screen, ballcolor, ball)
-    
-        pygame.display.flip()
-        clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
