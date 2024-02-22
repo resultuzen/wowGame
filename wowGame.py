@@ -290,9 +290,7 @@ while True:
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     while kartKontrolDurumu == 0:
-        calismaDurumu = True
 
-    if calismaDurumu == True:
         baslangicZamani = pygame.time.get_ticks()  #Oyunun başladığı zamanı kaydet
         
         sagEnkoderDegeri = sagEncoder.getValue()
@@ -312,6 +310,7 @@ while True:
 
         if gecenSure >= hedefZaman:
             calismaDurumu = False
+            break
         
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
@@ -330,7 +329,7 @@ while True:
         clock.tick(60)
     
     if calismaDurumu == False:
-        #pygame.display.update()
+        pygame.display.update()
         introLedAnimation()
     
     for event in pygame.event.get():
