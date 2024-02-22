@@ -286,8 +286,6 @@ GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
 
-baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
-
 while True:
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
