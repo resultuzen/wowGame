@@ -35,7 +35,7 @@ group6_end = 672
 pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
-bgcolor = pygame.Color('grey12')
+bgcolor = pygame.Color('black')
 gamecolor = pygame.Color('white')
 
 background = pygame.image.load("photo/scoreBoard.png") 
@@ -79,7 +79,8 @@ def ballAnimation():
                 pixels[ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            time.sleep(0.025)
+            pygame.time.delay(10)
+            #time.sleep(0.01)
 
             for i in reversed(range(5)):
                 pixels[ledNo + i] = (0, 0, 0)
@@ -94,7 +95,7 @@ def ballAnimation():
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            time.sleep(0.025)
+            pygame.time.delay(10)
 
             for i in reversed(range(5)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
@@ -150,18 +151,6 @@ def solOyuncuAnimation(enkoder_value):
 
     elif target_y < solOyuncu.y:
         solOyuncu.y -= solOyuncuSoftHiz        
-
-def printScore(surface):
-    global p1score, p2score
-    font = pygame.font.Font(None, 72)
-    text = font.render(str(p2score), True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2-30, 42)
-    surface.blit(text, textRect)
-    text = font.render(str(p1score), True, gamecolor)
-    textRect = text.get_rect()
-    textRect.center = (width // 2+30, 42)
-    surface.blit(text, textRect)
 
 def introLedAnimation():
 
@@ -333,7 +322,7 @@ while True:
     
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
-        screen.blit(background,(960, 0))
+        screen.blit(background,(480, 0))
         
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
@@ -343,8 +332,7 @@ while True:
         screen.blit(leftScoreText, (140, 44))
         screen.blit(timeScoreText, (375, 44))
         screen.blit(rightScoreText, (665, 44))
-
-        #printScore(screen)
+        
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
