@@ -40,7 +40,9 @@ gamecolor = pygame.Color('white')
 
 background = pygame.image.load("photo/scoreBoard.png") 
 
-hedefZaman = 180 #sn
+hedefZaman = 10 #sn
+
+clock = pygame.time.Clock()
 
 sagOyuncuHiz = 49
 sagOyuncuSoftHiz = 7
@@ -110,7 +112,7 @@ def ballAnimation():
 
         goal.play()
         ballRestart()
-        time.sleep(250)
+        pygame.time.delay(500)
 
     if ball.colliderect(sagOyuncu):
         ballspeedx *= -1
@@ -289,10 +291,26 @@ calismaDurumu = False
 while True:
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
-    while kartKontrolDurumu == 0:
-
-        baslangicZamani = pygame.time.get_ticks()  #Oyunun başladığı zamanı kaydet
+    if kartKontrolDurumu == GPIO.LOW:
+        calismaDurumu = True
         
+    if calismaDurumu == False:
+        pygame.display.update()
+        introLedAnimation()
+        
+    while calismaDurumu == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
+        baslangicZamani = pygame.time.get_ticks()
+        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+        kalanSure = hedefZaman - gecenSure
+
+        if gecenSure >= hedefZaman:
+            calismaDurumu = False
+
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
 
@@ -300,17 +318,10 @@ while True:
         ballAnimation()
         sagOyuncuAnimation(sagEnkoderDegeri)
         solOyuncuAnimation(solEnkoderDegeri)
-
+    
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
         screen.blit(background,(560, 0))
-
-        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
-        kalanSure = hedefZaman - gecenSure
-
-        if gecenSure >= hedefZaman:
-            calismaDurumu = False
-            break
         
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
@@ -321,18 +332,10 @@ while True:
         screen.blit(timeScoreText, (935, 44))
         screen.blit(rightScoreText, (1225, 44))
         
+        pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
         pygame.draw.ellipse(screen, ballcolor, ball)
-
+    
         pygame.display.flip()
         clock.tick(60)
-    
-    if calismaDurumu == False:
-        pygame.display.update()
-        introLedAnimation()
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
