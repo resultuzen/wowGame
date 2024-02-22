@@ -284,13 +284,14 @@ sagEnkoderDegeri = 0
 
 GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-global calismaDurumu
 calismaDurumu = False
 
 baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 
 def game():
 
+    global calismaDurumu
+    
     if calismaDurumu == True:
 
         baslangicZamani = pygame.time.get_ticks()
