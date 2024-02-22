@@ -284,7 +284,13 @@ p2score = 0
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
+
+def kart_okuma_callback(channel):
+    global calismaDurumu
+    calismaDurumu = True
+
 GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=kart_okuma_callback, bouncetime=200)
 
 calismaDurumu = False
 
@@ -299,10 +305,6 @@ while True:
         introLedAnimation()
         
     while calismaDurumu == True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
 
         baslangicZamani = pygame.time.get_ticks()
         gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
@@ -339,3 +341,8 @@ while True:
     
         pygame.display.flip()
         clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
