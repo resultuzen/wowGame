@@ -110,7 +110,7 @@ def ballAnimation():
 
         goal.play()
         ballRestart()
-        pygame.time.delay(500)
+        time.sleep(250)
 
     if ball.colliderect(sagOyuncu):
         ballspeedx *= -1
@@ -282,9 +282,10 @@ p2score = 0
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 calismaDurumu = False
+baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 
 def game():
 
@@ -307,6 +308,7 @@ def game():
 
     if gecenSure >= hedefZaman:
         calismaDurumu = False
+	break
     
     scoreBoardFont = pygame.font.Font(None, 100)
     leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
@@ -327,7 +329,8 @@ def game():
 while True:
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
-	if kartKontrolDurumu == GPIO.HIGH:
+	if kartKontrolDurumu == GPIO.LOW:
+		baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 		calismaDurumu = True
 		game()
 	
