@@ -152,11 +152,7 @@ def solOyuncuAnimation(enkoder_value):
         solOyuncu.y -= solOyuncuSoftHiz        
 
 def introLedAnimation():
-
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
-    if kartKontrolDurumu == GPIO.LOW:
-        game()
-
+    
     pixels.fill((255, 0, 0))
     pixels.show()
     time.sleep(0.1)
@@ -164,8 +160,6 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
-
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     pixels.fill((0, 255, 0))
     pixels.show()
@@ -175,8 +169,6 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
-
     pixels.fill((0, 0, 255))
     pixels.show()
     time.sleep(0.1)
@@ -184,8 +176,6 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
-
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     pixels.fill((255, 255, 0))
     pixels.show()
@@ -195,8 +185,6 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
-
     pixels.fill((0, 255, 255))
     pixels.show()
     time.sleep(0.1)
@@ -205,8 +193,6 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
-    kartKontrolDurumu = GPIO.input(kartKontrolPin)
-
     pixels.fill((255, 0, 255))
     pixels.show()
     time.sleep(0.1)
@@ -214,9 +200,6 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
-
-    if kartKontrolDurumu == GPIO.LOW:
-        game()
 
 def goalAnimation(teamSelect):
 
@@ -343,13 +326,15 @@ def game():
 
 while True:
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
+    print("Kart Durumu:", kartKontrolDurumu)
 
     if calismaDurumu == False:
         pygame.display.update()
         introLedAnimation()
         
     while kartKontrolDurumu == GPIO.LOW:
-        game()
+        #game()
+        print("Oyun Başlatıldı.")
 
         #baslangicZamani = pygame.time.get_ticks()
         #gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
