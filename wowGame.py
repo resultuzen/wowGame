@@ -282,7 +282,7 @@ p2score = 0
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 calismaDurumu = False
 
@@ -325,18 +325,17 @@ def game():
     clock.tick(60)
 
 while True:
-
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
-    if (kartKontrolDurumu == GPIO.LOW):
-        calismaDurumu = True
-        game()
-        
-    if calismaDurumu == False:
-        #pygame.display.update()
-        introLedAnimation()
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
+	if kartKontrolDurumu == GPIO.HIGH:
+		calismaDurumu = True
+		game()
+	
+	if calismaDurumu == False:
+		#pygame.display.update()
+		introLedAnimation()
+	
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+	    		pygame.quit()
+	    		sys.exit()
