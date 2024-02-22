@@ -1,5 +1,5 @@
 import time
-from ../libraries/encoder import Encoder
+from libraries/encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame, sys
 import os
