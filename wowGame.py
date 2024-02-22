@@ -289,6 +289,8 @@ baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 
 def game():
 
+    global calismaDurumu
+
     while calismaDurumu == True:
 
         baslangicZamani = pygame.time.get_ticks()
