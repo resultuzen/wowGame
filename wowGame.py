@@ -1,5 +1,5 @@
 import time
-from libraries/encoder import Encoder
+from encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame, sys
 import os
@@ -324,7 +324,6 @@ while True:
         if gecenSure >= hedefZaman:
             calismaDurumu = False
 
-
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
 
@@ -335,7 +334,7 @@ while True:
     
         # Ekranı temizle ve çizimleri yap
         #screen.fill(bgcolor)
-        screen.blit(background.(960, 0))
+        screen.blit(background,(960, 0))
 
         leftScoreText = font.render("{}".format(p1score), True, (255, 255, 255))
         timeScore = font.render("{}".format(kalanSure), True, (255, 255, 255))
