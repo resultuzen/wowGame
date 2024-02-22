@@ -332,7 +332,7 @@ while True:
         solOyuncuAnimation(solEnkoderDegeri)
     
         # Ekranı temizle ve çizimleri yap
-        #screen.fill(bgcolor)
+        screen.fill(bgcolor)
         screen.blit(background,(960, 0))
         
         scoreBoardFont = pygame.font.Font(None, 100)
