@@ -154,8 +154,7 @@ def solOyuncuAnimation(enkoder_value):
 def introLedAnimation():
 
     kartKontrolDurumu = GPIO.input(kartKontrolPin)
-
-    while kartKontrolDurumu == GPIO.LOW:
+    if kartKontrolDurumu == GPIO.LOW:
         game()
 
     pixels.fill((255, 0, 0))
@@ -166,6 +165,8 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
+
     pixels.fill((0, 255, 0))
     pixels.show()
     time.sleep(0.1)
@@ -173,6 +174,8 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
+
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     pixels.fill((0, 0, 255))
     pixels.show()
@@ -182,6 +185,8 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
+
     pixels.fill((255, 255, 0))
     pixels.show()
     time.sleep(0.1)
@@ -189,6 +194,8 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
+
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
     pixels.fill((0, 255, 255))
     pixels.show()
@@ -198,6 +205,8 @@ def introLedAnimation():
     pixels.show()
     time.sleep(0.1)
 
+    kartKontrolDurumu = GPIO.input(kartKontrolPin)
+
     pixels.fill((255, 0, 255))
     pixels.show()
     time.sleep(0.1)
@@ -205,6 +214,9 @@ def introLedAnimation():
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
+
+    if kartKontrolDurumu == GPIO.LOW:
+        game()
 
 def goalAnimation(teamSelect):
 
