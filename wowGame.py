@@ -1,5 +1,5 @@
 import time
-from encoder import Encoder
+from libraries/encoder import Encoder
 import RPi.GPIO as GPIO
 import pygame, sys
 import os
@@ -7,7 +7,6 @@ import random
 import board
 import neopixel
 import time
-#from pyvidplayer import Video
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -52,14 +51,11 @@ solOyuncuYukseklik = 90
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
-ustLEDSayisi = 174 #Adet
-ustLEDBaslangic = 0 #.indis
+ustLEDSayisi = 174
+ustLEDBaslangic = 0 
 
-altLEDSayisi = 174 #Adet
-altLEDBaslangic = 447 #.indis
-
-#vid = Video("intro.mp4") #intro.mp4 diye bir video yok, bunu eklemek gerekiyor.
-#vid.set_size((1280, 720)) #Video çözünürlüğü 1920 x 1080 olmalı veya farklı olacaksa buradaki değerler değiştirilmelidir.
+altLEDSayisi = 174 
+altLEDBaslangic = 447 
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -275,10 +271,10 @@ pygame.init()
 clock = pygame.time.Clock()
 
 # Ses dosyaları
-hit = pygame.mixer.Sound('hit.ogg')
-bounce = pygame.mixer.Sound('bounce.ogg')
-goal = pygame.mixer.Sound('goal.ogg')
-start = pygame.mixer.Sound('start.ogg')
+hit = pygame.mixer.Sound('music/hit.ogg')
+bounce = pygame.mixer.Sound('music/bounce.ogg')
+goal = pygame.mixer.Sound('music/goal.ogg')
+start = pygame.mixer.Sound('music/start.ogg')
 
 ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
@@ -304,13 +300,10 @@ while True:
 
     if kartKontrolDurumu == GPIO.LOW:
         calismaDurumu = True
-         #vid.close()
         
     if calismaDurumu == False:
-        #vid.draw(screen, (0, 0)) #Bunun yerine vid.restart() fonksiyonu da kullanılabilir.
         pygame.display.update()
         introLedAnimation()
-        #clock.tick(60)
         
     while calismaDurumu == True:
         for event in pygame.event.get():
