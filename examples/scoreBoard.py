@@ -5,14 +5,14 @@ import sys
 pygame.init()
 
 # Pencere boyutları
-width, height = 800, 150 #800 x 150
+width, height = 1920, 1080 #800 x 150
 
 # Pencere oluştur
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Skor Tablosu")
 
 # Arkaplan resmi yükle
-background = pygame.image.load("background.png")  # Arkaplan resminin adını uygun bir şekilde değiştirin
+background = pygame.image.load("photo/scoreBoard.png")  # Arkaplan resminin adını uygun bir şekilde değiştirin
 
 # Font tanımla
 font = pygame.font.Font(None, 100)
