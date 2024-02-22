@@ -79,8 +79,7 @@ def ballAnimation():
                 pixels[ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            pygame.time.delay(10)
-            #time.sleep(0.01)
+            time.sleep(0.01)
 
             for i in reversed(range(5)):
                 pixels[ledNo + i] = (0, 0, 0)
@@ -95,7 +94,7 @@ def ballAnimation():
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            pygame.time.delay(10)
+            time.sleep(0.01)
 
             for i in reversed(range(5)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
@@ -322,7 +321,7 @@ while True:
     
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
-        screen.blit(background,(480, 0))
+        screen.blit(background,(560, 0))
         
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
