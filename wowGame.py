@@ -40,7 +40,7 @@ gamecolor = pygame.Color('white')
 
 background = pygame.image.load("photo/scoreBoard.png") 
 
-hedefZaman = 10 #sn
+hedefZaman = 180 #sn
 
 clock = pygame.time.Clock()
 
@@ -332,7 +332,7 @@ while True:
         screen.blit(timeScoreText, (935, 44))
         screen.blit(rightScoreText, (1225, 44))
         
-        pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
+        #pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
         pygame.draw.ellipse(screen, ballcolor, ball)
