@@ -282,16 +282,14 @@ p2score = 0
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 calismaDurumu = False
 baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 
 def game():
 
-    global calismaDurumu
-
-    while calismaDurumu == True:
+    if calismaDurumu == True:
 
         baslangicZamani = pygame.time.get_ticks()
 
@@ -312,7 +310,6 @@ def game():
 
         if gecenSure >= hedefZaman:
             calismaDurumu = False
-            break
         
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
@@ -333,7 +330,7 @@ def game():
 while True:
 	kartKontrolDurumu = GPIO.input(kartKontrolPin)
 
-	if kartKontrolDurumu == GPIO.LOW:
+	if kartKontrolDurumu == GPIO.HIGH:
 		baslangicZamani = pygame.time.get_ticks()  # Oyunun başladığı zamanı kaydet
 		calismaDurumu = True
 		game()
