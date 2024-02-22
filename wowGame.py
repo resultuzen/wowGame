@@ -39,7 +39,6 @@ bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
 background = pygame.image.load("photo/scoreBoard.png") 
-scoreBoardFont = pygame.font.Font(None, 100)
 
 hedefZaman = 10 #sn
 
@@ -335,7 +334,8 @@ while True:
         # Ekranı temizle ve çizimleri yap
         #screen.fill(bgcolor)
         screen.blit(background,(960, 0))
-
+        
+        scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
         timeScore = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
         rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
