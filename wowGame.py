@@ -38,7 +38,7 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('grey12')
 gamecolor = pygame.Color('white')
 
-background = pygame.image.load("../photo/scoreBoard.png") 
+background = pygame.image.load("photo/scoreBoard.png") 
 scoreBoardFont = pygame.font.Font(None, 100)
 
 hedefZaman = 10 #sn
