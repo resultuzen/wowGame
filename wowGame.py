@@ -336,9 +336,9 @@ while True:
         #screen.fill(bgcolor)
         screen.blit(background,(960, 0))
 
-        leftScoreText = font.render("{}".format(p1score), True, (255, 255, 255))
-        timeScore = font.render("{}".format(kalanSure), True, (255, 255, 255))
-        rightScoreText = font.render("{}".format(p2score), True, (255, 255, 255))
+        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+        timeScore = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
         screen.blit(leftScoreText, (140, 44))
         screen.blit(time_text, (375, 44))
