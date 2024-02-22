@@ -79,7 +79,7 @@ def ballAnimation():
                 pixels[ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            time.sleep(0.01)
+            time.sleep(0.001)
 
             for i in reversed(range(5)):
                 pixels[ledNo + i] = (0, 0, 0)
@@ -94,7 +94,7 @@ def ballAnimation():
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
                 pixels.show()
 
-            time.sleep(0.01)
+            time.sleep(0.001)
 
             for i in reversed(range(5)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
@@ -328,9 +328,9 @@ while True:
         timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
         rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-        screen.blit(leftScoreText, (140, 44))
-        screen.blit(timeScoreText, (375, 44))
-        screen.blit(rightScoreText, (665, 44))
+        screen.blit(leftScoreText, (325, 44))
+        screen.blit(timeScoreText, (560, 44))
+        screen.blit(rightScoreText, (795, 44))
         
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
