@@ -328,9 +328,9 @@ while True:
         timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
         rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-        screen.blit(leftScoreText, (325, 44))
-        screen.blit(timeScoreText, (560, 44))
-        screen.blit(rightScoreText, (795, 44))
+        screen.blit(leftScoreText, (700, 44))
+        screen.blit(timeScoreText, (935, 44))
+        screen.blit(rightScoreText, (1225, 44))
         
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
