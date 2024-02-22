@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Skor Tablosu")
 
 # Arkaplan resmi yükle
-background = pygame.image.load("wowGame/photo/scoreBoard.png") 
+background = pygame.image.load("/wowGame/photo/scoreBoard.png") 
 
 # Font tanımla
 font = pygame.font.Font(None, 100)
