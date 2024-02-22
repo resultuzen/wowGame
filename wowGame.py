@@ -41,8 +41,7 @@ gamecolor = pygame.Color('white')
 background = pygame.image.load("../photo/scoreBoard.png") 
 scoreBoardFont = pygame.font.Font(None, 100)
 
-score = 0
-hedefZaman = 3
+hedefZaman = 10 #sn
 
 clock = pygame.time.Clock()
 
