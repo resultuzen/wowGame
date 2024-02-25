@@ -307,10 +307,7 @@ while calismaDurumu:
             kalanSure = max(0, oyunSuresi - gecenSure)
 
             if kalanSure <= 0:
-                #print("Süreniz bitti!")
                 running = False
-            else:
-                #print(f"Kalan süre: {kalanSure} saniye")
 
         pygame.display.flip()
         clock.tick(60)
