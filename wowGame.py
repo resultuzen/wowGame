@@ -370,7 +370,7 @@ while calismaDurumu and gameoverEkrani == False:
 
 while gameoverEkrani == True:
 
-    if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+    if GPIO.input(kartKontrolPin) == GPIO.LOW:
         kartOkuma = True
         calismaDurumu = True
         gameoverEkrani = False
