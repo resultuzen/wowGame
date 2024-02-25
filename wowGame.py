@@ -293,7 +293,7 @@ def oyunBaslat(channel):
     global kartOkuma, baslangicZamani
     if not kartOkuma:
         kartOkuma = True
-        baslangicZamani = pygame.time.get_ticks() / 1000 
+        baslangicZamani = int(pygame.time.get_ticks() / 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
 
