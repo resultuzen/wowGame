@@ -378,6 +378,6 @@ while gameoverEkrani == True:
     pixels.fill((0, 0, 0))
     pixels.show()
 
-#GPIO.cleanup()
-#pygame.quit()
-#sys.exit()
+GPIO.cleanup()
+pygame.quit()
+sys.exit()
