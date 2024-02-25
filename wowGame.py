@@ -310,6 +310,8 @@ clock = pygame.time.Clock()
 
 calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
 
+calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
+
 while calismaDurumu:
 
     for event in pygame.event.get():
@@ -354,21 +356,24 @@ while calismaDurumu:
 
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
-        screen.blit(background, (560, 0))
+        
+        if kalanSure > 0:
+            screen.blit(background, (560, 0))
+            scoreBoardFont = pygame.font.Font(None, 100)
+            leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+            timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+            rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-        scoreBoardFont = pygame.font.Font(None, 100)
-        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+            screen.blit(leftScoreText, (700, 44))
+            screen.blit(timeScoreText, (935, 44))
+            screen.blit(rightScoreText, (1225, 44))
 
-        screen.blit(leftScoreText, (700, 44))
-        screen.blit(timeScoreText, (935, 44))
-        screen.blit(rightScoreText, (1225, 44))
-
-        pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
-        pygame.draw.rect(screen, gamecolor, sagOyuncu)
-        pygame.draw.rect(screen, gamecolor, solOyuncu)
-        pygame.draw.ellipse(screen, ballcolor, ball)
+            pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
+            pygame.draw.rect(screen, gamecolor, sagOyuncu)
+            pygame.draw.rect(screen, gamecolor, solOyuncu)
+            pygame.draw.ellipse(screen, ballcolor, ball)
+        else:
+            screen.blit(homepage, (0, 0))
 
         pygame.display.flip()
         clock.tick(60)
