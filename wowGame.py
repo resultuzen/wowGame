@@ -313,6 +313,8 @@ while calismaDurumu:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             calismaDurumu = False
+            pixels.fill((0, 0, 0))
+            pixels.show()
             GPIO.cleanup()
             pygame.quit()
             sys.exit()
@@ -363,6 +365,10 @@ while calismaDurumu:
         screen.blit(homepage,(0, 0))
         pygame.display.flip()
         introLedAnimation()
+
+
+pixels.fill((0, 0, 0))
+pixels.show()
 
 GPIO.cleanup()
 pygame.quit()
