@@ -347,6 +347,8 @@ while True:
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             kartOkuma = True
+            calismaDurumu = True
+            gameoverEkrani = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -375,7 +377,6 @@ while True:
             kartOkuma = True
             calismaDurumu = True
             gameoverEkrani = False
-            #baslangicZamani = int(pygame.time.get_ticks() // 1000)
             pixels.fill((0, 0, 0))
             pixels.show()
             break
