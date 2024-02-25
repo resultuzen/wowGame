@@ -294,34 +294,25 @@ def goalAnimation(teamSelect):
 
 
 def oyunBaslat(channel):
-    global kartOkuma, baslangicZamani, gameoverDurumu
+    global kartOkuma, baslangicZamani
     if not kartOkuma:
         kartOkuma = True
         baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
 
-        if gameoverDurumu:
-            gameoverDurumu = False  # Oyun bitti flag'ini sıfırla
-
 GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
 
 ballRestart()
 
+calismaDurumu = True
 clock = pygame.time.Clock()
-
-calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
-gameoverDurumu = False  # Oyun bitti kontrolü için flag
-gameoverGosterildi = False  # Gameover ekranının gösterilip gösterilmediği kontrolü için flag
-
-# (Kodun geri kalanı...)
 
 while calismaDurumu:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             calismaDurumu = False
-            GPIO.cleanup()
             pygame.quit()
             sys.exit()
 
@@ -333,64 +324,44 @@ while calismaDurumu:
 
             if kalanSure <= 0:
                 calismaDurumu = False
-                gameoverDurumu = True  # Oyun bitti flag'ini aktif et
                 screen.fill(bgcolor)
+                screen.blit(gameover,(0, 0))
+                #Oyun bitti şeklinde bir şey çıkabilir!
 
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        calismaDurumu = False
-                        GPIO.cleanup()
-                        pygame.quit()
-                        sys.exit()
+        sagEnkoderDegeri = sagEncoder.getValue()
+        solEnkoderDegeri = solEncoder.getValue()
 
-                    if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                        kartOkuma = True
-                        baslangicZamani = int(pygame.time.get_ticks() // 1000)
-                        pixels.fill((0, 0, 0))
-                        pixels.show()
-                        gameoverDurumu = False  # Yeni oyun başlıyor, gameoverDurumu flag'ini sıfırla
-                        gameoverGosterildi = False  # Gameover ekranının gösterildiğini sıfırla
-                        break
+        # Oyun mantığını işle
+        ballAnimation()
+        sagOyuncuAnimation(sagEnkoderDegeri)
+        solOyuncuAnimation(solEnkoderDegeri)
 
-            sagEnkoderDegeri = sagEncoder.getValue()
-            solEnkoderDegeri = solEncoder.getValue()
+        # Ekranı temizle ve çizimleri yap
+        screen.fill(bgcolor)
+        screen.blit(background,(560, 0))
+        
+        scoreBoardFont = pygame.font.Font(None, 100)
+        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-            # Oyun mantığını işle
-            ballAnimation()
-            sagOyuncuAnimation(sagEnkoderDegeri)
-            solOyuncuAnimation(solEnkoderDegeri)
+        screen.blit(leftScoreText, (700, 44))
+        screen.blit(timeScoreText, (935, 44))
+        screen.blit(rightScoreText, (1225, 44))
+        
+        pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
+        pygame.draw.rect(screen, gamecolor, sagOyuncu)
+        pygame.draw.rect(screen, gamecolor, solOyuncu)
+        pygame.draw.ellipse(screen, ballcolor, ball)
 
-            # Ekranı temizle ve çizimleri yap
-            screen.fill(bgcolor)
+        pygame.display.flip()
+        clock.tick(60)
 
-            if kalanSure > 0:
-                screen.blit(background, (560, 0))
-                scoreBoardFont = pygame.font.Font(None, 100)
-                leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-                timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-                rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+    else:
+        screen.fill(bgcolor)
+        screen.blit(homepage,(0, 0))
+        introLedAnimation()
 
-                screen.blit(leftScoreText, (700, 44))
-                screen.blit(timeScoreText, (935, 44))
-                screen.blit(rightScoreText, (1225, 44))
-
-                pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
-                pygame.draw.rect(screen, gamecolor, sagOyuncu)
-                pygame.draw.rect(screen, gamecolor, solOyuncu)
-                pygame.draw.ellipse(screen, ballcolor, ball)
-
-            else:
-                if not gameoverGosterildi:  # Gameover ekranını daha önce göstermediysek göster
-                    screen.blit(gameover, (0, 0))
-                    pygame.display.flip()
-                    gameoverGosterildi = True  # Gameover ekranını gösterildi olarak işaretle
-                    kartOkuma = False  # Kart okuma durumunu sıfırla
-
-            pygame.display.flip()
-            clock.tick(60)
-
-        else:
-            screen.fill(bgcolor)
-            screen.blit(homepage, (0, 0))
-            pygame.display.flip()
-            introLedAnimation()
+GPIO.cleanup()
+pygame.quit()
+sys.exit()
