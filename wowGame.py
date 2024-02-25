@@ -81,8 +81,12 @@ sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-#Skor Tablosu Ayarları
+#Fotoğraf Ayarları
 background = pygame.image.load("photo/scoreBoard.png") 
+homepage = pygame.image.load("photo/homepage.png")
+gameover =  pygame.image.load("photo/gameover.png")
+
+#Skor Tablosu Ayarları
 oyunSuresi = 10 #sn
 baslangicZamani = None
 p1score = 0
@@ -320,7 +324,8 @@ while calismaDurumu:
 
             if kalanSure <= 0:
                 calismaDurumu = False
-                ballRestart()
+                screen.fill(bgcolor)
+                screen.blit(gameover,(0, 0))
                 #Oyun bitti şeklinde bir şey çıkabilir!
 
         sagEnkoderDegeri = sagEncoder.getValue()
@@ -353,6 +358,8 @@ while calismaDurumu:
         clock.tick(60)
 
     else:
+        screen.fill(bgcolor)
+        screen.blit(homepage,(0, 0))
         introLedAnimation()
 
 GPIO.cleanup()
