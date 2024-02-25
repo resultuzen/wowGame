@@ -312,7 +312,7 @@ clock = pygame.time.Clock()
 
 gameoverEkrani = False
 
-if calismaDurumu and gameoverEkrani == False:
+while calismaDurumu and gameoverEkrani == False:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
