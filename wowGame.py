@@ -305,9 +305,11 @@ GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncet
 
 ballRestart()
 
-calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
-gameoverDurumu = False  # Oyun bitimi kontrolü için flag
 clock = pygame.time.Clock()
+
+calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
+gameoverDurumu = False  # Oyun bitti kontrolü için flag
+gameoverGosterildi = False  # Gameover ekranının gösterilip gösterilmediği kontrolü için flag
 
 while calismaDurumu:
 
@@ -343,6 +345,7 @@ while calismaDurumu:
                             pixels.fill((0, 0, 0))
                             pixels.show()
                             gameoverDurumu = False  # Yeni oyun başlıyor, gameoverDurumu flag'ini sıfırla
+                            gameoverGosterildi = False  # Gameover ekranının gösterildiğini sıfırla
                             break
 
         sagEnkoderDegeri = sagEncoder.getValue()
@@ -373,8 +376,10 @@ while calismaDurumu:
             pygame.draw.ellipse(screen, ballcolor, ball)
 
         else:
-            if not gameoverDurumu:  # Oyun bitmediyse gameover ekranını göster
+            if not gameoverGosterildi:  # Gameover ekranını daha önce göstermediysek göster
                 screen.blit(gameover, (0, 0))
+                pygame.display.flip()
+                gameoverGosterildi = True  # Gameover ekranını gösterildi olarak işaretle
 
         pygame.display.flip()
         clock.tick(60)
