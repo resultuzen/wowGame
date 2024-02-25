@@ -98,7 +98,6 @@ start = pygame.mixer.Sound('music/start.ogg')
 ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
-#ballRestart()
 
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
@@ -194,11 +193,47 @@ def solOyuncuAnimation(enkoder_value):
 
 def introLedAnimation():
 
-    red = random.choice([0, 255])
-    green = random.choice([0, 255])
-    blue = random.choice([0, 255])
-    
-    pixels.fill((red, green, blue))
+    pixels.fill((255, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 255, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 255))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((255, 255, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 255, 255))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    time.sleep(0.1)
+
+    pixels.fill((255, 0, 255))
     pixels.show()
     time.sleep(0.1)
 
@@ -264,6 +299,8 @@ def oyunBaslat(channel):
 
 GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
 
+ballRestart()
+
 calismaDurumu = True
 clock = pygame.time.Clock()
 
@@ -283,6 +320,7 @@ while calismaDurumu:
 
             if kalanSure <= 0:
                 running = False
+                #Oyun bitti şeklinde bir şey çıkabilir!
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
