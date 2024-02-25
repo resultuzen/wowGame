@@ -363,9 +363,13 @@ while calismaDurumu:
         introLedAnimation()
 
 
-if calismaDurumu == False:
-    screen.blit(gameover,(0, 0))
-    pygame.display.flip()
+while calismaDurumu == False:
+
+    if kartOkuma:
+        calismaDurumu = True
+    else:
+        screen.blit(gameover,(0, 0))
+        pygame.display.flip()
 
 #GPIO.cleanup()
 #pygame.quit()
