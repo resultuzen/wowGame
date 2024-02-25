@@ -319,7 +319,8 @@ while calismaDurumu:
             kalanSure = max(0, oyunSuresi - gecenSure)
 
             if kalanSure <= 0:
-                running = False
+                calismaDurumu = False
+                ballRestart()
                 #Oyun bitti şeklinde bir şey çıkabilir!
 
         sagEnkoderDegeri = sagEncoder.getValue()
