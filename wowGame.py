@@ -326,7 +326,7 @@ while calismaDurumu:
                 calismaDurumu = False
                 screen.fill(bgcolor)
                 screen.blit(gameover,(0, 0))
-                #Oyun bitti şeklinde bir şey çıkabilir!
+                pygame.display.flip()
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
@@ -360,6 +360,7 @@ while calismaDurumu:
     else:
         screen.fill(bgcolor)
         screen.blit(homepage,(0, 0))
+        pygame.display.flip()
         introLedAnimation()
 
 GPIO.cleanup()
