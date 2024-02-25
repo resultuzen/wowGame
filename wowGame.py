@@ -300,6 +300,9 @@ def oyunBaslat(channel):
         baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
+        
+        if gameoverDurumu:
+            gameoverDurumu = False  # Oyun bitti flag'ini sıfırla
 
 GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
 
