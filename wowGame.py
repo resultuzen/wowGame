@@ -305,12 +305,9 @@ GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncet
 
 ballRestart()
 
-calismaDurumu = True
+calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
+gameoverDurumu = False  # Oyun bitimi kontrolü için flag
 clock = pygame.time.Clock()
-
-calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
-
-calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
 
 while calismaDurumu:
 
@@ -329,6 +326,7 @@ while calismaDurumu:
 
             if kalanSure <= 0:
                 calismaDurumu = False
+                gameoverDurumu = True  # Oyun bitti flag'ini aktif et
                 screen.fill(bgcolor)
 
                 while not kartOkuma:
@@ -344,6 +342,7 @@ while calismaDurumu:
                             baslangicZamani = int(pygame.time.get_ticks() // 1000)
                             pixels.fill((0, 0, 0))
                             pixels.show()
+                            gameoverDurumu = False  # Yeni oyun başlıyor, gameoverDurumu flag'ini sıfırla
                             break
 
         sagEnkoderDegeri = sagEncoder.getValue()
@@ -374,7 +373,8 @@ while calismaDurumu:
             pygame.draw.ellipse(screen, ballcolor, ball)
 
         else:
-            screen.blit(gameover, (0, 0))
+            if not gameoverDurumu:  # Oyun bitmediyse gameover ekranını göster
+                screen.blit(gameover, (0, 0))
 
         pygame.display.flip()
         clock.tick(60)
