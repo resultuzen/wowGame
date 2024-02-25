@@ -363,8 +363,9 @@ while calismaDurumu:
         introLedAnimation()
 
 
-screen.blit(gameover,(0, 0))
-pygame.display.flip()
+if calismaDurumu == False:
+    screen.blit(gameover,(0, 0))
+    pygame.display.flip()
 
 #GPIO.cleanup()
 #pygame.quit()
