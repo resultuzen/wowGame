@@ -294,13 +294,13 @@ def goalAnimation(teamSelect):
 
 
 def oyunBaslat(channel):
-    global kartOkuma, baslangicZamani
+    global kartOkuma, baslangicZamani, gameoverDurumu
     if not kartOkuma:
         kartOkuma = True
         baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
-        
+
         if gameoverDurumu:
             gameoverDurumu = False  # Oyun bitti flag'ini sıfırla
 
