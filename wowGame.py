@@ -353,45 +353,46 @@ def Game():
         clock.tick(60)
 
 
+while True:
 
-while calismaDurumu and gameoverEkrani == False:
+    while calismaDurumu and gameoverEkrani == False:
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            calismaDurumu = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                calismaDurumu = False
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                GPIO.cleanup()
+                pygame.quit()
+                sys.exit()
+
+        if kartOkuma:
+            Game()
+            
+        else:
+            screen.fill(bgcolor)
+            screen.blit(homepage,(0, 0))
+            pygame.display.flip()
+            introLedAnimation()
+
+    while gameoverEkrani == True:
+
+        if GPIO.input(kartKontrolPin) == GPIO.LOW:
+            kartOkuma = True
+            calismaDurumu = True
+            gameoverEkrani = False
+            baslangicZamani = int(pygame.time.get_ticks() // 1000)
             pixels.fill((0, 0, 0))
             pixels.show()
-            GPIO.cleanup()
-            pygame.quit()
-            sys.exit()
+            break
 
-    if kartOkuma:
-        Game()
-        
-    else:
         screen.fill(bgcolor)
-        screen.blit(homepage,(0, 0))
+        screen.blit(gameover,(0, 0))
         pygame.display.flip()
-        introLedAnimation()
 
-while gameoverEkrani == True:
-
-    if GPIO.input(kartKontrolPin) == GPIO.LOW:
-        kartOkuma = True
-        calismaDurumu = True
-        gameoverEkrani = False
-        baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
-        oyunBaslat()
 
-    screen.fill(bgcolor)
-    screen.blit(gameover,(0, 0))
-    pygame.display.flip()
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-
-GPIO.cleanup()
-pygame.quit()
-sys.exit()
+    #GPIO.cleanup()
+    #pygame.quit()
+    #sys.exit()
