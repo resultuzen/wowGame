@@ -258,8 +258,9 @@ def oyunBaslat(channel):
     global kartOkuma, baslangicZamani
     if not kartOkuma:
         kartOkuma = True
-        print("Butona basıldı! İyi oyunlar!")
         baslangicZamani = pygame.time.get_ticks() / 1000 
+        pixels.fill((0, 0, 0))
+        pixels.show()
 
 GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
 
@@ -275,6 +276,13 @@ while calismaDurumu:
             sys.exit()
 
     if kartOkuma:
+
+        if baslangicZamani is not None:
+            gecenSure = (pygame.time.get_ticks() / 1000) - baslangicZamani
+            kalanSure = max(0, oyunSuresi - gecenSure)
+
+            if kalanSure <= 0:
+                running = False
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
@@ -302,15 +310,11 @@ while calismaDurumu:
         pygame.draw.rect(screen, gamecolor, solOyuncu)
         pygame.draw.ellipse(screen, ballcolor, ball)
 
-        if baslangicZamani is not None:
-            gecenSure = (pygame.time.get_ticks() / 1000) - baslangicZamani
-            kalanSure = max(0, oyunSuresi - gecenSure)
-
-            if kalanSure <= 0:
-                running = False
-
         pygame.display.flip()
         clock.tick(60)
+
+    else:
+        introLedAnimation()
 
 GPIO.cleanup()
 pygame.quit()
