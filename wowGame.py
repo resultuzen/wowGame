@@ -311,20 +311,9 @@ clock = pygame.time.Clock()
 calismaDurumu = True
 gameoverEkrani = False
 
-while calismaDurumu and gameoverEkrani == False:
+def Game():
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            calismaDurumu = False
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            GPIO.cleanup()
-            pygame.quit()
-            sys.exit()
-
-    if kartOkuma:
-
-        if baslangicZamani is not None:
+    if baslangicZamani is not None:
             gecenSure = (pygame.time.get_ticks() // 1000) - baslangicZamani
             kalanSure = max(0, oyunSuresi - gecenSure)
 
@@ -362,6 +351,22 @@ while calismaDurumu and gameoverEkrani == False:
         pygame.display.flip()
         clock.tick(60)
 
+
+
+while calismaDurumu and gameoverEkrani == False:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            calismaDurumu = False
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            GPIO.cleanup()
+            pygame.quit()
+            sys.exit()
+
+    if kartOkuma:
+        Game()
+        
     else:
         screen.fill(bgcolor)
         screen.blit(homepage,(0, 0))
@@ -378,6 +383,7 @@ while gameoverEkrani == True:
         pixels.fill((0, 0, 0))
         pixels.show()
         break
+        Game()
 
     screen.fill(bgcolor)
     screen.blit(gameover,(0, 0))
