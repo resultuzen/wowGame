@@ -292,18 +292,6 @@ def goalAnimation(teamSelect):
             pixels.show()
             time.sleep(0.1)
 
-
-def oyunBaslat(channel):
-    global kartOkuma, baslangicZamani
-    kartOkuma = True
-    calismaDurumu = True
-    gameoverEkrani = False
-    baslangicZamani = int(pygame.time.get_ticks() // 1000)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-
-GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
-
 ballRestart()
 
 clock = pygame.time.Clock()
@@ -357,6 +345,9 @@ while True:
 
     while calismaDurumu and gameoverEkrani == False:
 
+        if GPIO.input(kartKontrolPin) == GPIO.LOW:
+            kartOkuma = True
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 calismaDurumu = False
@@ -367,6 +358,9 @@ while True:
                 sys.exit()
 
         if kartOkuma:
+            baslangicZamani = int(pygame.time.get_ticks() // 1000)
+            pixels.fill((0, 0, 0))
+            pixels.show()
             Game()
             
         else:
