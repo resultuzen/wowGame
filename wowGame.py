@@ -372,14 +372,15 @@ while calismaDurumu:
             pygame.draw.rect(screen, gamecolor, sagOyuncu)
             pygame.draw.rect(screen, gamecolor, solOyuncu)
             pygame.draw.ellipse(screen, ballcolor, ball)
+
         else:
-            screen.blit(homepage, (0, 0))
+            screen.blit(gameover, (0, 0))
 
         pygame.display.flip()
         clock.tick(60)
 
     else:
         screen.fill(bgcolor)
-        screen.blit(gameover, (0, 0))
+        screen.blit(homepage, (0, 0))
         pygame.display.flip()
         introLedAnimation()
