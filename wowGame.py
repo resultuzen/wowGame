@@ -308,6 +308,8 @@ ballRestart()
 calismaDurumu = True
 clock = pygame.time.Clock()
 
+calismaDurumu = True  # Bu satırı oyun bitimi sonrası kart okuma beklemesi için ekleyin.
+
 while calismaDurumu:
 
     for event in pygame.event.get():
@@ -327,6 +329,21 @@ while calismaDurumu:
                 calismaDurumu = False
                 screen.fill(bgcolor)
 
+                while not kartOkuma:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                            calismaDurumu = False
+                            GPIO.cleanup()
+                            pygame.quit()
+                            sys.exit()
+
+                        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                            kartOkuma = True
+                            baslangicZamani = int(pygame.time.get_ticks() // 1000)
+                            pixels.fill((0, 0, 0))
+                            pixels.show()
+                            break
+
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
 
@@ -337,8 +354,8 @@ while calismaDurumu:
 
         # Ekranı temizle ve çizimleri yap
         screen.fill(bgcolor)
-        screen.blit(background,(560, 0))
-        
+        screen.blit(background, (560, 0))
+
         scoreBoardFont = pygame.font.Font(None, 100)
         leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
         timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
@@ -347,7 +364,7 @@ while calismaDurumu:
         screen.blit(leftScoreText, (700, 44))
         screen.blit(timeScoreText, (935, 44))
         screen.blit(rightScoreText, (1225, 44))
-        
+
         pygame.draw.aaline(screen, gamecolor, (width // 2, 0), (width // 2, height))
         pygame.draw.rect(screen, gamecolor, sagOyuncu)
         pygame.draw.rect(screen, gamecolor, solOyuncu)
@@ -358,19 +375,6 @@ while calismaDurumu:
 
     else:
         screen.fill(bgcolor)
-        screen.blit(homepage,(0, 0))
+        screen.blit(gameover, (0, 0))
         pygame.display.flip()
         introLedAnimation()
-
-
-while calismaDurumu == False:
-
-    screen.blit(gameover,(0, 0))
-    pygame.display.flip()
-
-    if kartOkuma:
-        calismaDurumu = True
-        
-#GPIO.cleanup()
-#pygame.quit()
-#sys.exit()
