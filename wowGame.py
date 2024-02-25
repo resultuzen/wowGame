@@ -383,8 +383,7 @@ while gameoverEkrani == True:
         baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
-        break
-        Game()
+        oyunBaslat()
 
     screen.fill(bgcolor)
     screen.blit(gameover,(0, 0))
