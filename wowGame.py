@@ -297,6 +297,8 @@ def oyunBaslat(channel):
     global kartOkuma, baslangicZamani
     if not kartOkuma:
         kartOkuma = True
+        calismaDurumu = True
+        gameoverEkrani = False
         baslangicZamani = int(pygame.time.get_ticks() // 1000)
         pixels.fill((0, 0, 0))
         pixels.show()
@@ -308,7 +310,9 @@ ballRestart()
 calismaDurumu = True
 clock = pygame.time.Clock()
 
-while calismaDurumu:
+gameoverEkrani = False
+
+if calismaDurumu and gameoverEkrani == False:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -327,9 +331,7 @@ while calismaDurumu:
 
             if kalanSure <= 0:
                 calismaDurumu = False
-                screen.fill(bgcolor)
-                screen.blit(gameover,(0, 0))
-                pygame.display.flip()
+                gameoverEkrani = True
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
@@ -366,10 +368,15 @@ while calismaDurumu:
         pygame.display.flip()
         introLedAnimation()
 
+while gameoverEkrani == True:
 
-pixels.fill((0, 0, 0))
-pixels.show()
+    screen.fill(bgcolor)
+    screen.blit(gameover,(0, 0))
+    pygame.display.flip()
 
-GPIO.cleanup()
-pygame.quit()
-sys.exit()
+    pixels.fill((0, 0, 0))
+    pixels.show()
+
+#GPIO.cleanup()
+#pygame.quit()
+#sys.exit()
