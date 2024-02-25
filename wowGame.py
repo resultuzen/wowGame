@@ -345,7 +345,7 @@ while True:
 
     while calismaDurumu and gameoverEkrani == False:
 
-        if GPIO.input(kartKontrolPin) == GPIO.LOW:
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             kartOkuma = True
 
         for event in pygame.event.get():
@@ -371,7 +371,7 @@ while True:
 
     while gameoverEkrani == True:
 
-        if GPIO.input(kartKontrolPin) == GPIO.LOW:
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             kartOkuma = True
             calismaDurumu = True
             gameoverEkrani = False
