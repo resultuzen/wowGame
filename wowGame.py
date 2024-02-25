@@ -314,13 +314,14 @@ gameoverEkrani = False
 def Game():
     
     if baslangicZamani is not None:
-            gecenSure = (pygame.time.get_ticks() // 1000) - baslangicZamani
-            kalanSure = max(0, oyunSuresi - gecenSure)
         
-            if kalanSure <= 0:
-                kartOkuma = False
-                calismaDurumu = False
-                gameoverEkrani = True
+        gecenSure = (pygame.time.get_ticks() // 1000) - baslangicZamani
+        kalanSure = max(0, oyunSuresi - gecenSure)
+    
+        if kalanSure <= 0:
+            kartOkuma = False
+            calismaDurumu = False
+            gameoverEkrani = True
                 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
