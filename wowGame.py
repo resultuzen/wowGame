@@ -326,8 +326,6 @@ while calismaDurumu:
             if kalanSure <= 0:
                 calismaDurumu = False
                 screen.fill(bgcolor)
-                screen.blit(gameover,(0, 0))
-                pygame.display.flip()
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
@@ -364,6 +362,10 @@ while calismaDurumu:
         pygame.display.flip()
         introLedAnimation()
 
-GPIO.cleanup()
-pygame.quit()
-sys.exit()
+
+screen.blit(gameover,(0, 0))
+pygame.display.flip()
+
+#GPIO.cleanup()
+#pygame.quit()
+#sys.exit()
