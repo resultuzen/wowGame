@@ -306,9 +306,9 @@ GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncet
 
 ballRestart()
 
-calismaDurumu = True
 clock = pygame.time.Clock()
 
+calismaDurumu = True
 gameoverEkrani = False
 
 while calismaDurumu and gameoverEkrani == False:
@@ -329,7 +329,7 @@ while calismaDurumu and gameoverEkrani == False:
             kalanSure = max(0, oyunSuresi - gecenSure)
 
             if kalanSure <= 0:
-                kartOkuma = True
+                kartOkuma = False
                 calismaDurumu = False
                 gameoverEkrani = True
 
