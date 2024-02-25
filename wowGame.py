@@ -98,7 +98,7 @@ start = pygame.mixer.Sound('music/start.ogg')
 ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
-ballRestart()
+#ballRestart()
 
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
