@@ -330,6 +330,7 @@ while calismaDurumu and gameoverEkrani == False:
             kalanSure = max(0, oyunSuresi - gecenSure)
 
             if kalanSure <= 0:
+                kartOkuma = True
                 calismaDurumu = False
                 gameoverEkrani = True
 
