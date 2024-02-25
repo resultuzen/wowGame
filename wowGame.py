@@ -365,12 +365,12 @@ while calismaDurumu:
 
 while calismaDurumu == False:
 
+    screen.blit(gameover,(0, 0))
+    pygame.display.flip()
+
     if kartOkuma:
         calismaDurumu = True
-    else:
-        screen.blit(gameover,(0, 0))
-        pygame.display.flip()
-
+        
 #GPIO.cleanup()
 #pygame.quit()
 #sys.exit()
