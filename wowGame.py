@@ -379,10 +379,12 @@ while calismaDurumu:
             pygame.draw.ellipse(screen, ballcolor, ball)
 
         else:
-            if not gameoverGosterildi:  # Gameover ekranını daha önce göstermediysek göster
-                screen.blit(gameover, (0, 0))
-                pygame.display.flip()
-                gameoverGosterildi = True  # Gameover ekranını gösterildi olarak işaretle
+            # if not gameoverGosterildi:  # Bu satırı kaldırın
+            # Gameover ekranını daha önce göstermediysek göster
+            screen.blit(gameover, (0, 0))
+            pygame.display.flip()
+            # gameoverGosterildi = True  # Bu satırı kaldırın
+            # Gameover ekranını gösterildi olarak işaretle
 
         pygame.display.flip()
         clock.tick(60)
