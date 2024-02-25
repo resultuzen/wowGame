@@ -370,6 +370,15 @@ while calismaDurumu and gameoverEkrani == False:
 
 while gameoverEkrani == True:
 
+    if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+        kartOkuma = True
+        calismaDurumu = True
+        gameoverEkrani = False
+        baslangicZamani = int(pygame.time.get_ticks() // 1000)
+        pixels.fill((0, 0, 0))
+        pixels.show()
+        break
+
     screen.fill(bgcolor)
     screen.blit(gameover,(0, 0))
     pygame.display.flip()
