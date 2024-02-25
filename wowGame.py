@@ -313,6 +313,7 @@ while calismaDurumu:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             calismaDurumu = False
+            GPIO.cleanup()
             pygame.quit()
             sys.exit()
 
@@ -326,7 +327,7 @@ while calismaDurumu:
                 calismaDurumu = False
                 screen.fill(bgcolor)
                 screen.blit(gameover,(0, 0))
-                #Oyun bitti şeklinde bir şey çıkabilir!
+                pygame.display.flip()
 
         sagEnkoderDegeri = sagEncoder.getValue()
         solEnkoderDegeri = solEncoder.getValue()
@@ -360,6 +361,7 @@ while calismaDurumu:
     else:
         screen.fill(bgcolor)
         screen.blit(homepage,(0, 0))
+        pygame.display.flip()
         introLedAnimation()
 
 GPIO.cleanup()
