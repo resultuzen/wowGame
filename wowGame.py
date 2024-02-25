@@ -295,13 +295,12 @@ def goalAnimation(teamSelect):
 
 def oyunBaslat(channel):
     global kartOkuma, baslangicZamani
-    if not kartOkuma:
-        kartOkuma = True
-        calismaDurumu = True
-        gameoverEkrani = False
-        baslangicZamani = int(pygame.time.get_ticks() // 1000)
-        pixels.fill((0, 0, 0))
-        pixels.show()
+    kartOkuma = True
+    calismaDurumu = True
+    gameoverEkrani = False
+    baslangicZamani = int(pygame.time.get_ticks() // 1000)
+    pixels.fill((0, 0, 0))
+    pixels.show()
 
 GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=oyunBaslat, bouncetime=300)
 
