@@ -275,10 +275,10 @@ while True:
             kalanSure = oyunSuresi - gecenSure
 
             if kalanSure <= 0:
-                calismaDurumu = False
-                acilisEkrani = True
                 pixels.fill((0, 0, 0))
                 pixels.show()
+                calismaDurumu = False
+                acilisEkrani = True
 
             # Oyun mantığını işle
             sagEnkoderDegeri = sagEncoder.getValue()
@@ -319,11 +319,11 @@ while True:
     if acilisEkrani == True:
         
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            calismaDurumu = True
-            acilisEkrani = False
             pixels.fill((0, 0, 0))
             pixels.show()
             ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
             baslangicZamani = pygame.time.get_ticks() 
             
         for event in pygame.event.get():
