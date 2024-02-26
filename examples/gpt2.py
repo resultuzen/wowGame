@@ -162,10 +162,11 @@ while True:
             calismaDurumu = True
             acilisEkrani = False
             baslangicZamani = pygame.time.get_ticks() 
-
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
+            
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
 
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
