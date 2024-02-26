@@ -47,9 +47,9 @@ ballspeedx = ballspeedy = 0
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
 
-buton_pin = 17
+kartKontrolPin = 17
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(buton_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
