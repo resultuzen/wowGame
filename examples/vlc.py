@@ -2,7 +2,7 @@ import vlc
 import time
 
 # VLC Media Player'ın başlatılması
-instance = vlc.Instance()
+instance = vlc.Instance("--no-xlib")  # veya instance = vlc.Instance() (gerekli duruma bağlı olarak)
 player = instance.media_player_new()
 
 # Oynatılacak video dosyasının belirtilmesi
@@ -21,5 +21,4 @@ win.set_hwnd(int(video_frame_id))
 # Videoyu oynatma
 player.play()
 
-# Videoyu durdurma
 player.stop()
