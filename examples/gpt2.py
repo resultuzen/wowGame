@@ -51,7 +51,6 @@ buton_pin = 17
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buton_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
     ball.x += ballspeedx
@@ -76,13 +75,11 @@ def ballAnimation():
     if ball.colliderect(solOyuncu):
         ballspeedx *= -1
 
-
 def ballRestart():
     global ballspeedx, ballspeedy, start
     ball.center = (width // 2, height // 2)
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
-
 
 def sagOyuncuAnimation(enkoder_value):
 
@@ -104,13 +101,6 @@ def solOyuncuAnimation(enkoder_value):
     elif target_y < solOyuncu.y:
         solOyuncu.y -= solOyuncuSoftHiz
 
-def button_callback(channel):
-    calismaDurumu = True
-    acilisEkrani = False
-    baslangicZamani = pygame.time.get_ticks() 
-
-GPIO.add_event_detect(buton_pin, GPIO.RISING, callback=button_callback, bouncetime=300)
-
 ballRestart()
 
 clock = pygame.time.Clock()
@@ -123,11 +113,10 @@ gecenSure = 0
 while True:
 
     if calismaDurumu == True and acilisEkrani == False:
-
-        #for event in pygame.event.get():
-            #if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                #calismaDurumu = True
-                #acilisEkrani = False
+        
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+            calismaDurumu = True
+            acilisEkrani = False
 
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
@@ -168,15 +157,15 @@ while True:
                 sys.exit()
 
     if acilisEkrani == True:
-        for event in pygame.event.get():
-            #if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                #calismaDurumu = True
-                #acilisEkrani = False
-                #baslangicZamani = pygame.time.get_ticks() 
+        
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks() 
 
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
 
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
