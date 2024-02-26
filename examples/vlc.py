@@ -1,11 +1,8 @@
-import pygame
-import moviepy.editor
+from moviepy.editor import VideoFileClip
 
-pygame.init()
-video = moviepy.editor.VideoFileClip("../video/acilisVideo.mp4")
+# Videoyu yükleyin
+video_path = "../video/acilisVideo.mp4"
+video_clip = VideoFileClip(video_path)
 
-video = video.volumex(0.5)
-video.resize((1920, 1080))
-
-video.preview()
-pygame.quit()
+# Videoyu gösterin (örneğin, bir pencerede oynatmak için)
+video_clip.preview()
