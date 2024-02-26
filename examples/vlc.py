@@ -1,5 +1,5 @@
 import pygame
-import moviepy.editor import *
+import moviepy.editor import*
 
 pygame.init()
 video = VideoFileClip("../video/acilisVideo.mp4")
