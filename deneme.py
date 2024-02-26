@@ -309,7 +309,7 @@ while True:
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             calismaDurumu = True
             acilisEkrani = False
-            ballRestart():
+            #ballRestart()
 
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
@@ -362,7 +362,7 @@ while True:
             acilisEkrani = False
             pixels.fill((0, 0, 0))
             pixels.show()
-            ballRestart()
+            #ballRestart()
             baslangicZamani = pygame.time.get_ticks() 
             
         for event in pygame.event.get():
