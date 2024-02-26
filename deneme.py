@@ -197,8 +197,8 @@ def solOyuncuAnimation(enkoder_value):
         solOyuncu.y -= solOyuncuSoftHiz        
 
 def introLedAnimation():
-
-    pixels.fill((random.choice(0, 255), random.choice(0, 255), random.choice(0, 255)))
+    
+    pixels.fill((random.choice[0, 255], random.choice[0, 255], random.choice[0, 255]))
     pixels.show()
     time.sleep(0.1)
 
