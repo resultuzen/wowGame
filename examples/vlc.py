@@ -1,17 +1,7 @@
-# importing vlc module
-import vlc
- 
-# importing time module
-import time
- 
-# creating vlc media player object
-media_player = vlc.MediaPlayer()
- 
-# media object
-media = instance.media_new("../video/acilisVideo.mp4")
- 
-# setting media to the media player
-media_player.set_media(media)
- 
-# start playing video
-media_player.play()
+import pygame
+import moviepy.editor
+
+pygame.init()
+video = moviepy.editor.VideoFileClip("../video/acilisVideo.mp4")
+video.preview()
+pygame.quit()
