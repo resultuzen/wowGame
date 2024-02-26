@@ -101,30 +101,11 @@ sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
 solEnkoderDegeri = 0
 sagEnkoderDegeri = 0
 
-#Fotoğraf Ayarları
-background = pygame.image.load("photo/scoreBoard.png") 
-homepage = pygame.image.load("photo/homepage.png")
-gameover =  pygame.image.load("photo/gameover.png")
-
-#Skor Tablosu Ayarları
-oyunSuresi = 10 #sn
-baslangicZamani = None
-p1score = 0
-p2score = 0
-
 # Ses dosyaları
 hit = pygame.mixer.Sound('music/hit.ogg')
 bounce = pygame.mixer.Sound('music/bounce.ogg')
 goal = pygame.mixer.Sound('music/goal.ogg')
 start = pygame.mixer.Sound('music/start.ogg')
-
-#Oyundaki Nesnelerin Konumları
-ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
-ballcolor = pygame.Color('white')
-ballspeedx = ballspeedy = 0
-
-sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
-solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
