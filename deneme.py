@@ -372,7 +372,8 @@ while True:
                 GPIO.cleanup()
                 pygame.quit()
                 sys.exit()
-
+                
+        introLedAnimation()
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
         pygame.display.flip()
