@@ -1,129 +1,170 @@
 import pygame
 import sys
+import time
+import os
+import random
 
-# Oyun ekranı boyutları
-WIDTH, HEIGHT = 800, 600
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-# Renkler
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
-# Oyuncu özellikleri
-PLAYER_WIDTH, PLAYER_HEIGHT = 20, 100
-PLAYER_SPEED = 5
-
-# Pygame'in başlatılması
+# Ekran Ayarları
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Pong")
+pygame.display.set_caption("Pong Game!")
+screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
+width, height = screen.get_size()
+bgcolor = pygame.Color('black')
+gamecolor = pygame.Color('white')
 
-# Oyuncuların konumları
-player1_pos = [50, HEIGHT // 2 - PLAYER_HEIGHT // 2]
-player2_pos = [WIDTH - 50 - PLAYER_WIDTH, HEIGHT // 2 - PLAYER_HEIGHT // 2]
+#Sağ Oyuncu Ayarları
+sagOyuncuHiz = 49
+sagOyuncuSoftHiz = 7
+sagOyuncuYukseklik = 90
+sagOyuncuGenislik = 20
+sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
-# Oyuncuların hareket yönleri
-player1_move_up = False
-player1_move_down = False
-player2_move_up = False
-player2_move_down = False
+#Sol Oyuncu Ayarları
+solOyuncuHiz = 49
+solOyuncuSoftHiz = 7
+solOyuncuYukseklik = 90
+solOyuncuGenislik = 20
+solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
-# Topun konumu ve hızı
-ball_pos = [WIDTH // 2, HEIGHT // 2]
-ball_dir = [5, 5]
+#Fotoğraf Ayarları
+scoreBoardPhoto = pygame.image.load("scoreBoard.png") 
+acilisEkraniPhoto = pygame.image.load("acilisEkrani.png")
 
-# Kart okuma kontrolü
-card_read = False
+#Skor Tablosu Ayarları
+oyunSuresi = 10 #sn
+baslangicZamani = None
+p1score = 0
+p2score = 0
 
-# Oyun süresi
-game_duration = 30  # 30 saniye
-start_time = None
+#Oyundaki Nesnelerin Konumları
+ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
+ballcolor = pygame.Color('white')
+ballspeedx = ballspeedy = 0
 
-# Ana oyun döngüsü
-running = True
+sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
+solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
+
+def ballAnimation():
+    global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
+    ball.x += ballspeedx
+    ball.y += ballspeedy
+
+    if ball.top <= 0 or ball.bottom >= height:
+        ballspeedy *= -1
+
+    if ball.centerx <= 15 or ball.centerx >= width - 15:
+        if ball.centerx < width / 2:
+            p1score += 1
+
+        else:
+            p2score += 1
+
+        ballRestart()
+        pygame.time.delay(500)
+
+    if ball.colliderect(sagOyuncu):
+        ballspeedx *= -1
+
+    if ball.colliderect(solOyuncu):
+        ballspeedx *= -1
+
+
+def ballRestart():
+    global ballspeedx, ballspeedy, start
+    ball.center = (width // 2, height // 2)
+    ballspeedx = 7 * random.choice((1, -1))
+    ballspeedy = 7 * random.choice((1, -1))
+
+
+def sagOyuncuAnimation(enkoder_value):
+
+    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
+
+    if target_y > sagOyuncu.y:
+        sagOyuncu.y += sagOyuncuSoftHiz 
+
+    elif target_y < sagOyuncu.y:
+        sagOyuncu.y -= sagOyuncuSoftHiz
+    
+def solOyuncuAnimation(enkoder_value):
+            
+    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
+
+    if target_y > solOyuncu.y:
+        solOyuncu.y += solOyuncuSoftHiz
+
+    elif target_y < solOyuncu.y:
+        solOyuncu.y -= solOyuncuSoftHiz        
+
+ballRestart()
+
 clock = pygame.time.Clock()
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                card_read = True
-                print("Kart okundu! İyi oyunlar!")
-                start_time = pygame.time.get_ticks() / 1000  # Başlangıç zamanını al
 
-            elif event.key == pygame.K_w:
-                player1_move_up = True
-            elif event.key == pygame.K_s:
-                player1_move_down = True
-            elif event.key == pygame.K_UP:
-                player2_move_up = True
-            elif event.key == pygame.K_DOWN:
-                player2_move_down = True
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
-                player1_move_up = False
-            elif event.key == pygame.K_s:
-                player1_move_down = False
-            elif event.key == pygame.K_UP:
-                player2_move_up = False
-            elif event.key == pygame.K_DOWN:
-                player2_move_down = False
+calismaDurumu = False
+acilisEkrani = True
 
-    if card_read:
-        # Oyuncu hareketleri
-        if player1_move_up:
-            player1_pos[1] -= PLAYER_SPEED
-        if player1_move_down:
-            player1_pos[1] += PLAYER_SPEED
-        if player2_move_up:
-            player2_pos[1] -= PLAYER_SPEED
-        if player2_move_down:
-            player2_pos[1] += PLAYER_SPEED
+gecenSure = 0
 
-        # Ekran sınırları
-        player1_pos[1] = max(0, min(player1_pos[1], HEIGHT - PLAYER_HEIGHT))
-        player2_pos[1] = max(0, min(player2_pos[1], HEIGHT - PLAYER_HEIGHT))
+while True:
 
-        # Topun hareketi
-        ball_pos[0] += ball_dir[0]
-        ball_pos[1] += ball_dir[1]
+    if calismaDurumu == True and acilisEkrani == False:
 
-        # Topun çarpışmaları
-        if ball_pos[1] <= 0 or ball_pos[1] >= HEIGHT:
-            ball_dir[1] *= -1
-        if ball_pos[0] <= player1_pos[0] + PLAYER_WIDTH and \
-                player1_pos[1] <= ball_pos[1] <= player1_pos[1] + PLAYER_HEIGHT:
-            ball_dir[0] *= -1
-        if ball_pos[0] >= player2_pos[0] - PLAYER_WIDTH and \
-                player2_pos[1] <= ball_pos[1] <= player2_pos[1] + PLAYER_HEIGHT:
-            ball_dir[0] *= -1
-        if ball_pos[0] <= 0 or ball_pos[0] >= WIDTH:
-            ball_pos = [WIDTH // 2, HEIGHT // 2]
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                calismaDurumu = True
+                acilisEkrani = False
 
-        # Ekran temizleme
-        screen.fill(BLACK)
+        if calismaDurumu == True:
+            gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+            kalanSure = oyunSuresi - gecenSure
 
-        # Oyuncuları çizme
-        pygame.draw.rect(screen, WHITE, pygame.Rect(player1_pos[0], player1_pos[1], PLAYER_WIDTH, PLAYER_HEIGHT))
-        pygame.draw.rect(screen, WHITE, pygame.Rect(player2_pos[0], player2_pos[1], PLAYER_WIDTH, PLAYER_HEIGHT))
+            if kalanSure <= 0:
+                calismaDurumu = False
+                acilisEkrani = True
 
-        # Topu çizme
-        pygame.draw.circle(screen, WHITE, (ball_pos[0], ball_pos[1]), 10)
+            # Oyun mantığını işle
+            ballAnimation()
+            sagOyuncuAnimation(0)
+            solOyuncuAnimation(0)
 
-        # Süre kontrolü
-        if start_time is not None:
-            elapsed_time = (pygame.time.get_ticks() / 1000) - start_time
-            remaining_time = max(0, game_duration - elapsed_time)
-            if remaining_time <= 0:
-                print("Süreniz bitti!")
-                running = False
-            else:
-                print(f"Kalan süre: {remaining_time} saniye")
+            # Ekranı temizle ve çizimleri yap
+            screen.fill(bgcolor)
+            screen.blit(scoreBoardPhoto,(560, 0))
+            
+            scoreBoardFont = pygame.font.Font(None, 100)
+            leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+            timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+            rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-        # Ekranı güncelleme
+            screen.blit(leftScoreText, (700, 44))
+            screen.blit(timeScoreText, (935, 44))
+            screen.blit(rightScoreText, (1225, 44))
+            
+            pygame.draw.rect(screen, gamecolor, sagOyuncu)
+            pygame.draw.rect(screen, gamecolor, solOyuncu)
+            pygame.draw.ellipse(screen, ballcolor, ball)
+
+            pygame.display.flip()
+            clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
+    if acilisEkrani == True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks() 
+
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
+        screen.fill(bgcolor)
+        screen.blit(acilisEkraniPhoto, (0, 0))
         pygame.display.flip()
-        clock.tick(60)
-
-# Temizlik
-pygame.quit()
-sys.exit()
