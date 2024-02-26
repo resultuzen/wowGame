@@ -198,54 +198,13 @@ def solOyuncuAnimation(enkoder_value):
 
 def introLedAnimation():
 
-    pixels.fill((255, 0, 0))
+    pixels.fill((random.choice(0, 255), random.choice(0, 255), random.choice(0, 255)))
     pixels.show()
     time.sleep(0.1)
 
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
-
-    pixels.fill((0, 255, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 255))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((255, 255, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 255, 255))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((255, 0, 255))
-    pixels.show()
-    time.sleep(0.1)
-
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    time.sleep(0.1)
-
 
 def goalAnimation(teamSelect):
 
@@ -318,6 +277,8 @@ while True:
             if kalanSure <= 0:
                 calismaDurumu = False
                 acilisEkrani = True
+                pixels.fill((0, 0, 0))
+                pixels.show()
 
             # Oyun mantığını işle
             sagEnkoderDegeri = sagEncoder.getValue()
@@ -373,7 +334,7 @@ while True:
                 pygame.quit()
                 sys.exit()
                 
-        introLedAnimation()
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
         pygame.display.flip()
+        introLedAnimation()
