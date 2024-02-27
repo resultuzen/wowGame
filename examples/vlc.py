@@ -6,3 +6,5 @@ video_clip = VideoFileClip(video_path)
 
 # Videoyu gösterin (örneğin, bir pencerede oynatmak için)
 video_clip.preview()
+
+#video_clip.close() #Videoyu durdurmak için kullanılıyor galiba.
