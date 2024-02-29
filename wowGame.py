@@ -315,6 +315,7 @@ while True:
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pixels.fill((0, 0, 0))
                 pixels.show()
+                screen.fill(bgcolor)
                 GPIO.cleanup()
                 pygame.quit()
                 sys.exit()
@@ -333,6 +334,7 @@ while True:
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pixels.fill((0, 0, 0))
                 pixels.show()
+                screen.fill(bgcolor)
                 GPIO.cleanup()
                 pygame.quit()
                 sys.exit()
