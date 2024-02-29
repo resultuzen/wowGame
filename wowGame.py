@@ -116,35 +116,36 @@ def ballAnimation():
         ballspeedy *= -1
         bounce.play()
 
-        if ball.top <= 0: #Üst LED'lerin Kontrolleri
+        if ball.top <= 0:  # Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
             for i in range(5):
                 pixels[ledNo + i] = (255, 255, 255)
                 pixels[ledNo - i] = (255, 255, 255)
-                pixels.show()
 
-            time.sleep(0.001)
+            pixels.show()
 
             for i in reversed(range(5)):
                 pixels[ledNo + i] = (0, 0, 0)
                 pixels[ledNo - i] = (0, 0, 0)
-                pixels.show()
 
-        if ball.bottom >= height: #Alt LED'lerin Kontrolleri
+            pixels.show()
+
+        if ball.bottom >= height:  # Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
             for i in range(5):
                 pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
-                pixels.show()
 
-            time.sleep(0.001)
+            pixels.show()
 
             for i in reversed(range(5)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
                 pixels[altLEDBaslangic - ledNo - i] = (0, 0, 0)
-                pixels.show()
+
+            pixels.show()
+
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width / 2:
@@ -279,6 +280,8 @@ while True:
                 pixels.show()
                 calismaDurumu = False
                 acilisEkrani = True
+                p1score = 0
+                p2score = 0
 
             # Oyun mantığını işle
             sagEnkoderDegeri = sagEncoder.getValue()
