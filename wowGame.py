@@ -7,14 +7,8 @@ import random
 import board
 import neopixel
 from encoder import Encoder
-from moviepy.editor import VideoFileClip
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-
-#Video Ayarları
-
-video_path = "video/acilisVideo.mp4"
-video_clip = VideoFileClip(video_path)
 
 # Ekran Ayarları
 pygame.init()
@@ -325,7 +319,6 @@ while True:
     if acilisEkrani == True:
         
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            video_clip.close()
             pixels.fill((0, 0, 0))
             pixels.show()
             ballRestart()
@@ -335,15 +328,13 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                video_clip.close()
                 pixels.fill((0, 0, 0))
                 pixels.show()
                 GPIO.cleanup()
                 pygame.quit()
                 sys.exit()
                 
-        #screen.fill(bgcolor)
-        #screen.blit(acilisEkraniPhoto, (0, 0))
-        #pygame.display.flip()
-        video_clip.preview()
+        screen.fill(bgcolor)
+        screen.blit(acilisEkraniPhoto, (0, 0))
+        pygame.display.flip()
         introLedAnimation()
