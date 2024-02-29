@@ -13,7 +13,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 #Video Ayarları
 
-video_path = "../video/acilisVideo.mp4"
+video_path = "video/acilisVideo.mp4"
 video_clip = VideoFileClip(video_path)
 
 # Ekran Ayarları
