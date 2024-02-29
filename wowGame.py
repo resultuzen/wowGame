@@ -265,11 +265,6 @@ gecenSure = 0
 while True:
 
     if calismaDurumu == True and acilisEkrani == False:
-        
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            calismaDurumu = True
-            acilisEkrani = False
-            ballRestart()
 
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
