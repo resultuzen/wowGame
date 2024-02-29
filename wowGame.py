@@ -252,6 +252,14 @@ def goalAnimation(teamSelect):
             pixels.show()
             time.sleep(0.1)
 
+def button_interrupt (channel):
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    calismaDurumu = True
+    acilisEkrani = False
+    ballRestart()
+    baslangicZamani = pygame.time.get_ticks() 
+
 ballRestart()
 
 clock = pygame.time.Clock()
@@ -261,15 +269,12 @@ acilisEkrani = True
 
 gecenSure = 0
 
+GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=button_interrupt, bouncetime=300)
+
 while True:
 
     if calismaDurumu == True and acilisEkrani == False:
         
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            calismaDurumu = True
-            acilisEkrani = False
-            ballRestart()
-
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
             kalanSure = oyunSuresi - gecenSure
@@ -317,14 +322,6 @@ while True:
                 sys.exit()
 
     if acilisEkrani == True:
-        
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            ballRestart()
-            calismaDurumu = True
-            acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks() 
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
