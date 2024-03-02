@@ -50,10 +50,6 @@ ballspeedx = ballspeedy = 0
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
 
-kartKontrolPin = 17
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
 ledPin = board.D18
 ledCount = 673
 
@@ -90,9 +86,7 @@ sagEnkoderClockPin = 5
 #Kart Okuyucu Ayarları
 kartKontrolPin = 17
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_UP) #PUD_UP
-
-kartOkuma = False
+GPIO.setup(kartKontrolPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) #PUD_UP
 
 #Enkoder Ayarları
 solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
@@ -175,7 +169,6 @@ def ballRestart():
     start.play()
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
-
 
 def sagOyuncuAnimation(enkoder_value):
 
