@@ -245,16 +245,9 @@ acilisEkrani = True
 
 gecenSure = 0
 
-def oyunBaslat():
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    ballRestart()
-    calismaDurumu = True
-    acilisEkrani = False
-    baslangicZamani = pygame.time.get_ticks()
-
 while True:
     for event in pygame.event.get():
+        
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             pixels.fill((0, 0, 0))
             pixels.show()
@@ -264,13 +257,23 @@ while True:
 
     if acilisEkrani == True:
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            oyunBaslat()
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks()
             
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            oyunBaslat()
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks()
         
         pygame.display.flip()
         pixels.fill((random.choice([0, 255]), random.choice([0, 255]), random.choice([0, 255])))
@@ -278,14 +281,24 @@ while True:
         time.sleep(0.1)
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            oyunBaslat()
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks()
     
         pixels.fill((0, 0, 0))
         pixels.show()
         time.sleep(0.1)
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            oyunBaslat()
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks()
 
     elif calismaDurumu == True:
         gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
