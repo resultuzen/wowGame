@@ -318,12 +318,12 @@ while True:
                 sys.exit()
                 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-                pixels.fill((0, 0, 0))
-                pixels.show()
-                ballRestart()
-                calismaDurumu = True
-                acilisEkrani = False
-                baslangicZamani = pygame.time.get_ticks() 
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            ballRestart()
+            calismaDurumu = True
+            acilisEkrani = False
+            baslangicZamani = pygame.time.get_ticks() 
                 
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
