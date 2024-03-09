@@ -255,7 +255,7 @@ acilisEkrani = True
 
 gecenSure = 0
 
-def kartOkumaModu():
+def kartOkumaModu(channel):
     pixels.fill((0, 0, 0))
     pixels.show()
     ballRestart()
@@ -268,7 +268,7 @@ GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=kartOkumaModu, boun
 while True:
 
     if calismaDurumu == True and acilisEkrani == False:
-
+        
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
             kalanSure = oyunSuresi - gecenSure
