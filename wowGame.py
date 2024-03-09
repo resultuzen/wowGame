@@ -310,20 +310,20 @@ while True:
     if acilisEkrani == True:
         
         for event in pygame.event.get():
-            if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-                pixels.fill((0, 0, 0))
-                pixels.show()
-                ballRestart()
-                calismaDurumu = True
-                acilisEkrani = False
-                baslangicZamani = pygame.time.get_ticks() 
-                
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pixels.fill((0, 0, 0))
                 pixels.show()
                 GPIO.cleanup()
                 pygame.quit()
                 sys.exit()
+                
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks() 
                 
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
