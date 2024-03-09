@@ -86,7 +86,7 @@ sagEnkoderClockPin = 5
 #Kart Okuyucu Ayarları
 kartKontrolPin = 17
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(kartKontrolPin, GPIO.IN)
+GPIO.setup(kartKontrolPin, GPIO.IN) #PUD_UP
 
 #Enkoder Ayarları
 solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
@@ -255,20 +255,10 @@ acilisEkrani = True
 
 gecenSure = 0
 
-def kartOkumaModu(channel):
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    ballRestart()
-    calismaDurumu = True
-    acilisEkrani = False
-    baslangicZamani = pygame.time.get_ticks() 
-
-GPIO.add_event_detect(kartKontrolPin, GPIO.FALLING, callback=kartOkumaModu, bouncetime=300)
-
 while True:
 
     if calismaDurumu == True and acilisEkrani == False:
-        
+
         if calismaDurumu == True:
             gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
             kalanSure = oyunSuresi - gecenSure
@@ -318,13 +308,22 @@ while True:
                 sys.exit()
 
     if acilisEkrani == True:
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pixels.fill((0, 0, 0))
                 pixels.show()
                 GPIO.cleanup()
                 pygame.quit()
-                sys.exit()                
+                sys.exit()
+                
+        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks() 
                 
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
