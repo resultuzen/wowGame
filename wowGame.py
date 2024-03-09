@@ -255,77 +255,85 @@ acilisEkrani = True
 
 gecenSure = 0
 
+import RPi.GPIO as GPIO
+import pygame
+import sys
+import time
+import os
+import random
+import board
+import neopixel
+from encoder import Encoder
+
+# ... (diğer importlar ve çeşitli tanımlamalar)
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(kartKontrolPin, GPIO.IN)  # PUD_UP
+
+# ... (diğer tanımlamalar ve fonksiyonlar)
+
+calismaDurumu = False
+acilisEkrani = True
+
+gecenSure = 0
+
 while True:
-
-    if calismaDurumu == True and acilisEkrani == False:
-
-        if calismaDurumu == True:
-            gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
-            kalanSure = oyunSuresi - gecenSure
-
-            if kalanSure <= 0:
-                pixels.fill((0, 0, 0))
-                pixels.show()
-                calismaDurumu = False
-                acilisEkrani = True
-                p1score = 0
-                p2score = 0
-
-            # Oyun mantığını işle
-            sagEnkoderDegeri = sagEncoder.getValue()
-            solEnkoderDegeri = solEncoder.getValue()
-
-            ballAnimation()
-            sagOyuncuAnimation(sagEnkoderDegeri)
-            solOyuncuAnimation(solEnkoderDegeri)
-
-            # Ekranı temizle ve çizimleri yap
-            screen.fill(bgcolor)
-            screen.blit(scoreBoardPhoto,(560, 0))
-            
-            scoreBoardFont = pygame.font.Font(None, 100)
-            leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-            timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-            rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
-
-            screen.blit(leftScoreText, (700, 44))
-            screen.blit(timeScoreText, (935, 44))
-            screen.blit(rightScoreText, (1225, 44))
-            
-            pygame.draw.rect(screen, gamecolor, sagOyuncu)
-            pygame.draw.rect(screen, gamecolor, solOyuncu)
-            pygame.draw.ellipse(screen, ballcolor, ball)
-
-            pygame.display.flip()
-            clock.tick(60)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pixels.fill((0, 0, 0))
-                pixels.show()
-                GPIO.cleanup()
-                pygame.quit()
-                sys.exit()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            GPIO.cleanup()
+            pygame.quit()
+            sys.exit()
 
     if acilisEkrani == True:
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pixels.fill((0, 0, 0))
-                pixels.show()
-                GPIO.cleanup()
-                pygame.quit()
-                sys.exit()
-                
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
             pixels.show()
             ballRestart()
             calismaDurumu = True
             acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks() 
-                
+            baslangicZamani = pygame.time.get_ticks()
+
         screen.fill(bgcolor)
         screen.blit(acilisEkraniPhoto, (0, 0))
         pygame.display.flip()
         introLedAnimation()
+
+    elif calismaDurumu == True:
+        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+        kalanSure = oyunSuresi - gecenSure
+
+        if kalanSure <= 0:
+            pixels.fill((0, 0, 0))
+            pixels.show()
+            calismaDurumu = False
+            acilisEkrani = True
+            p1score = 0
+            p2score = 0
+
+        sagEnkoderDegeri = sagEncoder.getValue()
+        solEnkoderDegeri = solEncoder.getValue()
+
+        ballAnimation()
+        sagOyuncuAnimation(sagEnkoderDegeri)
+        solOyuncuAnimation(solEnkoderDegeri)
+
+        screen.fill(bgcolor)
+        screen.blit(scoreBoardPhoto, (560, 0))
+
+        scoreBoardFont = pygame.font.Font(None, 100)
+        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+
+        screen.blit(leftScoreText, (700, 44))
+        screen.blit(timeScoreText, (935, 44))
+        screen.blit(rightScoreText, (1225, 44))
+
+        pygame.draw.rect(screen, gamecolor, sagOyuncu)
+        pygame.draw.rect(screen, gamecolor, solOyuncu)
+        pygame.draw.ellipse(screen, ballcolor, ball)
+
+        pygame.display.flip()
+        clock.tick(60)
