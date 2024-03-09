@@ -255,28 +255,6 @@ acilisEkrani = True
 
 gecenSure = 0
 
-import RPi.GPIO as GPIO
-import pygame
-import sys
-import time
-import os
-import random
-import board
-import neopixel
-from encoder import Encoder
-
-# ... (diğer importlar ve çeşitli tanımlamalar)
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(kartKontrolPin, GPIO.IN)  # PUD_UP
-
-# ... (diğer tanımlamalar ve fonksiyonlar)
-
-calismaDurumu = False
-acilisEkrani = True
-
-gecenSure = 0
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
