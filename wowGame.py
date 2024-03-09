@@ -18,34 +18,32 @@ width, height = screen.get_size()
 bgcolor = pygame.Color('black')
 gamecolor = pygame.Color('white')
 
-#Sağ Oyuncu Ayarları
+# Sağ Oyuncu Ayarları
 sagOyuncuHiz = 49
 sagOyuncuSoftHiz = 7
 sagOyuncuYukseklik = 90
 sagOyuncuGenislik = 20
-sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
-#Sol Oyuncu Ayarları
+# Sol Oyuncu Ayarları
 solOyuncuHiz = 49
 solOyuncuSoftHiz = 7
 solOyuncuYukseklik = 90
 solOyuncuGenislik = 20
-solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
-#Fotoğraf Ayarları
-scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png") 
+# Fotoğraf Ayarları
+scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png")
 acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
 
-#Skor Tablosu Ayarları
-oyunSuresi = 10 #sn
+# Skor Tablosu Ayarları
+oyunSuresi = 10  # sn
 baslangicZamani = None
 p1score = 0
 p2score = 0
 
-#Oyundaki Nesnelerin Konumları
+# Oyundaki Nesnelerin Konumları
 ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
-ballspeedx = ballspeedy = 0
+ballspeed = [7 * random.choice((1, -1)), 7 * random.choice((1, -1))]
 
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
@@ -59,36 +57,24 @@ ORDER = neopixel.GRB
 pixels.fill((0, 0, 0))
 pixels.show()
 
-group1_start = 0
-group1_end = 174
-group2_start = 175
-group2_end = 272
-group3_start = 273
-group3_end = 447
-group4_start = 448
-group4_end = 545
-group5_start = 546
-group5_end = 609
-group6_start = 610
-group6_end = 672
-
-ustLEDSayisi = 174
-ustLEDBaslangic = 0 
-
-altLEDSayisi = 174 
-altLEDBaslangic = 447 
+group_positions = [
+    (0, 174),  # Üst LED'ler
+    (273, 447),  # Alt LED'ler
+    (0, 174),  # Sol LED'ler
+    (448, 672)  # Sağ LED'ler
+]
 
 solEnkoderDataPin = 19
 solEnkoderClockPin = 13
 sagEnkoderDataPin = 6
 sagEnkoderClockPin = 5
 
-#Kart Okuyucu Ayarları
+# Kart Okuyucu Ayarları
 kartKontrolPin = 17
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(kartKontrolPin, GPIO.IN) #PUD_UP
+GPIO.setup(kartKontrolPin, GPIO.IN)  # PUD_UP
 
-#Enkoder Ayarları
+# Enkoder Ayarları
 solEncoder = Encoder(solEnkoderDataPin, solEnkoderClockPin)
 sagEncoder = Encoder(sagEnkoderDataPin, sagEnkoderClockPin)
 
@@ -102,157 +88,81 @@ goal = pygame.mixer.Sound('music/goal.ogg')
 start = pygame.mixer.Sound('music/start.ogg')
 
 def ballAnimation():
-    global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
-    ball.x += ballspeedx
-    ball.y += ballspeedy
+    global ballspeed, p1score, p2score, hit, bounce
+    ball.x += ballspeed[0]
+    ball.y += ballspeed[1]
 
     if ball.top <= 0 or ball.bottom >= height:
-        ballspeedy *= -1
+        ballspeed[1] *= -1
         bounce.play()
-
-        if ball.top <= 0:  # Üst LED'lerin Kontrolleri
-            ledNo = round(ball.centerx / (width / ustLEDSayisi))
-
-            for i in range(5):
-                pixels[ledNo + i] = (255, 255, 255)
-                pixels[ledNo - i] = (255, 255, 255)
-
-            pixels.show()
-
-            for i in reversed(range(5)):
-                pixels[ledNo + i] = (0, 0, 0)
-                pixels[ledNo - i] = (0, 0, 0)
-
-            pixels.show()
-
-        if ball.bottom >= height:  # Alt LED'lerin Kontrolleri
-            ledNo = round(ball.centerx / (width / altLEDSayisi))
-
-            for i in range(5):
-                pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
-                pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
-
-            pixels.show()
-
-            for i in reversed(range(5)):
-                pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
-                pixels[altLEDBaslangic - ledNo - i] = (0, 0, 0)
-
-            pixels.show()
-
+        ledControl(ball, True) if ball.top <= 0 else ledControl(ball, False)
 
     if ball.centerx <= 15 or ball.centerx >= width - 15:
         if ball.centerx < width / 2:
             p1score += 1
-            goalAnimation(1) #Eğer karşı bölgedeki LED'ler yanıyorsa buradaki rakam 2 olmalı.
-
+            goalAnimation(1)
         else:
             p2score += 1
-            goalAnimation(2) #Eğer karşı bölgedeki LED'ler yanıyorsa buradaki rakam 1 olmalı.
+            goalAnimation(2)
 
         goal.play()
         ballRestart()
         pygame.time.delay(500)
 
-    if ball.colliderect(sagOyuncu):
-        ballspeedx *= -1
+    if ball.colliderect(sagOyuncu) or ball.colliderect(solOyuncu):
+        ballspeed[0] *= -1
         hit.play()
-
-    if ball.colliderect(solOyuncu):
-        ballspeedx *= -1
-        hit.play()
-
 
 def ballRestart():
-    global ballspeedx, ballspeedy, start
+    global ballspeed, start
     ball.center = (width // 2, height // 2)
     start.play()
-    ballspeedx = 7 * random.choice((1, -1))
-    ballspeedy = 7 * random.choice((1, -1))
+    ballspeed = [7 * random.choice((1, -1)), 7 * random.choice((1, -1))]
 
-def sagOyuncuAnimation(enkoder_value):
+def oyuncuAnimation(oyuncu, enkoder_value, oyuncu_hiz, oyuncu_soft_hiz):
+    target_y = (height // 2) - (oyuncu.height // 2) + enkoder_value * oyuncu_hiz
 
-    target_y = (height // 2) - (sagOyuncuYukseklik // 2) + enkoder_value * sagOyuncuHiz
+    if target_y > oyuncu.y:
+        oyuncu.y += oyuncu_soft_hiz
+    elif target_y < oyuncu.y:
+        oyuncu.y -= oyuncu_soft_hiz
 
-    if target_y > sagOyuncu.y:
-        sagOyuncu.y += sagOyuncuSoftHiz 
-
-    elif target_y < sagOyuncu.y:
-        sagOyuncu.y -= sagOyuncuSoftHiz
-    
-def solOyuncuAnimation(enkoder_value):
-            
-    target_y = (height // 2) - (solOyuncuYukseklik // 2) + enkoder_value * solOyuncuHiz
-
-    if target_y > solOyuncu.y:
-        solOyuncu.y += solOyuncuSoftHiz
-
-    elif target_y < solOyuncu.y:
-        solOyuncu.y -= solOyuncuSoftHiz        
-
-def introLedAnimation():
-    
-    pixels.fill((random.choice([0, 255]), random.choice([0, 255]), random.choice([0, 255])))
+def ledControl(ball, is_top):
+    led_group = 0 if is_top else 1
+    for i in range(group_positions[led_group][0], group_positions[led_group][1] + 1):
+        pixels[i] = (255, 255, 255)
+    pixels.show()
+    time.sleep(0.1)
+    for i in range(group_positions[led_group][0], group_positions[led_group][1] + 1):
+        pixels[i] = (0, 0, 0)
     pixels.show()
     time.sleep(0.1)
 
+def introLedAnimation():
+    pixels.fill((random.choice([0, 255]), random.choice([0, 255]), random.choice([0, 255])))
+    pixels.show()
+    time.sleep(0.1)
     pixels.fill((0, 0, 0))
     pixels.show()
     time.sleep(0.1)
 
 def goalAnimation(teamSelect):
-
-    if teamSelect == 1: #Sol Taraf
-
-        for dongu in range (4):
-
-            for i in range(group4_start, group4_end + 1):
-                pixels[i] = (255, 255, 255)
-
-            for y in range(group5_start, group5_end + 1):
-                pixels[y] = (255, 255, 255)
-
-            pixels.show()
-            time.sleep(0.1)
-
-            for i in range(group4_start, group4_end + 1):
-                pixels[i] = (0, 0, 0)
-
-            for y in range(group5_start, group5_end + 1):
-                pixels[y] = (0, 0, 0)
-
-            pixels.show()
-            time.sleep(0.1)
-
-    if teamSelect == 2: #Sağ Taraf
-
-        for dongu in range (4):
-
-            for i in range(group2_start, group2_end + 1):
-                pixels[i] = (255, 255, 255)
-
-            for y in range(group6_start, group6_end + 1):
-                pixels[y] = (255, 255, 255)
-
-            pixels.show()
-            time.sleep(0.1)
-
-            for i in range(group2_start, group2_end + 1):
-                pixels[i] = (0, 0, 0)
-
-            for y in range(group6_start, group6_end + 1):
-                pixels[y] = (0, 0, 0)
-
-            pixels.show()
-            time.sleep(0.1)
+    led_group = 2 if teamSelect == 1 else 3
+    for _ in range(4):
+        for i in range(group_positions[led_group][0], group_positions[led_group][1] + 1):
+            pixels[i] = (255, 255, 255)
+        pixels.show()
+        time.sleep(0.1)
+        for i in range(group_positions[led_group][0], group_positions[led_group][1] + 1):
+            pixels[i] = (0, 0, 0)
+        pixels.show()
+        time.sleep(0.1)
 
 ballRestart()
-
 clock = pygame.time.Clock()
 
 calismaDurumu = False
 acilisEkrani = True
-
 gecenSure = 0
 
 while True:
@@ -264,7 +174,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-    if acilisEkrani == True:
+    if acilisEkrani:
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
             pixels.show()
@@ -278,8 +188,8 @@ while True:
         pygame.display.flip()
         introLedAnimation()
 
-    elif calismaDurumu == True:
-        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+    elif calismaDurumu:
+        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000
         kalanSure = oyunSuresi - gecenSure
 
         if kalanSure <= 0:
@@ -294,8 +204,8 @@ while True:
         solEnkoderDegeri = solEncoder.getValue()
 
         ballAnimation()
-        sagOyuncuAnimation(sagEnkoderDegeri)
-        solOyuncuAnimation(solEnkoderDegeri)
+        oyuncuAnimation(sagOyuncu, sagEnkoderDegeri, sagOyuncuHiz, sagOyuncuSoftHiz)
+        oyuncuAnimation(solOyuncu, solEnkoderDegeri, solOyuncuHiz, solOyuncuSoftHiz)
 
         screen.fill(bgcolor)
         screen.blit(scoreBoardPhoto, (560, 0))
