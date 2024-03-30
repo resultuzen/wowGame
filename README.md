@@ -16,3 +16,6 @@ Daha sonra USB ses kartının default indisini kaldırıyoruz. Satır başına #
 Hepsi bu kadar!
 
 Bu sayede en başa USB ses kartının gelmesini sağlıyoruz. Onboard jackı da iptal etmiş oluyoruz.
+
+
+Daha detaylı bilgi için "https://cdn-learn.adafruit.com/downloads/pdf/usb-audio-cards-with-a-raspberry-pi.pdf" adresine bakabiliriz.
