@@ -37,7 +37,7 @@ scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png")
 acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
 
 #Skor Tablosu Ayarları
-oyunSuresi = 10 #sn
+oyunSuresi = 180 #sn
 baslangicZamani = None
 p1score = 0
 p2score = 0
@@ -113,13 +113,13 @@ def ballAnimation():
         if ball.top <= 0:  # Üst LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / ustLEDSayisi))
 
-            for i in range(5):
+            for i in range(7):
                 pixels[ledNo + i] = (255, 255, 255)
                 pixels[ledNo - i] = (255, 255, 255)
 
             pixels.show()
 
-            for i in reversed(range(5)):
+            for i in reversed(range(7)):
                 pixels[ledNo + i] = (0, 0, 0)
                 pixels[ledNo - i] = (0, 0, 0)
 
@@ -128,13 +128,13 @@ def ballAnimation():
         if ball.bottom >= height:  # Alt LED'lerin Kontrolleri
             ledNo = round(ball.centerx / (width / altLEDSayisi))
 
-            for i in range(5):
+            for i in range(7):
                 pixels[altLEDBaslangic - ledNo + i] = (255, 255, 255)
                 pixels[altLEDBaslangic - ledNo - i] = (255, 255, 255)
 
             pixels.show()
 
-            for i in reversed(range(5)):
+            for i in reversed(range(7)):
                 pixels[altLEDBaslangic - ledNo + i] = (0, 0, 0)
                 pixels[altLEDBaslangic - ledNo - i] = (0, 0, 0)
 
