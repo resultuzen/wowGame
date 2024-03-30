@@ -100,6 +100,7 @@ hit = pygame.mixer.Sound('music/hit.ogg')
 bounce = pygame.mixer.Sound('music/bounce.ogg')
 goal = pygame.mixer.Sound('music/goal.ogg')
 start = pygame.mixer.Sound('music/start.ogg')
+intro = pygame.mixer.Sound('music/intro.ogg')
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -166,6 +167,7 @@ def ballAnimation():
 def ballRestart():
     global ballspeedx, ballspeedy, start
     ball.center = (width // 2, height // 2)
+    intro.stop()
     start.play()
     ballspeedx = 7 * random.choice((1, -1))
     ballspeedy = 7 * random.choice((1, -1))
@@ -256,6 +258,8 @@ while True:
             sys.exit()
 
     if acilisEkrani == True:
+        intro.play()
+        
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
             pixels.show()
