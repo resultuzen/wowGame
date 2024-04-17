@@ -264,86 +264,88 @@ while True:
         if screenResolution != (1920, 1080):
             os.system("sudo reboot") 
 
-        intro.play()
-        
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            ballRestart()
-            calismaDurumu = True
-            acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks()
+        else:
             
-        screen.fill(bgcolor)
-        screen.blit(acilisEkraniPhoto, (0, 0))
+            intro.play()
+            
+            if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks()
+                
+            screen.fill(bgcolor)
+            screen.blit(acilisEkraniPhoto, (0, 0))
 
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            pixels.fill((0, 0, 0))
+            if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks()
+            
+            pygame.display.flip()
+            pixels.fill((random.choice([0, 255]), random.choice([0, 255]), random.choice([0, 255])))
             pixels.show()
-            ballRestart()
-            calismaDurumu = True
-            acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks()
+            time.sleep(0.1)
+
+            if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks()
         
-        pygame.display.flip()
-        pixels.fill((random.choice([0, 255]), random.choice([0, 255]), random.choice([0, 255])))
-        pixels.show()
-        time.sleep(0.1)
-
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
             pixels.show()
-            ballRestart()
-            calismaDurumu = True
-            acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks()
-    
-        pixels.fill((0, 0, 0))
-        pixels.show()
-        time.sleep(0.1)
+            time.sleep(0.1)
 
-        if GPIO.input(kartKontrolPin) == GPIO.HIGH:
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            ballRestart()
-            calismaDurumu = True
-            acilisEkrani = False
-            baslangicZamani = pygame.time.get_ticks()
+            if GPIO.input(kartKontrolPin) == GPIO.HIGH:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                ballRestart()
+                calismaDurumu = True
+                acilisEkrani = False
+                baslangicZamani = pygame.time.get_ticks()
 
-    elif calismaDurumu == True:
-        gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
-        kalanSure = oyunSuresi - gecenSure
+        elif calismaDurumu == True:
+            gecenSure = (pygame.time.get_ticks() - baslangicZamani) // 1000  # Oyunun başladığı zamandan geçen süre
+            kalanSure = oyunSuresi - gecenSure
 
-        if kalanSure <= 0:
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            calismaDurumu = False
-            acilisEkrani = True
-            p1score = 0
-            p2score = 0
+            if kalanSure <= 0:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                calismaDurumu = False
+                acilisEkrani = True
+                p1score = 0
+                p2score = 0
 
-        sagEnkoderDegeri = sagEncoder.getValue()
-        solEnkoderDegeri = solEncoder.getValue()
+            sagEnkoderDegeri = sagEncoder.getValue()
+            solEnkoderDegeri = solEncoder.getValue()
 
-        ballAnimation()
-        sagOyuncuAnimation(sagEnkoderDegeri)
-        solOyuncuAnimation(solEnkoderDegeri)
+            ballAnimation()
+            sagOyuncuAnimation(sagEnkoderDegeri)
+            solOyuncuAnimation(solEnkoderDegeri)
 
-        screen.fill(bgcolor)
-        screen.blit(scoreBoardPhoto, (560, 0))
+            screen.fill(bgcolor)
+            screen.blit(scoreBoardPhoto, (560, 0))
 
-        scoreBoardFont = pygame.font.Font(None, 100)
-        leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
-        timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
-        rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
+            scoreBoardFont = pygame.font.Font(None, 100)
+            leftScoreText = scoreBoardFont.render("{}".format(p1score), True, (255, 255, 255))
+            timeScoreText = scoreBoardFont.render("{}".format(kalanSure), True, (255, 255, 255))
+            rightScoreText = scoreBoardFont.render("{}".format(p2score), True, (255, 255, 255))
 
-        screen.blit(leftScoreText, (700, 44))
-        screen.blit(timeScoreText, (935, 44))
-        screen.blit(rightScoreText, (1225, 44))
+            screen.blit(leftScoreText, (700, 44))
+            screen.blit(timeScoreText, (935, 44))
+            screen.blit(rightScoreText, (1225, 44))
 
-        pygame.draw.rect(screen, gamecolor, sagOyuncu)
-        pygame.draw.rect(screen, gamecolor, solOyuncu)
-        pygame.draw.ellipse(screen, ballcolor, ball)
+            pygame.draw.rect(screen, gamecolor, sagOyuncu)
+            pygame.draw.rect(screen, gamecolor, solOyuncu)
+            pygame.draw.ellipse(screen, ballcolor, ball)
 
-        pygame.display.flip()
-        clock.tick(60)
+            pygame.display.flip()
+            clock.tick(60)
