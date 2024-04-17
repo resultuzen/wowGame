@@ -13,7 +13,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 # Ekran Ayarları
 pygame.init()
 screenInfo = pygame.display.Info()
-screenResolution = (screen_info.current_w, screen_info.current_h)
+screenResolution = (screenInfo.current_w, screenInfo.current_h) # screen_info
 pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
