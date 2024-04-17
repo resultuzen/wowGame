@@ -12,12 +12,13 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekran Ayarları
 try:
-    pygame.init()
+    pygame.mixer.init()
 
 except pygame.error as hata:
     print("Pygame mixer başlatılırken bir hata oluştu! Hata kodu:", hata)
     os.system("sudo reboot")
-
+    
+pygame.init()
 pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
