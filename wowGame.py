@@ -37,7 +37,7 @@ scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png")
 acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
 
 #Skor Tablosu Ayarları
-oyunSuresi = 180 #sn
+oyunSuresi = 200 #sn
 baslangicZamani = None
 p1score = 0
 p2score = 0
@@ -78,10 +78,10 @@ ustLEDBaslangic = 0
 altLEDSayisi = 174 
 altLEDBaslangic = 447 
 
-solEnkoderDataPin = 19
-solEnkoderClockPin = 13
-sagEnkoderDataPin = 6
-sagEnkoderClockPin = 5
+solEnkoderDataPin = 5
+solEnkoderClockPin = 6
+sagEnkoderDataPin = 13
+sagEnkoderClockPin = 19
 
 #Kart Okuyucu Ayarları
 kartKontrolPin = 17
