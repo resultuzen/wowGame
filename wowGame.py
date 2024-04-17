@@ -246,25 +246,34 @@ clock = pygame.time.Clock()
 
 calismaDurumu = False
 acilisEkrani = True
+tekKontrol = True
 
 gecenSure = 0
 
 while True:
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            GPIO.cleanup()
-            pygame.quit()
-            sys.exit()
-
-    if acilisEkrani == True:
+    if tekKontrol == True:
 
         if screenResolution != (1920, 1080):
-            os.system("sudo reboot") 
+            os.system("sudo reboot")
 
         else:
+            pass
+
+        tekKontrol = False
+
+    else:
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pixels.fill((0, 0, 0))
+                pixels.show()
+                GPIO.cleanup()
+                pygame.quit()
+                sys.exit()
+
+        if acilisEkrani == True:
 
             intro.play()
             
@@ -349,4 +358,4 @@ while True:
                 pygame.draw.ellipse(screen, ballcolor, ball)
 
                 pygame.display.flip()
-                clock.tick(60)
+                clock.tick(60)      
