@@ -11,7 +11,13 @@ from encoder import Encoder
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekran Ayarları
-pygame.init()
+try:
+    pygame.init()
+
+except pygame.error as hata:
+    print("Pygame mixer başlatılırken bir hata oluştu! Hata kodu:", e)
+    os.system("sudo reboot")
+
 pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
