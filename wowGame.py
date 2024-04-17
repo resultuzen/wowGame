@@ -15,7 +15,7 @@ try:
     pygame.init()
 
 except pygame.error as hata:
-    print("Pygame mixer başlatılırken bir hata oluştu! Hata kodu:", e)
+    print("Pygame mixer başlatılırken bir hata oluştu! Hata kodu:", hata)
     os.system("sudo reboot")
 
 pygame.display.set_caption("Pong Game!")
