@@ -11,6 +11,13 @@ from encoder import Encoder
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekran Ayarları
+
+screenInfo = pygame.display.Info()
+screenResolution = (screenInfo.current_w, screenInfo.current_h)
+
+if screenResolution != (1920, 1080):
+    os.system("sudo reboot") 
+
 try:
     pygame.mixer.init()
 
