@@ -12,12 +12,6 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # Ekran Ayarları
 
-screenInfo = pygame.display.Info()
-screenResolution = (screenInfo.current_w, screenInfo.current_h)
-
-if screenResolution != (1920, 1080):
-    os.system("sudo reboot") 
-
 try:
     pygame.mixer.init()
 
@@ -29,8 +23,13 @@ pygame.init()
 pygame.display.set_caption("Pong Game!")
 screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 width, height = screen.get_size()
+screenInfo = pygame.display.Info()
+screenResolution = (screenInfo.current_w, screenInfo.current_h)
 bgcolor = pygame.Color('black')
 gamecolor = pygame.Color('white')
+
+if screenResolution != (1920, 1080):
+    os.system("sudo reboot") 
 
 #Sağ Oyuncu Ayarları
 sagOyuncuHiz = 49
