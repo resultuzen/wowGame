@@ -293,8 +293,12 @@ while True:
         screen.blit(acilisEkraniPhoto, (0, 0))
         time.sleep(0.1)
 
+        pygame.display.flip()
+
         screen.blit(acilisEkraniPhoto2, (0, 0))
         time.sleep(0.1)
+
+        pygame.display.flip()
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
