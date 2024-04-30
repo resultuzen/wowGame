@@ -49,8 +49,8 @@ solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
 #Fotoğraf Ayarları
 scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png") 
-acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
-acilisEkraniPhoto2 = pygame.image.load("photo/acilisEkrani2.png")
+acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.jpg")
+acilisEkraniPhoto2 = pygame.image.load("photo/acilisEkrani2.jpg")
 
 #Skor Tablosu Ayarları
 oyunSuresi = 90 #sn
