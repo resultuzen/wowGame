@@ -36,14 +36,14 @@ gamecolor = pygame.Color('white')
 #Sağ Oyuncu Ayarları
 sagOyuncuHiz = 49
 sagOyuncuSoftHiz = 7
-sagOyuncuYukseklik = 90
+sagOyuncuYukseklik = 180
 sagOyuncuGenislik = 20
 sagHedefAraligi = (height // 2) - sagOyuncuYukseklik
 
 #Sol Oyuncu Ayarları
 solOyuncuHiz = 49
 solOyuncuSoftHiz = 7
-solOyuncuYukseklik = 90
+solOyuncuYukseklik = 180
 solOyuncuGenislik = 20
 solHedefAraligi = (height // 2) - solOyuncuYukseklik
 
@@ -52,7 +52,7 @@ scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png")
 acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
 
 #Skor Tablosu Ayarları
-oyunSuresi = 200 #sn
+oyunSuresi = 90 #sn
 baslangicZamani = None
 p1score = 0
 p2score = 0
@@ -61,6 +61,7 @@ p2score = 0
 ball = pygame.Rect(width // 2 - 15, height // 2 - 15, 30, 30)
 ballcolor = pygame.Color('white')
 ballspeedx = ballspeedy = 0
+topHizi = 10
 
 sagOyuncu = pygame.Rect(width - 30, height // 2 - (sagOyuncuYukseklik // 2), sagOyuncuGenislik, sagOyuncuYukseklik)
 solOyuncu = pygame.Rect(10, height // 2 - (solOyuncuYukseklik // 2), solOyuncuGenislik, solOyuncuYukseklik)
@@ -115,7 +116,7 @@ hit = pygame.mixer.Sound('music/hit.ogg')
 bounce = pygame.mixer.Sound('music/bounce.ogg')
 goal = pygame.mixer.Sound('music/goal.ogg')
 start = pygame.mixer.Sound('music/start.ogg')
-intro = pygame.mixer.Sound('music/intro.ogg')
+#intro = pygame.mixer.Sound('music/intro.ogg')
 
 def ballAnimation():
     global ballspeedx, ballspeedy, solOyuncuspeed, p1score, p2score, hit, bounce
@@ -182,10 +183,10 @@ def ballAnimation():
 def ballRestart():
     global ballspeedx, ballspeedy, start
     ball.center = (width // 2, height // 2)
-    intro.stop()
+    #intro.stop()
     start.play()
-    ballspeedx = 7 * random.choice((1, -1))
-    ballspeedy = 7 * random.choice((1, -1))
+    ballspeedx = topHizi * random.choice((1, -1))
+    ballspeedy = topHizi * random.choice((1, -1))
 
 def sagOyuncuAnimation(enkoder_value):
 
@@ -209,14 +210,14 @@ def solOyuncuAnimation(enkoder_value):
 
 def goalAnimation(teamSelect):
 
-    if teamSelect == 1: #Sol Taraf
+    if teamSelect == 1: 
 
         for dongu in range (4):
 
             for i in range(group4_start, group4_end + 1):
                 pixels[i] = (255, 255, 255)
 
-            for y in range(group5_start, group5_end + 1):
+            for y in range(group6_start, group6_end + 1):
                 pixels[y] = (255, 255, 255)
 
             pixels.show()
@@ -225,20 +226,20 @@ def goalAnimation(teamSelect):
             for i in range(group4_start, group4_end + 1):
                 pixels[i] = (0, 0, 0)
 
-            for y in range(group5_start, group5_end + 1):
+            for y in range(group6_start, group6_end + 1):
                 pixels[y] = (0, 0, 0)
 
             pixels.show()
             time.sleep(0.1)
 
-    if teamSelect == 2: #Sağ Taraf
+    if teamSelect == 2: 
 
         for dongu in range (4):
 
             for i in range(group2_start, group2_end + 1):
                 pixels[i] = (255, 255, 255)
 
-            for y in range(group6_start, group6_end + 1):
+            for y in range(group5_start, group5_end + 1):
                 pixels[y] = (255, 255, 255)
 
             pixels.show()
@@ -247,7 +248,7 @@ def goalAnimation(teamSelect):
             for i in range(group2_start, group2_end + 1):
                 pixels[i] = (0, 0, 0)
 
-            for y in range(group6_start, group6_end + 1):
+            for y in range(group5_start, group5_end + 1):
                 pixels[y] = (0, 0, 0)
 
             pixels.show()
@@ -276,7 +277,7 @@ while True:
 
     if acilisEkrani == True:
 
-        intro.play()
+        #intro.play()
         
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
