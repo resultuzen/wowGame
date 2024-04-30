@@ -50,6 +50,7 @@ solHedefAraligi = (height // 2) - solOyuncuYukseklik
 #Fotoğraf Ayarları
 scoreBoardPhoto = pygame.image.load("photo/scoreBoard.png") 
 acilisEkraniPhoto = pygame.image.load("photo/acilisEkrani.png")
+acilisEkraniPhoto2 = pygame.image.load("photo/acilisEkrani2.png")
 
 #Skor Tablosu Ayarları
 oyunSuresi = 90 #sn
@@ -288,7 +289,12 @@ while True:
             baslangicZamani = pygame.time.get_ticks()
             
         screen.fill(bgcolor)
+
         screen.blit(acilisEkraniPhoto, (0, 0))
+        time.sleep(0.1)
+
+        screen.blit(acilisEkraniPhoto2, (0, 0))
+        time.sleep(0.1)
 
         if GPIO.input(kartKontrolPin) == GPIO.HIGH:
             pixels.fill((0, 0, 0))
